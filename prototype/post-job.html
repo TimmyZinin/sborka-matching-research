@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Разместить вакансию — СБОРКА</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .wizard-progress { display: flex; align-items: center; justify-content: center; gap: 0; margin: 2rem 0 2.5rem; }
+  .wizard-step { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem 1rem; transition: all 0.2s ease; }
+  .wizard-step .step-num {
+    width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 0.85rem; border: 2px solid var(--border); color: var(--text-muted);
+    background: var(--bg-card); transition: all 0.2s ease; flex-shrink: 0;
+  }
+  .wizard-step .step-label { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: all 0.2s ease; }
+  .wizard-step.completed .step-num { background: var(--primary); border-color: var(--primary); color: white; }
+  .wizard-step.completed .step-label { color: var(--primary); }
+  .wizard-step.active .step-num { border-color: var(--primary); color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
+  .wizard-step.active .step-label { color: var(--text); font-weight: 600; }
+  .wizard-connector { width: 48px; height: 2px; background: var(--border); margin: 0 0.25rem; flex-shrink: 0; }
+  .wizard-connector.done { background: var(--primary); }
+
+  .form-layout { display: grid; grid-template-columns: 1fr 320px; gap: 2rem; align-items: flex-start; }
+  @media (max-width: 900px) { .form-layout { grid-template-columns: 1fr; } }
+
+  .salary-row { display: flex; gap: 0.75rem; align-items: center; }
+  .salary-row .form-input { flex: 1; }
+  .salary-row .currency { font-size: 0.85rem; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+
+  .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    display: inline-flex; align-items: center; padding: 0.5rem 1rem; border-radius: var(--radius-full);
+    font-size: 0.85rem; font-weight: 500; background: var(--bg-card); border: 1.5px solid var(--border);
+    color: var(--text-secondary); cursor: pointer; transition: all 0.2s ease; user-select: none;
+  }
+  .chip:hover { border-color: var(--primary); color: var(--primary); }
+  .chip.selected { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+  .skill-tag {
+    display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-full); font-size: 0.82rem; font-weight: 500;
+    background: var(--primary-subtle); color: var(--primary);
+  }
+  .skill-tag .remove { cursor: pointer; font-size: 1rem; line-height: 1; opacity: 0.6; }
+  .skill-tag .remove:hover { opacity: 1; }
+  .add-skill-btn {
+    display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-full); font-size: 0.82rem; font-weight: 500;
+    background: transparent; border: 1.5px dashed var(--border); color: var(--text-muted);
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .add-skill-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+  .tip-card { background: var(--gold-subtle); border: 1px solid #f0d97a; border-radius: var(--radius-lg); padding: 1.25rem; }
+  .tip-card .tip-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .tip-card .tip-title { font-weight: 700; font-size: 0.85rem; color: var(--gold); margin-bottom: 0.4rem; }
+  .tip-card .tip-text { font-size: 0.82rem; color: #78350f; line-height: 1.55; }
+
+  .form-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+  .step-content { display: none; }
+  .step-content.active { display: block; }
+
+  .preview-job { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; }
+  .preview-job h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .preview-job .salary { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 600; color: var(--primary); margin-bottom: 1rem; }
+  .preview-section { margin-bottom: 1.5rem; }
+  .preview-section h4 { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+  .preview-section p, .preview-section li { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; }
+  .preview-section ul { list-style: none; padding: 0; }
+  .preview-section ul li { padding: 0.2rem 0; }
+  .preview-section ul li::before { content: "\\2713\\0020"; color: var(--primary); font-weight: 700; }
+
+  .benefits-list { list-style: none; padding: 0; }
+  .benefits-list li { padding: 0.3rem 0; font-size: 0.9rem; color: var(--text-secondary); }
+  .benefits-list li::before { content: "\\2714\\0020"; color: var(--primary); }
+
+  .upload-area {
+    border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 2rem; text-align: center;
+    color: var(--text-muted); font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease;
+  }
+  .upload-area:hover { border-color: var(--primary); color: var(--primary); }
+  .upload-area .upload-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">C</span>
+      СБОРКА<span class="dot">.</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Главная</a>
+      <a href="jobs.html">Вакансии</a>
+      <a href="candidates.html">Кандидаты</a>
+      <a href="post-job.html" class="active">Разместить</a>
+      <a href="pricing.html">Тарифы</a>
+    </div>
+    <div class="nav-actions">
+      <a href="#" class="btn btn-ghost btn-sm">Войти</a>
+      <a href="#" class="btn btn-primary btn-sm">Регистрация</a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<section class="section-sm" style="text-align:center; padding-top: 2.5rem;">
+  <div class="container-md">
+    <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem;">Разместить вакансию</h1>
+    <p style="color: var(--text-secondary); font-size: 1rem;">Найдите идеального кандидата с помощью AI-matching</p>
+  </div>
+</section>
+
+<!-- WIZARD PROGRESS -->
+<div class="container-md">
+  <div class="wizard-progress">
+    <div class="wizard-step completed" data-step="1" onclick="goToStep(1)">
+      <span class="step-num">&#10003;</span>
+      <span class="step-label">О компании</span>
+    </div>
+    <div class="wizard-connector done"></div>
+    <div class="wizard-step active" data-step="2" onclick="goToStep(2)">
+      <span class="step-num">2</span>
+      <span class="step-label">Вакансия</span>
+    </div>
+    <div class="wizard-connector"></div>
+    <div class="wizard-step" data-step="3" onclick="goToStep(3)">
+      <span class="step-num">3</span>
+      <span class="step-label">Требования</span>
+    </div>
+    <div class="wizard-connector"></div>
+    <div class="wizard-step" data-step="4" onclick="goToStep(4)">
+      <span class="step-num">4</span>
+      <span class="step-label">Предпросмотр</span>
+    </div>
+  </div>
+</div>
+
+<!-- FORM SECTION -->
+<section class="section-sm" style="padding-top: 0;">
+  <div class="container-md">
+    <div class="proto-note">&#9888;&#65039; В прототипе форма не отправляется. Шаги переключаются визуально.</div>
+
+    <div class="form-layout">
+      <div>
+        <!-- STEP 1: Company -->
+        <div class="step-content" id="step-1">
+          <div class="card" style="padding: 2rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem;">Информация о компании</h3>
+
+            <div class="form-group">
+              <label class="form-label">Название компании *</label>
+              <input type="text" class="form-input" value="TechVenture Labs">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Сайт компании</label>
+              <input type="text" class="form-input" value="https://techventurelabs.ru" placeholder="https://example.com">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Отрасль *</label>
+              <select class="form-select">
+                <option>IT / Разработка ПО</option>
+                <option>Финтех</option>
+                <option>E-commerce</option>
+                <option>EdTech</option>
+                <option>Маркетинг / Реклама</option>
+                <option>Другое</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Размер компании</label>
+              <div class="chip-group">
+                <span class="chip" onclick="selectChipInGroup(this)">1-10</span>
+                <span class="chip" onclick="selectChipInGroup(this)">11-50</span>
+                <span class="chip selected" onclick="selectChipInGroup(this)">51-200</span>
+                <span class="chip" onclick="selectChipInGroup(this)">201-1000</span>
+                <span class="chip" onclick="selectChipInGroup(this)">1000+</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Логотип компании</label>
+              <div class="upload-area">
+                <div class="upload-icon">&#128247;</div>
+                Перетащите файл или нажмите для выбора<br>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">PNG, JPG до 2 МБ</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Описание компании</label>
+              <textarea class="form-textarea" rows="4" placeholder="Расскажите о вашей компании, культуре и миссии...">TechVenture Labs — продуктовая IT-компания, разрабатывающая платформы для автоматизации бизнес-процессов. Мы создаём инструменты, которые помогают тысячам компаний расти быстрее.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: Job Details -->
+        <div class="step-content active" id="step-2">
+          <div class="card" style="padding: 2rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem;">Детали вакансии</h3>
+
+            <div class="form-group">
+              <label class="form-label">Название вакансии *</label>
+              <input type="text" class="form-input" value="Senior Frontend Developer">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Описание вакансии *</label>
+              <textarea class="form-textarea" rows="6">Мы ищем опытного Senior Frontend Developer, который присоединится к нашей продуктовой команде и поможет развивать нашу платформу автоматизации. Вы будете работать над сложными интерфейсами, оптимизировать производительность и внедрять современные архитектурные решения.
+
+Наш стек: React, TypeScript, Next.js, GraphQL. Команда из 12 человек, Agile/Scrum, code review обязательны. Продуктовая разработка с фокусом на UX.</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Зарплатная вилка *</label>
+              <div class="salary-row">
+                <input type="text" class="form-input" value="250 000" placeholder="От">
+                <span style="color: var(--text-muted);">&#8212;</span>
+                <input type="text" class="form-input" value="400 000" placeholder="До">
+                <span class="currency">&#8381; / мес</span>
+              </div>
+              <div class="form-hint">Вакансии с указанной зарплатой получают на 73% больше откликов</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Формат работы</label>
+              <div class="chip-group">
+                <span class="chip" onclick="selectChipInGroup(this)">Офис</span>
+                <span class="chip selected" onclick="selectChipInGroup(this)">Удалённо</span>
+                <span class="chip" onclick="selectChipInGroup(this)">Гибрид</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Уровень</label>
+              <div class="chip-group">
+                <span class="chip" onclick="selectChipInGroup(this)">Junior</span>
+                <span class="chip" onclick="selectChipInGroup(this)">Middle</span>
+                <span class="chip selected" onclick="selectChipInGroup(this)">Senior</span>
+                <span class="chip" onclick="selectChipInGroup(this)">Lead</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Город</label>
+              <input type="text" class="form-input" value="Москва" placeholder="Город офиса (если применимо)">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ключевые навыки</label>
+              <div class="skill-tags">
+                <span class="skill-tag">React <span class="remove" onclick="this.parentElement.remove()">&#215;</span></span>
+                <span class="skill-tag">TypeScript <span class="remove" onclick="this.parentElement.remove()">&#215;</span></span>
+                <span class="skill-tag">Next.js <span class="remove" onclick="this.parentElement.remove()">&#215;</span></span>
+                <button class="add-skill-btn" onclick="addSkill()">+ Добавить навык</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Тип занятости</label>
+              <div class="chip-group">
+                <span class="chip selected" onclick="selectChipInGroup(this)">Полный день</span>
+                <span class="chip" onclick="selectChipInGroup(this)">Частичная</span>
+                <span class="chip" onclick="selectChipInGroup(this)">Контракт</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: Requirements -->
+        <div class="step-content" id="step-3">
+          <div class="card" style="padding: 2rem;">
+            <h3 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem;">Требования и условия</h3>
+
+            <div class="form-group">
+              <label class="form-label">Обязательные требования *</label>
+              <textarea class="form-textarea" rows="5">- Опыт коммерческой разработки на React от 3 лет
+- Глубокое знание TypeScript
+- Опыт работы с Next.js (SSR, SSG, ISR)
+- Понимание принципов REST и GraphQL
+- Опыт написания unit и integration тестов
+- Навыки code review и менторинга</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Будет плюсом</label>
+              <textarea class="form-textarea" rows="4">- Опыт работы с микрофронтендами
+- Знание Docker и CI/CD
+- Участие в open-source проектах
+- Опыт оптимизации Web Vitals</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Бенефиты и условия</label>
+              <textarea class="form-textarea" rows="5">- ДМС для сотрудника и семьи с первого дня
+- Компенсация обучения до 100 000 &#8381;/год
+- 28 дней отпуска + day-off в день рождения
+- Бюджет на оборудование (MacBook Pro, монитор)
+- Гибкий график, полная удалёнка
+- Ежегодный пересмотр зарплаты</textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Процесс найма</label>
+              <textarea class="form-textarea" rows="4">1. Скрининг резюме (1 день)
+2. Техническое интервью с тимлидом (60 мин)
+3. Тестовое задание на дом (2-3 часа)
+4. Финальное интервью с CTO (45 мин)
+5. Оффер</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: Preview -->
+        <div class="step-content" id="step-4">
+          <div class="preview-job">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+              <div style="width: 56px; height: 56px; border-radius: var(--radius-md); background: var(--primary-subtle); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; color: var(--primary); flex-shrink: 0;">TV</div>
+              <div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary);">TechVenture Labs <span class="verified-badge" style="margin-left: 0.5rem;">&#10003; Проверена</span></div>
+                <h2 style="margin-bottom: 0;">Senior Frontend Developer</h2>
+              </div>
+            </div>
+
+            <div class="salary" style="font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; font-weight: 600; color: var(--primary); margin-bottom: 1rem;">250 000 &#8212; 400 000 &#8381;/мес</div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+              <span class="tag tag-primary">Удалённо</span>
+              <span class="tag tag-primary">Senior</span>
+              <span class="tag tag-primary">Полный день</span>
+              <span class="tag">Москва</span>
+            </div>
+
+            <div class="preview-section">
+              <h4>Описание</h4>
+              <p>Мы ищем опытного Senior Frontend Developer, который присоединится к нашей продуктовой команде и поможет развивать нашу платформу автоматизации. Вы будете работать над сложными интерфейсами, оптимизировать производительность и внедрять современные архитектурные решения.</p>
+            </div>
+
+            <div class="preview-section">
+              <h4>Ключевые навыки</h4>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.35rem;">
+                <span class="tag">React</span>
+                <span class="tag">TypeScript</span>
+                <span class="tag">Next.js</span>
+              </div>
+            </div>
+
+            <div class="preview-section">
+              <h4>Требования</h4>
+              <ul>
+                <li>Опыт коммерческой разработки на React от 3 лет</li>
+                <li>Глубокое знание TypeScript</li>
+                <li>Опыт работы с Next.js (SSR, SSG, ISR)</li>
+                <li>Понимание принципов REST и GraphQL</li>
+                <li>Опыт написания unit и integration тестов</li>
+                <li>Навыки code review и менторинга</li>
+              </ul>
+            </div>
+
+            <div class="preview-section">
+              <h4>Бенефиты</h4>
+              <ul class="benefits-list">
+                <li>ДМС для сотрудника и семьи с первого дня</li>
+                <li>Компенсация обучения до 100 000 &#8381;/год</li>
+                <li>28 дней отпуска + day-off в день рождения</li>
+                <li>Бюджет на оборудование (MacBook Pro, монитор)</li>
+                <li>Гибкий график, полная удалёнка</li>
+              </ul>
+            </div>
+
+            <div class="preview-section">
+              <h4>Процесс найма</h4>
+              <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0;">1</span>
+                  <span style="font-size: 0.9rem;">Скрининг резюме (1 день)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0;">2</span>
+                  <span style="font-size: 0.9rem;">Техническое интервью с тимлидом (60 мин)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0;">3</span>
+                  <span style="font-size: 0.9rem;">Тестовое задание на дом (2-3 часа)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0;">4</span>
+                  <span style="font-size: 0.9rem;">Финальное интервью с CTO (45 мин)</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                  <span style="width: 28px; height: 28px; border-radius: 50%; background: var(--primary-subtle); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0;">5</span>
+                  <span style="font-size: 0.9rem;">Оффер</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM ACTIONS -->
+        <div class="form-actions">
+          <button class="btn btn-outline" id="btn-back" onclick="prevStep()">&#8592; Назад</button>
+          <button class="btn btn-accent btn-lg" id="btn-next" onclick="nextStep()">Далее &#8594;</button>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div>
+        <div class="tip-card" style="margin-bottom: 1.25rem;">
+          <div class="tip-icon">&#128161;</div>
+          <div class="tip-title">AI подсказка</div>
+          <div class="tip-text">Вакансии с указанной зарплатой получают на <strong>73% больше откликов</strong>. Добавьте конкретную вилку, чтобы привлечь релевантных кандидатов.</div>
+        </div>
+
+        <div class="tip-card" style="background: var(--primary-subtle); border-color: rgba(27,107,82,0.2);">
+          <div class="tip-icon">&#9889;</div>
+          <div class="tip-title" style="color: var(--primary);">Быстрый старт</div>
+          <div class="tip-text" style="color: #064e3b;">После публикации AI начнёт подбирать кандидатов в течение <strong>30 секунд</strong>. Первые матчи появятся мгновенно.</div>
+        </div>
+
+        <div style="margin-top: 1.25rem; padding: 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);">
+          <h4 style="font-size: 0.85rem; font-weight: 700; margin-bottom: 0.75rem;">Ваш тариф</h4>
+          <div style="display: flex; align-items: baseline; gap: 0.35rem; margin-bottom: 0.5rem;">
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; font-weight: 700; color: var(--primary);">Pro</span>
+          </div>
+          <ul style="list-style: none; font-size: 0.8rem; color: var(--text-secondary);">
+            <li style="padding: 0.2rem 0;">&#10003; 10 активных вакансий</li>
+            <li style="padding: 0.2rem 0;">&#10003; AI-matching без лимита</li>
+            <li style="padding: 0.2rem 0;">&#10003; Приоритетная модерация</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="grid-4" style="margin-bottom: 2rem;">
+      <div>
+        <h4 style="font-size: 1.1rem; font-weight: 800; color: var(--primary-light); margin-bottom: 0.75rem;">СБОРКА<span style="color: var(--accent);">.</span></h4>
+        <p style="font-size: 0.85rem; line-height: 1.6;">AI-платформа для идеального<br>матчинга кандидатов и вакансий</p>
+      </div>
+      <div>
+        <h4>Кандидатам</h4>
+        <ul>
+          <li><a href="jobs.html">Вакансии</a></li>
+          <li><a href="#">Карьерный клуб</a></li>
+          <li><a href="#">Mock-интервью</a></li>
+          <li><a href="#">Резюме-билдер</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Работодателям</h4>
+        <ul>
+          <li><a href="post-job.html">Разместить вакансию</a></li>
+          <li><a href="candidates.html">Поиск кандидатов</a></li>
+          <li><a href="pricing.html">Тарифы</a></li>
+          <li><a href="#">API</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Блог</a></li>
+          <li><a href="#">Контакты</a></li>
+          <li><a href="#">Политика конфиденциальности</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; font-size: 0.8rem;">
+      &copy; 2026 СБОРКА. Все права защищены.
+    </div>
+  </div>
+</footer>
+
+<script>
+let currentStep = 2;
+
+function goToStep(step) {
+  currentStep = step;
+  updateWizard();
+}
+
+function nextStep() {
+  if (currentStep < 4) {
+    currentStep++;
+    updateWizard();
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    currentStep--;
+    updateWizard();
+  }
+}
+
+function updateWizard() {
+  // Update step indicators
+  document.querySelectorAll('.wizard-step').forEach(el => {
+    const s = parseInt(el.dataset.step);
+    el.classList.remove('active', 'completed');
+    if (s < currentStep) el.classList.add('completed');
+    else if (s === currentStep) el.classList.add('active');
+  });
+
+  // Update connectors
+  const connectors = document.querySelectorAll('.wizard-connector');
+  connectors.forEach((c, i) => {
+    c.classList.toggle('done', i < currentStep - 1);
+  });
+
+  // Update step content
+  document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+  const target = document.getElementById('step-' + currentStep);
+  if (target) target.classList.add('active');
+
+  // Update step numbers for non-completed steps
+  document.querySelectorAll('.wizard-step').forEach(el => {
+    const s = parseInt(el.dataset.step);
+    const numEl = el.querySelector('.step-num');
+    if (el.classList.contains('completed')) {
+      numEl.innerHTML = '&#10003;';
+    } else {
+      numEl.textContent = s;
+    }
+  });
+
+  // Update buttons
+  document.getElementById('btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+  const nextBtn = document.getElementById('btn-next');
+  if (currentStep === 4) {
+    nextBtn.textContent = 'Опубликовать';
+    nextBtn.classList.remove('btn-accent');
+    nextBtn.classList.add('btn-primary');
+  } else {
+    nextBtn.innerHTML = 'Далее &#8594;';
+    nextBtn.classList.remove('btn-primary');
+    nextBtn.classList.add('btn-accent');
+  }
+
+  window.scrollTo({ top: 200, behavior: 'smooth' });
+}
+
+function selectChipInGroup(el) {
+  const group = el.parentElement;
+  group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function addSkill() {
+  const skill = prompt('Введите навык:');
+  if (skill && skill.trim()) {
+    const container = document.querySelector('.skill-tags');
+    const btn = container.querySelector('.add-skill-btn');
+    const tag = document.createElement('span');
+    tag.className = 'skill-tag';
+    tag.innerHTML = skill.trim() + ' <span class="remove" onclick="this.parentElement.remove()">&#215;</span>';
+    container.insertBefore(tag, btn);
+  }
+}
+</script>
+
+</body>
+</html>

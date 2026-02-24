@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тарифы — СБОРКА</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .pricing-hero { padding: 4rem 0 2rem; text-align: center; }
+    .pricing-hero h1 { font-size: 2.5rem; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 0.75rem; }
+    .pricing-hero p { font-size: 1.1rem; color: var(--text-secondary); max-width: 520px; margin: 0 auto; }
+
+    .audience-toggle {
+      display: flex; justify-content: center; gap: 0; margin: 2rem auto 3rem;
+      background: var(--bg-subtle); border-radius: var(--radius-full); padding: 0.3rem;
+      max-width: 380px;
+    }
+    .audience-toggle button {
+      flex: 1; padding: 0.65rem 1.25rem; border-radius: var(--radius-full);
+      font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer;
+      transition: all var(--transition); background: transparent; color: var(--text-secondary);
+      font-family: inherit;
+    }
+    .audience-toggle button.active {
+      background: var(--primary); color: white; box-shadow: var(--shadow-sm);
+    }
+    .audience-toggle button:hover:not(.active) { color: var(--text); }
+
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1060px; margin: 0 auto; }
+    .pricing-section { display: none; }
+    .pricing-section.visible { display: block; }
+
+    .pricing-card .plan-name { font-size: 1.1rem; font-weight: 700; color: var(--text); }
+    .pricing-card .plan-desc { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .pricing-card .price { margin: 1.25rem 0 0.25rem; }
+    .pricing-card .price .amount { font-size: 2.5rem; }
+    .pricing-card .price .currency { font-size: 1rem; font-weight: 500; color: var(--text-muted); }
+    .pricing-card .features { margin: 1.5rem 0 1.75rem; }
+    .pricing-card .features li { padding: 0.45rem 0; }
+    .pricing-card .cta-wrap { margin-top: auto; }
+    .pricing-card .cta-wrap .btn { width: 100%; }
+
+    .pricing-card.featured .plan-name { color: var(--primary); }
+
+    .faq-section { padding: 4rem 0; max-width: 720px; margin: 0 auto; }
+    .faq-section h2 { font-size: 1.8rem; font-weight: 800; text-align: center; margin-bottom: 2rem; letter-spacing: -0.03em; }
+    .faq-item {
+      border-bottom: 1px solid var(--border); padding: 0;
+    }
+    .faq-question {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.15rem 0; cursor: pointer; font-size: 0.95rem; font-weight: 600;
+      color: var(--text); transition: color var(--transition);
+    }
+    .faq-question:hover { color: var(--primary); }
+    .faq-question .arrow {
+      font-size: 1.2rem; transition: transform 0.25s ease; color: var(--text-muted);
+    }
+    .faq-item.open .faq-question .arrow { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease;
+      font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; padding-bottom: 1.15rem; }
+
+    .cta-section { text-align: center; padding: 4rem 0; background: var(--bg-subtle); border-radius: var(--radius-xl); margin: 2rem auto; max-width: 800px; }
+    .cta-section h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .cta-section p { color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1rem; }
+
+    .guarantee-note {
+      text-align: center; font-size: 0.78rem; color: var(--text-muted); margin-top: 1.5rem;
+    }
+
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 2rem; padding-top: 1.5rem; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+
+    @media (max-width: 768px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .pricing-hero h1 { font-size: 1.8rem; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">C</span>
+      СБОРКА<span class="dot">.</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Главная</a>
+      <a href="jobs.html">Вакансии</a>
+      <a href="candidates.html">Кандидаты</a>
+      <a href="post-job.html">Разместить</a>
+      <a href="pricing.html" class="active">Тарифы</a>
+    </div>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="btn btn-outline btn-sm">Войти</a>
+      <a href="#" class="btn btn-primary btn-sm">Регистрация</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="pricing-hero">
+  <div class="container">
+    <h1>Тарифы</h1>
+    <p>Выберите план, подходящий для ваших целей</p>
+  </div>
+</section>
+
+<!-- TOGGLE -->
+<div class="audience-toggle">
+  <button class="active" onclick="showPricing('seekers')">Для соискателей</button>
+  <button onclick="showPricing('employers')">Для работодателей</button>
+</div>
+
+<!-- SEEKERS PRICING -->
+<div class="container">
+  <div id="seekers-pricing" class="pricing-section visible">
+    <div class="pricing-grid">
+
+      <!-- Free -->
+      <div class="pricing-card">
+        <div class="plan-name">Бесплатно</div>
+        <div class="plan-desc">Для начала поиска</div>
+        <div class="price">
+          <span class="amount mono">0 &#8381;</span>
+        </div>
+        <div class="price-period">навсегда</div>
+        <ul class="features">
+          <li><span class="check">&#10003;</span> Поиск вакансий</li>
+          <li><span class="check">&#10003;</span> Базовый профиль</li>
+          <li><span class="check">&#10003;</span> До 5 откликов/мес</li>
+          <li><span class="check">&#10003;</span> Match score просмотр</li>
+        </ul>
+        <div class="cta-wrap">
+          <a href="#" class="btn btn-outline">Начать бесплатно</a>
+        </div>
+      </div>
+
+      <!-- СТАРТ -->
+      <div class="pricing-card featured">
+        <div class="plan-name">СТАРТ</div>
+        <div class="plan-desc">Максимум возможностей</div>
+        <div class="price">
+          <span class="amount mono">4 900 &#8381;</span>
+        </div>
+        <div class="price-period">в месяц</div>
+        <ul class="features">
+          <li><span class="check">&#10003;</span> Безлимитные отклики</li>
+          <li><span class="check">&#10003;</span> Priority matching</li>
+          <li><span class="check">&#10003;</span> Resume boost</li>
+          <li><span class="check">&#10003;</span> Полная аналитика матчей</li>
+          <li><span class="check">&#10003;</span> Peer-группы (5 человек)</li>
+          <li><span class="check">&#10003;</span> Еженедельные сессии</li>
+          <li><span class="check">&#10003;</span> Buddy-matching</li>
+        </ul>
+        <div class="cta-wrap">
+          <a href="#" class="btn btn-accent">Попробовать 7 дней бесплатно</a>
+        </div>
+      </div>
+
+      <!-- VIP -->
+      <div class="pricing-card">
+        <div class="plan-name">VIP</div>
+        <div class="plan-desc">Персональный подход</div>
+        <div class="price">
+          <span class="amount mono">15 900 &#8381;</span>
+        </div>
+        <div class="price-period">в месяц</div>
+        <ul class="features">
+          <li><span class="check">&#10003;</span> Всё из СТАРТ</li>
+          <li><span class="check">&#10003;</span> 1:1 с экспертом (2 раза/мес)</li>
+          <li><span class="check">&#10003;</span> Разбор резюме</li>
+          <li><span class="check">&#10003;</span> Прямая линия с Кристиной</li>
+          <li><span class="check">&#10003;</span> Гарантия трудоустройства*</li>
+        </ul>
+        <div class="cta-wrap">
+          <a href="#" class="btn btn-primary">Связаться</a>
+        </div>
+      </div>
+
+    </div>
+    <div class="guarantee-note">* Гарантия трудоустройства: если вы не получите оффер в течение 3 месяцев, мы вернём 100% оплаты.</div>
+  </div>
+
+  <!-- EMPLOYERS PRICING -->
+  <div id="employers-pricing" class="pricing-section">
+    <div class="pricing-grid">
+
+      <!-- Free -->
+      <div class="pricing-card">
+        <div class="plan-name">Бесплатно</div>
+        <div class="plan-desc">Для пробы платформы</div>
+        <div class="price">
+          <span class="amount mono">0 &#8381;</span>
+        </div>
+        <div class="price-period">навсегда</div>
+        <ul class="features">
+          <li><span class="check">&#10003;</span> 1 активная вакансия</li>
+          <li><span class="check">&#10003;</span> До 10 матчей/мес</li>
+          <li><span class="check">&#10003;</span> Базовый поиск кандидатов</li>
+        </ul>
+        <div class="cta-wrap">
+          <a href="#" class="btn btn-outline">Начать бесплатно</a>
+        </div>
+      </div>
+
+      <!-- Бизнес -->
+      <div class="pricing-card featured">
+        <div class="plan-name">Бизнес</div>
+        <div class="plan-desc">Для активного найма</div>
+        <div class="price">
+          <span class="amount mono">9 900 &#8381;</span>
+        </div>
+        <div class="price-period">в месяц</div>
+        <ul class="features">
+          <li><span class="check">&#10003;</span> 5 вакансий</li>
+          <li><span class="check">&#10003;</span> Безлимитные матчи</li>
+          <li><span class="check">&#10003;</span> Доступ к базе резюме</li>
+          <li><span class="check">&#10003;</span> AI-скоринг кандидатов</li>
+          <li><span class="check">&#10003;</span> Приоритетная поддержка</li>
+          <li><span class="check">&#10003;</span> Аналитика рынка</li>
+        </ul>
+        <div class="cta-wrap">
+          <a href="#" class="btn btn-accent">Попробовать</a>
+        </div>
+      </div>
+
+      <!-- Корпоративный -->
+      <div class="pricing-card">
+        <div class="plan-name">Корпоративный</div>
+        <div class="plan-desc">Для крупных компаний</div>
+        <div class="price">
+          <span class="amount mono" style="font-size: 1.6rem;">По запросу</span>
+        </div>
+        <div class="price-period">индивидуально</div>
+        <ul class="features">
+          <li><span class="check">&#10003;</span> Безлимитные вакансии</li>
+          <li><span class="check">&#10003;</span> API интеграция (MCP)</li>
+          <li><span class="check">&#10003;</span> Выделенный менеджер</li>
+          <li><span class="check">&#10003;</span> SLA 24 часа</li>
+          <li><span class="check">&#10003;</span> Кастомная аналитика</li>
+        </ul>
+        <div class="cta-wrap">
+          <a href="#" class="btn btn-primary">Связаться</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container-sm">
+    <h2>Частые вопросы</h2>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Могу ли я сменить тариф в любое время?</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer">
+        Да, вы можете перейти на более высокий тариф в любой момент. При понижении тарифа изменения вступят в силу с начала следующего платёжного периода. Неиспользованные дни будут учтены при расчёте.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Как работает гарантия трудоустройства?</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer">
+        Если вы активно используете платформу (минимум 10 откликов/мес, заполненный профиль, прошли верификацию) и не получили оффер за 3 месяца на тарифе VIP, мы вернём 100% оплаты. Подробные условия в пользовательском соглашении.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Что такое MCP-интеграция для работодателей?</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer">
+        MCP (Model Context Protocol) позволяет AI-агентам вашей компании напрямую искать кандидатов и управлять вакансиями через стандартизированный API. Это будущее рекрутинга: ваш AI-ассистент сам находит лучших кандидатов.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Есть ли скидки при оплате за год?</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer">
+        Да, при оплате за год вы получаете скидку 20%. Для тарифа СТАРТ это 47 040 &#8381;/год вместо 58 800 &#8381;. Для VIP &mdash; 152 640 &#8381;/год вместо 190 800 &#8381;. Напишите нам для оформления годовой подписки.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Чем СБОРКА отличается от HeadHunter?</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer">
+        СБОРКА использует семантический AI-matching вместо keyword-поиска. Мы анализируем навыки, культурный fit и потенциал роста. Плюс: верификация навыков через AI-интервью, гарантия ответа за 72 часа и экосистема карьерного развития (peer-группы, менторство, buddy-matching).
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Как отменить подписку?</span>
+        <span class="arrow">&#9660;</span>
+      </div>
+      <div class="faq-answer">
+        Вы можете отменить подписку в любой момент в настройках профиля. Доступ к платным функциям сохранится до конца оплаченного периода. Мы не берём штрафов за отмену.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="container">
+  <section class="cta-section">
+    <h2>Не уверены?</h2>
+    <p>Начните с бесплатного плана и оцените качество матчей</p>
+    <a href="#" class="btn btn-accent btn-lg">Начать бесплатно</a>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Продукт</h4>
+        <ul>
+          <li><a href="jobs.html">Вакансии</a></li>
+          <li><a href="candidates.html">Кандидаты</a></li>
+          <li><a href="pricing.html">Тарифы</a></li>
+          <li><a href="#">API и MCP</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Для соискателей</h4>
+        <ul>
+          <li><a href="#">Создать профиль</a></li>
+          <li><a href="dashboard.html">Мои отклики</a></li>
+          <li><a href="#">Mock-интервью</a></li>
+          <li><a href="#">Карьерный гид</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Для работодателей</h4>
+        <ul>
+          <li><a href="post-job.html">Разместить вакансию</a></li>
+          <li><a href="employer.html">Дашборд</a></li>
+          <li><a href="#">Поиск кандидатов</a></li>
+          <li><a href="#">Интеграции</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Блог</a></li>
+          <li><a href="#">Карьера</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 СБОРКА. Все права защищены.</span>
+      <span>Сделано с AI в России</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showPricing(type) {
+  document.getElementById('seekers-pricing').classList.toggle('visible', type === 'seekers');
+  document.getElementById('employers-pricing').classList.toggle('visible', type === 'employers');
+  document.querySelectorAll('.audience-toggle button').forEach(btn => {
+    btn.classList.toggle('active',
+      (type === 'seekers' && btn.textContent.includes('соискателей')) ||
+      (type === 'employers' && btn.textContent.includes('работодателей'))
+    );
+  });
+}
+
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  // Toggle clicked
+  if (!wasOpen) item.classList.add('open');
+}
+</script>
+
+</body>
+</html>

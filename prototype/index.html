@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>СБОРКА — AI-платформа для поиска работы и найма</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; }
+    .hero-stats { display: flex; gap: 2rem; justify-content: center; font-size: 0.9rem; color: var(--text-muted); }
+    .hero-stats span { display: flex; align-items: center; gap: 0.35rem; }
+    .hero-stats .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--text-muted); }
+    .search-hero { max-width: 720px; margin: 0 auto; }
+    .how-it-works { background: var(--bg-subtle); }
+    .step-card { text-align: center; padding: 2rem 1.5rem; }
+    .step-card .step-num {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;
+    }
+    .step-card .step-num.primary { background: var(--primary-subtle); color: var(--primary); }
+    .step-card .step-num.accent { background: var(--accent-subtle); color: var(--accent); }
+    .step-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .step-card p { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.55; }
+    .section-title { text-align: center; margin-bottom: 0.5rem; font-size: 2rem; font-weight: 800; letter-spacing: -0.03em; }
+    .section-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1rem; }
+    .audience-tabs { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2rem; }
+    .audience-tab {
+      padding: 0.5rem 1.25rem; border-radius: var(--radius-full); font-size: 0.875rem;
+      font-weight: 600; cursor: pointer; border: 1.5px solid var(--border); background: var(--bg-card);
+      color: var(--text-secondary); transition: all var(--transition);
+    }
+    .audience-tab.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .audience-tab:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+    .feature-card { text-align: center; padding: 2rem 1.5rem; }
+    .feature-icon {
+      width: 56px; height: 56px; border-radius: var(--radius-lg);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1rem;
+    }
+    .feature-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; }
+    .stats-dark {
+      background: var(--bg-dark); color: white; padding: 4rem 0; margin: 0;
+    }
+    .stats-dark .stat-item { text-align: center; }
+    .stats-dark .stat-value {
+      font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 800; color: white;
+    }
+    .stats-dark .stat-label { font-size: 0.9rem; color: rgba(255,255,255,0.6); margin-top: 0.25rem; }
+    .cta-section { text-align: center; padding: 5rem 0; }
+    .cta-section h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; letter-spacing: -0.03em; }
+    .cta-section p { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.05rem; }
+    .cta-buttons { display: flex; gap: 1rem; justify-content: center; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 2rem; padding-top: 1.5rem; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: center; }
+    @media (max-width: 768px) {
+      .hero-ctas { flex-direction: column; align-items: center; }
+      .hero-stats { flex-direction: column; align-items: center; gap: 0.5rem; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+      .audience-tabs { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="inner">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">С</span>
+      СБОРКА<span class="dot">.</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="active">Главная</a>
+      <a href="jobs.html">Вакансии</a>
+      <a href="candidates.html">Кандидаты</a>
+      <a href="post-job.html">Разместить</a>
+      <a href="pricing.html">Тарифы</a>
+    </div>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">Войти</a>
+      <a href="profile.html" class="btn btn-primary btn-sm">Создать аккаунт</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="hero-section">
+  <div class="container">
+    <h1 class="animate-in">Найди идеальный <span class="highlight">матч</span><br>между талантом и вакансией</h1>
+    <p class="subtitle animate-in delay-1">AI-платформа нового поколения, которая понимает навыки, культуру и амбиции. Не просто ключевые слова — настоящее совпадение.</p>
+    <div class="hero-ctas animate-in delay-2">
+      <a href="jobs.html" class="btn btn-accent btn-lg">Ищу работу</a>
+      <a href="candidates.html" class="btn btn-primary btn-lg">Ищу сотрудника</a>
+    </div>
+    <div class="hero-stats animate-in delay-3">
+      <span>2 847 вакансий</span>
+      <span class="dot"></span>
+      <span>12 340 кандидатов</span>
+      <span class="dot"></span>
+      <span>94% релевантных матчей</span>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH BAR -->
+<section class="section-sm">
+  <div class="container search-hero">
+    <div class="search-bar">
+      <input type="text" placeholder="Должность, навыки или компания...">
+      <div class="divider"></div>
+      <select>
+        <option>Вся Россия</option>
+        <option>Москва</option>
+        <option>Санкт-Петербург</option>
+        <option>Удалённо</option>
+        <option>Новосибирск</option>
+        <option>Екатеринбург</option>
+        <option>Казань</option>
+      </select>
+      <a href="jobs.html" class="btn btn-primary">Найти</a>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section how-it-works">
+  <div class="container">
+    <h2 class="section-title">Как это работает</h2>
+    <p class="section-subtitle">Три простых шага к идеальному матчу</p>
+
+    <div class="audience-tabs">
+      <div class="audience-tab active" onclick="showAudience('seeker')">Для соискателей</div>
+      <div class="audience-tab" onclick="showAudience('employer')">Для работодателей</div>
+    </div>
+
+    <div id="seeker-steps" class="grid-3">
+      <div class="card step-card animate-in delay-1">
+        <div class="step-num accent">1</div>
+        <h3>Создайте профиль</h3>
+        <p>Заполните навыки, опыт и предпочтения. AI проанализирует ваш стек и определит сильные стороны.</p>
+      </div>
+      <div class="card step-card animate-in delay-2">
+        <div class="step-num accent">2</div>
+        <h3>AI подберёт вакансии</h3>
+        <p>Семантический матчинг найдёт позиции, где вы раскроетесь. Не keyword-поиск, а понимание контекста.</p>
+      </div>
+      <div class="card step-card animate-in delay-3">
+        <div class="step-num accent">3</div>
+        <h3>Получите оффер</h3>
+        <p>Компании видят ваш match score. Гарантия ответа в течение 72 часов. Никаких чёрных дыр.</p>
+      </div>
+    </div>
+
+    <div id="employer-steps" class="grid-3" style="display: none;">
+      <div class="card step-card">
+        <div class="step-num primary">1</div>
+        <h3>Разместите вакансию</h3>
+        <p>Опишите роль, стек и культуру команды. AI поймёт, кого вы ищете, даже между строк.</p>
+      </div>
+      <div class="card step-card">
+        <div class="step-num primary">2</div>
+        <h3>AI найдёт кандидатов</h3>
+        <p>Получите ранжированный список с match score. Верифицированные навыки, реальные кейсы.</p>
+      </div>
+      <div class="card step-card">
+        <div class="step-num primary">3</div>
+        <h3>Нанимайте лучших</h3>
+        <p>Собеседуйте только релевантных. Средний time-to-hire сокращается на 40%.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED JOBS -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Горячие вакансии</h2>
+    <p class="section-subtitle">Лучшие предложения от ведущих IT-компаний</p>
+
+    <div class="grid-2">
+      <a href="job-detail.html" class="job-card">
+        <div class="match-badge high">94% матч</div>
+        <div class="company-row">
+          <div class="company-logo" style="background: #fc0; color: #000;">Я</div>
+          <div>
+            <div class="company-name">Яндекс</div>
+            <span class="company-verified">&#10003; Верифицирован</span>
+          </div>
+        </div>
+        <h3>Продакт-менеджер</h3>
+        <div class="salary">280 000 — 400 000 ₽</div>
+        <div class="tags">
+          <span class="tag tag-primary">Product</span>
+          <span class="tag tag-primary">B2C</span>
+          <span class="tag tag-green">Удалённо</span>
+        </div>
+        <div class="meta">
+          <span>Москва</span>
+          <span>2 часа назад</span>
+        </div>
+      </a>
+
+      <a href="job-detail.html" class="job-card">
+        <div class="match-badge high">91% матч</div>
+        <div class="company-row">
+          <div class="company-logo" style="background: #ffdd2d; color: #333;">Т</div>
+          <div>
+            <div class="company-name">Тинькофф</div>
+            <span class="company-verified">&#10003; Верифицирован</span>
+          </div>
+        </div>
+        <h3>Senior Frontend Developer</h3>
+        <div class="salary">280 000 — 400 000 ₽</div>
+        <div class="tags">
+          <span class="tag tag-primary">React</span>
+          <span class="tag tag-primary">TypeScript</span>
+          <span class="tag tag-green">Удалённо</span>
+        </div>
+        <div class="meta">
+          <span>Москва / Remote</span>
+          <span>5 часов назад</span>
+        </div>
+      </a>
+
+      <a href="job-detail.html" class="job-card">
+        <div class="match-badge medium">85% матч</div>
+        <div class="company-row">
+          <div class="company-logo" style="background: #005bff; color: #fff;">O</div>
+          <div>
+            <div class="company-name">Ozon</div>
+            <span class="company-verified">&#10003; Верифицирован</span>
+          </div>
+        </div>
+        <h3>Python Backend Developer</h3>
+        <div class="salary">250 000 — 380 000 ₽</div>
+        <div class="tags">
+          <span class="tag tag-primary">Python</span>
+          <span class="tag tag-primary">FastAPI</span>
+          <span class="tag">Гибрид</span>
+        </div>
+        <div class="meta">
+          <span>Москва</span>
+          <span>1 день назад</span>
+        </div>
+      </a>
+
+      <a href="job-detail.html" class="job-card">
+        <div class="match-badge medium">82% матч</div>
+        <div class="company-row">
+          <div class="company-logo" style="background: #0077ff; color: #fff;">VK</div>
+          <div>
+            <div class="company-name">VK</div>
+            <span class="company-verified">&#10003; Верифицирован</span>
+          </div>
+        </div>
+        <h3>UX/UI Designer</h3>
+        <div class="salary">200 000 — 320 000 ₽</div>
+        <div class="tags">
+          <span class="tag tag-primary">Figma</span>
+          <span class="tag tag-primary">UX Research</span>
+          <span class="tag tag-green">Удалённо</span>
+        </div>
+        <div class="meta">
+          <span>Санкт-Петербург</span>
+          <span>2 дня назад</span>
+        </div>
+      </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem;">
+      <a href="jobs.html" class="btn btn-outline">Все вакансии &rarr;</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY СБОРКА -->
+<section class="section" style="background: var(--bg-subtle);">
+  <div class="container">
+    <h2 class="section-title">Почему СБОРКА</h2>
+    <p class="section-subtitle">Не ещё одна джоб-борда. Новый стандарт найма.</p>
+
+    <div class="grid-4">
+      <div class="card feature-card">
+        <div class="feature-icon" style="background: var(--primary-subtle); color: var(--primary);">&#9881;</div>
+        <h3>AI Matching</h3>
+        <p>Семантический анализ навыков, а не keyword-поиск. Понимаем контекст, культуру и потенциал роста.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon" style="background: var(--accent-subtle); color: var(--accent);">&#10003;</div>
+        <h3>Верификация</h3>
+        <p>Mock-интервью с AI оценивают реальные навыки. Компании видят подтверждённый уровень.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon" style="background: var(--gold-subtle); color: var(--gold);">&#9889;</div>
+        <h3>MCP-доступ</h3>
+        <p>AI-агенты компаний могут искать кандидатов через MCP-протокол. Будущее рекрутинга уже здесь.</p>
+      </div>
+      <div class="card feature-card">
+        <div class="feature-icon" style="background: #ecfdf5; color: #047857;">&#128337;</div>
+        <h3>Прозрачность</h3>
+        <p>Гарантия ответа за 72 часа. Вы всегда знаете статус отклика. Никаких чёрных дыр.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-dark">
+  <div class="container">
+    <div class="grid-4">
+      <div class="stat-item">
+        <div class="stat-value">2 847</div>
+        <div class="stat-label">Активных вакансий</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">12 340</div>
+        <div class="stat-label">Кандидатов</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">87%</div>
+        <div class="stat-label">Средний match score</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value">72ч</div>
+        <div class="stat-label">Гарантия ответа</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2>Готовы найти свой матч?</h2>
+    <p>Присоединяйтесь к платформе, где таланты и компании находят друг друга</p>
+    <div class="cta-buttons">
+      <a href="profile.html" class="btn btn-accent btn-lg">Создать профиль</a>
+      <a href="post-job.html" class="btn btn-primary btn-lg">Разместить вакансию</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Продукт</h4>
+        <ul>
+          <li><a href="jobs.html">Вакансии</a></li>
+          <li><a href="candidates.html">Кандидаты</a></li>
+          <li><a href="pricing.html">Тарифы</a></li>
+          <li><a href="#">API и MCP</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Для соискателей</h4>
+        <ul>
+          <li><a href="profile.html">Создать профиль</a></li>
+          <li><a href="dashboard.html">Мои отклики</a></li>
+          <li><a href="#">Mock-интервью</a></li>
+          <li><a href="#">Карьерный гид</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Для работодателей</h4>
+        <ul>
+          <li><a href="post-job.html">Разместить вакансию</a></li>
+          <li><a href="employer.html">Дашборд</a></li>
+          <li><a href="#">Поиск кандидатов</a></li>
+          <li><a href="#">Интеграции</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Компания</h4>
+        <ul>
+          <li><a href="#">О нас</a></li>
+          <li><a href="#">Блог</a></li>
+          <li><a href="#">Карьера</a></li>
+          <li><a href="#">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 СБОРКА. Все права защищены.</span>
+      <span>Сделано с AI в России</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function showAudience(type) {
+  document.getElementById('seeker-steps').style.display = type === 'seeker' ? '' : 'none';
+  document.getElementById('employer-steps').style.display = type === 'employer' ? '' : 'none';
+  document.querySelectorAll('.audience-tab').forEach(tab => {
+    tab.classList.toggle('active',
+      (type === 'seeker' && tab.textContent.includes('соискателей')) ||
+      (type === 'employer' && tab.textContent.includes('работодателей'))
+    );
+  });
+}
+</script>
+
+</body>
+</html>
