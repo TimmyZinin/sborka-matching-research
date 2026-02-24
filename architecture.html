@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>СБОРКА Matching Engine — Архитектура</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --emerald-900: #064e3b; --emerald-700: #047857; --emerald-600: #059669;
+  --emerald-500: #10b981; --emerald-400: #34d399; --emerald-100: #d1fae5;
+  --amber-900: #78350f; --amber-700: #b45309; --amber-600: #d97706;
+  --amber-500: #f59e0b; --amber-400: #fbbf24; --amber-200: #fde68a; --amber-100: #fef3c7;
+  --cream: #fffbeb; --ivory: #fefce8; --warm-white: #fdf8f0;
+  --stone-900: #1c1917; --stone-800: #292524; --stone-700: #44403c;
+  --stone-600: #57534e; --stone-500: #78716c; --stone-400: #a8a29e;
+  --stone-300: #d6d3d1; --stone-200: #e7e5e4; --stone-100: #f5f5f4;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: var(--warm-white); color: var(--stone-800); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+nav { position: sticky; top: 0; z-index: 100; background: rgba(253,248,240,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--stone-200); padding: 0.75rem 2rem; }
+nav .inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+nav .logo { font-weight: 800; font-size: 1.1rem; color: var(--emerald-900); text-decoration: none; letter-spacing: -0.03em; }
+nav .logo span { color: var(--amber-600); }
+nav .links { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+nav .links a { padding: 0.4rem 0.9rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 500; color: var(--stone-600); transition: all 0.2s; }
+nav .links a:hover { background: var(--emerald-100); color: var(--emerald-700); }
+nav .links a.active { background: var(--emerald-900); color: white; }
+
+.hero { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 3rem; }
+.hero .badge { display: inline-block; background: linear-gradient(135deg, var(--amber-600), var(--amber-700)); color: white; padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; color: var(--stone-900); margin-bottom: 1rem; }
+.hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--amber-600), var(--emerald-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero .subtitle { font-size: 1.15rem; color: var(--stone-600); max-width: 700px; line-height: 1.7; }
+
+section { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+.section-label { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--amber-600); background: var(--amber-100); padding: 0.25rem 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
+section h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; color: var(--stone-900); margin-bottom: 0.75rem; }
+section h3 { font-size: 1.2rem; font-weight: 700; color: var(--stone-800); margin: 2rem 0 1rem; }
+section p { color: var(--stone-600); max-width: 800px; margin-bottom: 1rem; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+
+.card { background: white; border: 1px solid var(--stone-200); border-radius: 16px; padding: 1.75rem; transition: all 0.3s; }
+.card:hover { border-color: var(--amber-400); box-shadow: 0 8px 30px rgba(217,119,6,0.08); transform: translateY(-2px); }
+.card h4 { font-size: 1.05rem; font-weight: 700; color: var(--stone-900); margin-bottom: 0.5rem; }
+.card p { font-size: 0.9rem; color: var(--stone-600); margin-bottom: 0; }
+
+.table-wrapper { overflow-x: auto; margin: 1.5rem 0; border-radius: 12px; border: 1px solid var(--stone-200); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { background: var(--stone-900); }
+thead th { padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: white; white-space: nowrap; }
+tbody tr { border-bottom: 1px solid var(--stone-200); }
+tbody tr:last-child { border: none; }
+tbody tr:hover { background: var(--ivory); }
+td { padding: 0.65rem 1rem; color: var(--stone-700); }
+td:first-child { font-weight: 600; color: var(--stone-900); }
+.tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+.tag.green { background: var(--emerald-100); color: var(--emerald-700); }
+.tag.amber { background: var(--amber-100); color: var(--amber-700); }
+.tag.red { background: #fee2e2; color: #b91c1c; }
+
+.insight { background: linear-gradient(135deg, var(--amber-900), var(--stone-900)); color: white; border-radius: 16px; padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden; }
+.insight::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%); border-radius: 50%; }
+.insight h3 { color: var(--emerald-400); margin-top: 0; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.insight p { color: rgba(255,255,255,0.85); max-width: none; }
+.insight strong { color: var(--emerald-300); }
+
+.sep { width: 60px; height: 3px; background: linear-gradient(90deg, var(--amber-500), var(--emerald-500)); border-radius: 2px; margin: 1.5rem 0; }
+
+/* ARCHITECTURE DIAGRAM */
+.arch-diagram {
+  background: var(--stone-900);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin: 2rem 0;
+  color: white;
+  overflow-x: auto;
+}
+.arch-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.arch-box {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  min-width: 140px;
+  font-size: 0.8rem;
+  transition: all 0.3s;
+}
+.arch-box:hover { transform: scale(1.05); }
+.arch-box.entry { border-color: var(--emerald-400); background: rgba(16,185,129,0.1); }
+.arch-box.api { border-color: var(--amber-400); background: rgba(251,191,36,0.1); }
+.arch-box.core { border-color: #818cf8; background: rgba(129,140,248,0.1); }
+.arch-box.data { border-color: #f472b6; background: rgba(244,114,182,0.1); }
+.arch-box.ext { border-color: var(--stone-400); background: rgba(168,162,158,0.1); }
+.arch-box .label { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.25rem; }
+.arch-box .sub { font-size: 0.7rem; opacity: 0.7; }
+.arch-arrow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--stone-500);
+  letter-spacing: 0.5rem;
+}
+.arch-layer-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--stone-500);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+/* CODE BLOCK */
+.code-block {
+  background: var(--stone-900);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  line-height: 1.7;
+  color: #e5e7eb;
+}
+.code-block .keyword { color: #c084fc; }
+.code-block .string { color: #86efac; }
+.code-block .comment { color: #6b7280; font-style: italic; }
+.code-block .type { color: #67e8f9; }
+.code-block .field { color: #fbbf24; }
+
+/* FLOW */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0;
+}
+.flow-step {
+  background: white;
+  border: 2px solid var(--stone-200);
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  min-width: 120px;
+  transition: all 0.2s;
+}
+.flow-step:hover { border-color: var(--emerald-400); }
+.flow-step.active { border-color: var(--emerald-500); background: var(--emerald-100); color: var(--emerald-700); }
+.flow-arrow { color: var(--stone-400); font-size: 1.2rem; }
+
+footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px solid var(--stone-200); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--stone-500); }
+
+@media (max-width: 768px) {
+  .hero { padding: 2.5rem 1.25rem 2rem; }
+  section { padding: 2rem 1.25rem; }
+  nav { padding: 0.75rem 1rem; }
+  .arch-diagram { padding: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">СБОРКА<span>.</span>research</a>
+    <div class="links">
+      <a href="index.html">Ландшафт рынка</a>
+      <a href="architecture.html" class="active">Архитектура</a>
+      <a href="growth.html">Стратегия роста</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge">Architecture / February 2026</div>
+  <h1>Order Book:<br><em>Архитектура решения</em></h1>
+  <p class="subtitle">Двусторонняя платформа с dual-interface (Web + MCP), semantic matching engine, и стоимостью инфраструктуры $5-7/мес.</p>
+</div>
+
+<!-- ARCHITECTURE DIAGRAM -->
+<section>
+  <span class="section-label">01 / Архитектура</span>
+  <h2>Системная архитектура</h2>
+  <p>Два входа &mdash; для людей (Web) и машин (MCP). Единый API-слой. Matching engine в центре. PostgreSQL + pgvector обрабатывают всё на одном VPS.</p>
+
+  <div class="arch-diagram">
+    <div class="arch-layer-label">Entry Points</div>
+    <div class="arch-row">
+      <div class="arch-box entry">
+        <div class="label">sborka.work</div>
+        <div class="sub">React + Vite</div>
+      </div>
+      <div class="arch-box entry">
+        <div class="label">MCP Server</div>
+        <div class="sub">mcp.sborka.work/sse</div>
+      </div>
+      <div class="arch-box entry">
+        <div class="label">@Sborka_work_bot</div>
+        <div class="sub">Telegram</div>
+      </div>
+      <div class="arch-box entry">
+        <div class="label">Aggregator</div>
+        <div class="sub">hh.ru API + TG channels</div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">&darr; &darr; &darr; &darr;</div>
+
+    <div class="arch-layer-label">API Layer</div>
+    <div class="arch-row">
+      <div class="arch-box api">
+        <div class="label">FastAPI REST</div>
+        <div class="sub">/api/v1/jobs, /resumes, /matches</div>
+      </div>
+      <div class="arch-box api">
+        <div class="label">Auth</div>
+        <div class="sub">JWT + API Keys</div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">&darr; &darr;</div>
+
+    <div class="arch-layer-label">Core Services</div>
+    <div class="arch-row">
+      <div class="arch-box core">
+        <div class="label">Matching Engine</div>
+        <div class="sub">BM25 &rarr; pgvector &rarr; LLM</div>
+      </div>
+      <div class="arch-box core">
+        <div class="label">Ingestion</div>
+        <div class="sub">Normalize, deduplicate, skills</div>
+      </div>
+      <div class="arch-box core">
+        <div class="label">Notifications</div>
+        <div class="sub">TG + Email</div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">&darr; &darr;</div>
+
+    <div class="arch-layer-label">Data Layer</div>
+    <div class="arch-row">
+      <div class="arch-box data">
+        <div class="label">PostgreSQL + pgvector</div>
+        <div class="sub">jobs, resumes, matches, skills</div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">&darr;</div>
+
+    <div class="arch-layer-label">External Services</div>
+    <div class="arch-row">
+      <div class="arch-box ext">
+        <div class="label">hh.ru API</div>
+        <div class="sub">Free tier</div>
+      </div>
+      <div class="arch-box ext">
+        <div class="label">TG Channels</div>
+        <div class="sub">220+ IT-каналов</div>
+      </div>
+      <div class="arch-box ext">
+        <div class="label">DeepSeek V3</div>
+        <div class="sub">$0.14/1M tokens</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>Принципы архитектуры</h3>
+    <p><strong>Единый PostgreSQL</strong> &mdash; relational data + vector search через pgvector. Не нужен Elasticsearch. <strong>FastAPI обслуживает и REST, и MCP</strong> &mdash; каждый MCP tool вызывает тот же endpoint. <strong>LLM только для re-ranking</strong> (Phase 3), не для основного matching. Всё на одном VPS за <strong>$5/мес</strong>.</p>
+  </div>
+</section>
+
+<!-- DATABASE SCHEMA -->
+<section>
+  <span class="section-label">02 / База данных</span>
+  <h2>Database Schema</h2>
+  <p>6 основных таблиц + junction tables для skills. tsvector для full-text search, VECTOR(384) для semantic search (Phase 2).</p>
+
+  <div class="grid-3">
+    <div class="card" style="border-left: 4px solid var(--emerald-500);">
+      <h4>jobs</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id, source, company_id<br>
+        title, description<br>
+        salary_from/to, currency<br>
+        experience_level<br>
+        employment_type, work_format<br>
+        city, is_active<br>
+        <span style="color: var(--emerald-600);">tsv TSVECTOR (generated)</span><br>
+        <span style="color: var(--amber-600);">embedding VECTOR(384)</span><br>
+        raw_data JSONB
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--amber-500);">
+      <h4>resumes</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id, user_id, source<br>
+        full_name, title, summary<br>
+        experience_years/level<br>
+        desired_salary_from/to<br>
+        work_format, city<br>
+        telegram, email<br>
+        <span style="color: var(--emerald-600);">tsv TSVECTOR (generated)</span><br>
+        <span style="color: var(--amber-600);">embedding VECTOR(384)</span><br>
+        resume_file_url
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid #818cf8;">
+      <h4>matches</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id, job_id, resume_id<br>
+        <span style="color: var(--emerald-600);">score FLOAT (0.0-1.0)</span><br>
+        score_breakdown JSONB<br>
+        algorithm_version<br>
+        status: new, viewed,<br>
+        interested, rejected, hired<br>
+        UNIQUE(job_id, resume_id)
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--stone-400);">
+      <h4>companies</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id, name, hh_id<br>
+        website, size_range<br>
+        industry, verified
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--stone-400);">
+      <h4>skills</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id, name, name_en<br>
+        category: language,<br>
+        framework, tool, soft, domain<br>
+        aliases JSONB
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--stone-400);">
+      <h4>interactions</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id, match_id<br>
+        actor_type: employer/candidate<br>
+        action: view, save,<br>
+        contact, reject, hire<br>
+        metadata JSONB
+      </p>
+    </div>
+  </div>
+
+  <p style="font-size: 0.85rem; color: var(--stone-500);">+ junction tables: <span class="mono">job_skills</span> (job_id, skill_id, is_required) и <span class="mono">resume_skills</span> (resume_id, skill_id, proficiency, years)</p>
+</section>
+
+<!-- MATCHING ALGORITHM -->
+<section>
+  <span class="section-label">03 / Matching Engine</span>
+  <h2>Алгоритм матчинга</h2>
+
+  <h3>Фазированная эволюция</h3>
+  <div class="flow">
+    <div class="flow-step active">Phase 1<br><span style="font-size: 0.7rem; font-weight: 400;">PostgreSQL FTS</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Phase 2<br><span style="font-size: 0.7rem; font-weight: 400;">+ pgvector hybrid</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-step">Phase 3<br><span style="font-size: 0.7rem; font-weight: 400;">+ LLM re-ranking</span></div>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Критерий</th>
+          <th>Phase 1: FTS (BM25)</th>
+          <th>Phase 2: Hybrid</th>
+          <th>Phase 3: LLM Semantic</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Подход</td>
+          <td>ts_rank + skill overlap</td>
+          <td>BM25 (15%) + vector cosine (85%)</td>
+          <td>DeepSeek V3 re-ranks top-N</td>
+        </tr>
+        <tr>
+          <td>Точность</td>
+          <td>Хорошо для exact keywords</td>
+          <td>Ловит семантику. "Backend" = "серверная"</td>
+          <td>Лучшая. Понимает контекст, карьерную траекторию</td>
+        </tr>
+        <tr>
+          <td>Стоимость</td>
+          <td><span class="tag green">$0/мес</span></td>
+          <td><span class="tag green">~$2/мес</span></td>
+          <td><span class="tag amber">~$5/мес</span></td>
+        </tr>
+        <tr>
+          <td>Латентность</td>
+          <td>&lt;50ms</td>
+          <td>&lt;100ms</td>
+          <td>+200-500ms</td>
+        </tr>
+        <tr>
+          <td>Инфраструктура</td>
+          <td>PostgreSQL (есть)</td>
+          <td>+ pgvector + embedding model</td>
+          <td>+ DeepSeek/Qwen API</td>
+        </tr>
+        <tr>
+          <td>Реализация</td>
+          <td>1-2 дня</td>
+          <td>3-5 дней</td>
+          <td>1-2 дня поверх Phase 2</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Phase 1: Формула скоринга</h3>
+  <div class="code-block">
+<span class="keyword">def</span> <span class="field">compute_match_score</span>(job, resume) -> <span class="type">float</span>:
+    <span class="comment"># Composite score from 0.0 to 1.0</span>
+
+    <span class="comment"># Skill overlap (40% weight)</span>
+    job_skills = <span class="type">set</span>(job.skill_ids)
+    resume_skills = <span class="type">set</span>(resume.skill_ids)
+    skill_score = <span class="type">len</span>(job_skills & resume_skills) / <span class="type">max</span>(<span class="type">len</span>(job_skills), <span class="string">1</span>)
+
+    <span class="comment"># Salary alignment (25% weight)</span>
+    salary_score = _salary_overlap(job, resume)
+
+    <span class="comment"># Experience level match (20% weight)</span>
+    level_score = <span class="string">1.0</span> <span class="keyword">if</span> job.level == resume.level <span class="keyword">else</span> <span class="string">0.5</span>
+
+    <span class="comment"># Location match (15% weight)</span>
+    location_score = _location_match(job, resume)
+
+    <span class="keyword">return</span> (<span class="string">0.40</span> * skill_score +
+            <span class="string">0.25</span> * salary_score +
+            <span class="string">0.20</span> * level_score +
+            <span class="string">0.15</span> * location_score)
+  </div>
+</section>
+
+<!-- DUAL INTERFACE -->
+<section>
+  <span class="section-label">04 / API Design</span>
+  <h2>REST + MCP Dual Interface</h2>
+  <p>Каждый MCP tool &mdash; тонкая обёртка над REST endpoint. Единый source of truth для бизнес-логики. MCP добавляет branding CTAs к ответам.</p>
+
+  <div class="grid-2">
+    <div>
+      <h3>REST API Endpoints</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>Method</th><th>Endpoint</th><th>Auth</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><span class="tag green">POST</span></td><td>/api/v1/jobs</td><td>API Key / JWT</td></tr>
+            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/jobs</td><td>Public</td></tr>
+            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/jobs/{id}</td><td>Public</td></tr>
+            <tr><td><span class="tag green">POST</span></td><td>/api/v1/resumes</td><td>JWT</td></tr>
+            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/resumes</td><td>Employer+paid</td></tr>
+            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/matches/for-job/{id}</td><td>Owner</td></tr>
+            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/matches/for-resume/{id}</td><td>Owner</td></tr>
+            <tr><td><span class="tag green">POST</span></td><td>/api/v1/matches/{id}/interact</td><td>Auth</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3>MCP Tools (новые)</h3>
+      <div class="card" style="margin-bottom: 1rem; border-left: 4px solid var(--emerald-500);">
+        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">submit_job()</h4>
+        <p>title, description, company_name, salary, skills, city, work_format</p>
+      </div>
+      <div class="card" style="margin-bottom: 1rem; border-left: 4px solid var(--amber-500);">
+        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">submit_resume()</h4>
+        <p>full_name, title, summary, experience, skills, salary, telegram</p>
+      </div>
+      <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #818cf8;">
+        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">find_matches()</h4>
+        <p>query, side ("jobs"/"candidates"), skills, salary_min, city, limit</p>
+      </div>
+      <div class="card" style="border-left: 4px solid var(--stone-400);">
+        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">get_job_details()</h4>
+        <p>job_id &rarr; full vacancy details</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section>
+  <span class="section-label">05 / Данные</span>
+  <h2>Источники данных</h2>
+
+  <div class="grid-3">
+    <div class="card" style="border-top: 3px solid var(--emerald-500);">
+      <h4>hh.ru API <span class="tag green">Legal</span></h4>
+      <p style="margin-bottom: 0.5rem;">Уже используется. Free tier позволяет:</p>
+      <ul style="font-size: 0.8rem; color: var(--stone-600); padding-left: 1rem; line-height: 1.8;">
+        <li>Search: до 2000 вакансий/запрос</li>
+        <li>Детали вакансии + навыки</li>
+        <li>Справочники городов и профессий</li>
+        <li>Информация о работодателях</li>
+      </ul>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;"><strong>Стратегия:</strong> nightly cron &rarr; 5,000-15,000 IT вакансий</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--amber-500);">
+      <h4>Telegram каналы <span class="tag green">Legal</span></h4>
+      <p style="margin-bottom: 0.5rem;">220+ каналов с IT-вакансиями:</p>
+      <ul style="font-size: 0.8rem; color: var(--stone-600); padding-left: 1rem; line-height: 1.8;">
+        <li>@devjobs, @frontendjob</li>
+        <li>@pythonjobs, @golang_jobs</li>
+        <li>@remote_it, @jobsITru</li>
+      </ul>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;"><strong>Стратегия:</strong> Telethon парсит + DeepSeek ($0.01/день) структурирует</p>
+    </div>
+    <div class="card" style="border-top: 3px solid #818cf8;">
+      <h4>Crowdsourcing <span class="tag amber">Goal</span></h4>
+      <p style="margin-bottom: 0.5rem;">Долгосрочная цель &mdash; прямые загрузки:</p>
+      <ul style="font-size: 0.8rem; color: var(--stone-600); padding-left: 1rem; line-height: 1.8;">
+        <li>Web-форма на sborka.work</li>
+        <li>MCP tool submit_job()</li>
+        <li>Telegram /postjob команда</li>
+        <li>Наивысшее качество данных</li>
+      </ul>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;"><strong>Это</strong> = основной scaling-механизм</p>
+    </div>
+  </div>
+
+  <p style="font-size: 0.85rem;"><strong>LinkedIn:</strong> <span class="tag red">Не рекомендуется</span> &mdash; заблокирован в РФ (2016), скрапинг нарушает ToS. hh.ru + TG каналы покрывают 90%+ российского IT-рынка.</p>
+</section>
+
+<!-- MONETIZATION -->
+<section>
+  <span class="section-label">06 / Монетизация</span>
+  <h2>Модели монетизации</h2>
+  <p>Marketplace в Phase 1 не нуждается в собственной монетизации. Его главная ценность &mdash; конверсия бесплатных соискателей в платных участников СБОРКИ.</p>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Продукт</th><th>Для кого</th><th>Цена</th><th>Фаза</th><th>Аналог</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Бесплатный поиск вакансий</td><td>Соискатели</td><td>Free</td><td>1</td><td>hh.ru free</td></tr>
+        <tr><td>Бесплатное размещение (3 вакансии)</td><td>Работодатели SMB</td><td>Free</td><td>1</td><td>Wellfound free</td></tr>
+        <tr><td>Resume Boost</td><td>Соискатели</td><td>990 RUB/мес</td><td>2</td><td>hh.ru visibility</td></tr>
+        <tr><td>Priority Matching</td><td>Соискатели</td><td>В тарифах СБОРКИ</td><td>1</td><td>Hired premium</td></tr>
+        <tr><td>База резюме</td><td>Работодатели</td><td>4,900 RUB/мес (10 контактов)</td><td>2</td><td>hh.ru от 20,000</td></tr>
+        <tr><td>Promoted Listings</td><td>Работодатели</td><td>1,500 RUB/вакансия</td><td>2</td><td>hh.ru от 3,500</td></tr>
+        <tr><td>Hiring Analytics</td><td>Работодатели</td><td>9,500 RUB/мес</td><td>3</td><td>LinkedIn Recruiter Lite</td></tr>
+        <tr><td>MCP API (коммерческий)</td><td>AI-платформы, HR</td><td>2,900 RUB/мес</td><td>2</td><td>Уникальный</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Интеграция с тарифами СБОРКИ</h3>
+  <div class="grid-3">
+    <div class="card" style="border-top: 3px solid var(--emerald-500);">
+      <h4>СТАРТ &mdash; 4,900 RUB</h4>
+      <p>Priority Matching + 1 resume review + 2 interview preps через matching engine</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--amber-500);">
+      <h4>ПРОРЫВ &mdash; 9,500 RUB</h4>
+      <p>Всё из СТАРТ + Resume Boost + прямые интродакшны из match pool</p>
+    </div>
+    <div class="card" style="border-top: 3px solid #818cf8;">
+      <h4>VIP &mdash; 15,900 RUB</h4>
+      <p>Всё из ПРОРЫВ + dedicated matching manager + аналитика просмотров профиля</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>Ключевой инсайт</h3>
+    <p>Marketplace &mdash; это <strong>top of funnel</strong> для существующих тарифов. Каждый результат matching включает СБОРКА CTAs. Бесплатные соискатели конвертируются в платных участников карьерного клуба. <strong>Revenue projection:</strong> Phase 2 (5 работодателей x 4,900) = 44,900 RUB/мес incremental.</p>
+  </div>
+</section>
+
+<!-- COMPETITIVE ADVANTAGES -->
+<section>
+  <span class="section-label">07 / Конкурентные преимущества</span>
+  <h2>5 рвов СБОРКИ</h2>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Ров</th><th>hh.ru</th><th>LinkedIn</th><th>TG каналы</th><th style="background: var(--emerald-700);">СБОРКА</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Верификация кандидатов</td>
+          <td>Self-reported</td>
+          <td>Self-reported</td>
+          <td>Нет</td>
+          <td><strong style="color: var(--emerald-600);">Живые встречи + mock-интервью</strong></td>
+        </tr>
+        <tr>
+          <td>AI/MCP вход</td>
+          <td><span class="tag red">Нет</span></td>
+          <td><span class="tag red">Нет</span></td>
+          <td><span class="tag red">Нет</span></td>
+          <td><span class="tag green">Первый в России</span></td>
+        </tr>
+        <tr>
+          <td>Качество matching</td>
+          <td>Keyword</td>
+          <td>Moderate</td>
+          <td>Manual browse</td>
+          <td><strong style="color: var(--emerald-600);">Skill-based + semantic + salary</strong></td>
+        </tr>
+        <tr>
+          <td>SEO UGC</td>
+          <td>Employer-generated</td>
+          <td>Profiles</td>
+          <td>Нет SEO</td>
+          <td><strong style="color: var(--emerald-600);">Jobs + resumes = infinite pages</strong></td>
+        </tr>
+        <tr>
+          <td>Стоимость инфры</td>
+          <td>Enterprise</td>
+          <td>Microsoft</td>
+          <td>$0</td>
+          <td><strong style="color: var(--emerald-600);">$5-7/мес VPS</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4>Verification Moat</h4>
+      <p>"Этот кандидат прошёл 3 mock-интервью и получил peer-feedback." Никакая другая платформа не может это сказать. Живые встречи СБОРКИ создают trust layer, который нельзя воспроизвести онлайн.</p>
+    </div>
+    <div class="card">
+      <h4>MCP Protocol Moat</h4>
+      <p>AI-агенты программно ищут вакансии и кандидатов. С ростом MCP adoption (Claude, Cursor, ChatGPT) СБОРКА становится default источником данных о русском рынке. Конкурентов &mdash; ноль.</p>
+    </div>
+    <div class="card">
+      <h4>Community Pipeline Moat</h4>
+      <p>Участники карьерного клуба &mdash; это и supply (верифицированные кандидаты), и demand (рефералы от работающих). Switching costs, которые HH не может повторить.</p>
+    </div>
+    <div class="card">
+      <h4>Cost Structure Moat</h4>
+      <p>PostgreSQL на $5/мес VPS. Нет Elasticsearch, нет дорогой инфраструктуры. Можно undercut HH на 5-10x по ценам для работодателей, оставаясь прибыльным.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section>
+  <span class="section-label">08 / Tech Stack</span>
+  <h2>Рекомендуемый стек</h2>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Компонент</th><th>Технология</th><th>Обоснование</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Backend</td><td>FastAPI (existing)</td><td>Уже задеплоен, async, быстрый</td></tr>
+        <tr><td>Database</td><td>PostgreSQL 15+ pgvector</td><td>Уже работает. pgvector +20MB RAM</td></tr>
+        <tr><td>Full-text search</td><td>PostgreSQL tsvector + ts_rank</td><td>Не нужен отдельный search engine</td></tr>
+        <tr><td>Vector search</td><td>pgvector + MiniLM-L6-v2 (384d)</td><td>Самая маленькая хорошая модель, CPU OK</td></tr>
+        <tr><td>Embeddings</td><td>sentence-transformers (local) или DeepSeek</td><td>Local: ~2 сек/doc. API: $0.001/1000</td></tr>
+        <tr><td>MCP Server</td><td>sborka-career-mcp + 4 new tools</td><td>PyPI, SSE transport</td></tr>
+        <tr><td>Frontend</td><td>sborka.work (React+Vite)</td><td>Добавить /jobs и /profile pages</td></tr>
+        <tr><td>Telegram Bot</td><td>@Sborka_work_bot</td><td>Добавить /postjob, /mymatches</td></tr>
+        <tr><td>Aggregation</td><td>AsyncIO + APScheduler</td><td>Nightly hh.ru sync, hourly TG parse</td></tr>
+        <tr><td>LLM</td><td>DeepSeek V3 / GLM-4.7-Flash</td><td>$0.14/1M или бесплатно</td></tr>
+        <tr><td>Deploy</td><td>Docker Compose on RUVDS</td><td>$0 доп. затрат</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="font-size: 0.85rem; color: var(--stone-500);">Дополнительные ресурсы: ~300MB RAM (pgvector + MiniLM model). Масштабирование до 50,000 листингов на одном VPS.</p>
+</section>
+
+<footer>
+  <span>СБОРКА Matching Engine Research &mdash; Feb 2026</span>
+  <span class="mono" style="font-size: 0.75rem;">sborka.work</span>
+</footer>
+
+</body>
+</html>

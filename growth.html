@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>СБОРКА Matching Engine — Стратегия роста</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --emerald-900: #064e3b; --emerald-700: #047857; --emerald-600: #059669;
+  --emerald-500: #10b981; --emerald-400: #34d399; --emerald-100: #d1fae5;
+  --amber-900: #78350f; --amber-700: #b45309; --amber-600: #d97706;
+  --amber-500: #f59e0b; --amber-400: #fbbf24; --amber-200: #fde68a; --amber-100: #fef3c7;
+  --cream: #fffbeb; --ivory: #fefce8; --warm-white: #fdf8f0;
+  --stone-900: #1c1917; --stone-800: #292524; --stone-700: #44403c;
+  --stone-600: #57534e; --stone-500: #78716c; --stone-400: #a8a29e;
+  --stone-300: #d6d3d1; --stone-200: #e7e5e4; --stone-100: #f5f5f4;
+  --violet-600: #7c3aed; --violet-100: #ede9fe;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: var(--warm-white); color: var(--stone-800); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+nav { position: sticky; top: 0; z-index: 100; background: rgba(253,248,240,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--stone-200); padding: 0.75rem 2rem; }
+nav .inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+nav .logo { font-weight: 800; font-size: 1.1rem; color: var(--emerald-900); text-decoration: none; letter-spacing: -0.03em; }
+nav .logo span { color: var(--amber-600); }
+nav .links { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+nav .links a { padding: 0.4rem 0.9rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; font-weight: 500; color: var(--stone-600); transition: all 0.2s; }
+nav .links a:hover { background: var(--emerald-100); color: var(--emerald-700); }
+nav .links a.active { background: var(--emerald-900); color: white; }
+
+.hero { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 3rem; }
+.hero .badge { display: inline-block; background: linear-gradient(135deg, var(--violet-600), var(--emerald-600)); color: white; padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.5rem; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; color: var(--stone-900); margin-bottom: 1rem; }
+.hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--violet-600), var(--emerald-600)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.hero .subtitle { font-size: 1.15rem; color: var(--stone-600); max-width: 700px; line-height: 1.7; }
+
+section { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+.section-label { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--violet-600); background: var(--violet-100); padding: 0.25rem 0.75rem; border-radius: 4px; margin-bottom: 1rem; }
+section h2 { font-size: 1.8rem; font-weight: 800; letter-spacing: -0.02em; color: var(--stone-900); margin-bottom: 0.75rem; }
+section h3 { font-size: 1.2rem; font-weight: 700; color: var(--stone-800); margin: 2rem 0 1rem; }
+section p { color: var(--stone-600); max-width: 800px; margin-bottom: 1rem; }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin: 1.5rem 0; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin: 1.5rem 0; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+
+.card { background: white; border: 1px solid var(--stone-200); border-radius: 16px; padding: 1.75rem; transition: all 0.3s; }
+.card:hover { border-color: var(--emerald-400); box-shadow: 0 8px 30px rgba(5,150,105,0.08); transform: translateY(-2px); }
+.card h4 { font-size: 1.05rem; font-weight: 700; color: var(--stone-900); margin-bottom: 0.5rem; }
+.card p { font-size: 0.9rem; color: var(--stone-600); margin-bottom: 0; }
+.card .stat { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; color: var(--emerald-600); margin-bottom: 0.25rem; }
+
+.table-wrapper { overflow-x: auto; margin: 1.5rem 0; border-radius: 12px; border: 1px solid var(--stone-200); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+thead { background: var(--stone-900); }
+thead th { padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: white; white-space: nowrap; }
+tbody tr { border-bottom: 1px solid var(--stone-200); }
+tbody tr:last-child { border: none; }
+tbody tr:hover { background: var(--ivory); }
+td { padding: 0.65rem 1rem; color: var(--stone-700); }
+td:first-child { font-weight: 600; color: var(--stone-900); }
+.tag { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+.tag.green { background: var(--emerald-100); color: var(--emerald-700); }
+.tag.amber { background: var(--amber-100); color: var(--amber-700); }
+.tag.red { background: #fee2e2; color: #b91c1c; }
+.tag.violet { background: var(--violet-100); color: var(--violet-600); }
+
+.insight { background: linear-gradient(135deg, var(--emerald-900), var(--stone-900)); color: white; border-radius: 16px; padding: 2rem; margin: 2rem 0; position: relative; overflow: hidden; }
+.insight::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%); border-radius: 50%; }
+.insight h3 { color: var(--amber-400); margin-top: 0; font-size: 1rem; letter-spacing: 0.05em; text-transform: uppercase; }
+.insight p { color: rgba(255,255,255,0.85); max-width: none; }
+.insight strong { color: var(--amber-300); }
+
+.sep { width: 60px; height: 3px; background: linear-gradient(90deg, var(--violet-600), var(--emerald-500)); border-radius: 2px; margin: 1.5rem 0; }
+
+/* FLYWHEEL */
+.flywheel {
+  background: var(--stone-900);
+  border-radius: 16px;
+  padding: 2.5rem;
+  margin: 2rem 0;
+  color: white;
+  text-align: center;
+}
+.flywheel-ring {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.flywheel-step {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 0.75rem 1.25rem;
+  min-width: 160px;
+  font-size: 0.8rem;
+  position: relative;
+}
+.flywheel-step.green { border-color: var(--emerald-400); background: rgba(16,185,129,0.1); }
+.flywheel-step.amber { border-color: var(--amber-400); background: rgba(251,191,36,0.1); }
+.flywheel-step.violet { border-color: #a78bfa; background: rgba(167,139,250,0.1); }
+.flywheel-step .num { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--stone-500); }
+.flywheel-step .label { font-weight: 700; font-size: 0.85rem; margin-top: 0.15rem; }
+.flywheel-arrow { display: flex; align-items: center; color: var(--stone-500); font-size: 1.2rem; }
+
+/* ROADMAP */
+.roadmap { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+.phase {
+  background: white;
+  border-radius: 16px;
+  padding: 1.75rem;
+  border: 1px solid var(--stone-200);
+  position: relative;
+}
+.phase::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 16px 16px 0 0;
+}
+.phase.p1::before { background: var(--emerald-500); }
+.phase.p2::before { background: var(--amber-500); }
+.phase.p3::before { background: var(--violet-600); }
+.phase.p4::before { background: var(--stone-500); }
+.phase .phase-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.phase.p1 .phase-label { color: var(--emerald-600); }
+.phase.p2 .phase-label { color: var(--amber-600); }
+.phase.p3 .phase-label { color: var(--violet-600); }
+.phase.p4 .phase-label { color: var(--stone-500); }
+.phase h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+.phase ul { font-size: 0.82rem; color: var(--stone-600); padding-left: 1.1rem; line-height: 1.9; }
+.phase .metric {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--stone-200);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--stone-500);
+}
+
+/* SCENARIO BARS */
+.scenario-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.scenario-label {
+  min-width: 140px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.scenario-bar-bg {
+  flex: 1;
+  height: 36px;
+  background: var(--stone-100);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+.scenario-bar {
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: white;
+  transition: width 1s ease;
+}
+
+/* WEB3 CARDS */
+.web3-card {
+  background: white;
+  border: 1px solid var(--stone-200);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+}
+.web3-card .status {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px solid var(--stone-200); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--stone-500); }
+
+@media (max-width: 768px) {
+  .hero { padding: 2.5rem 1.25rem 2rem; }
+  section { padding: 2rem 1.25rem; }
+  nav { padding: 0.75rem 1rem; }
+  .scenario-row { flex-direction: column; align-items: flex-start; }
+  .scenario-label { min-width: auto; }
+  .scenario-bar-bg { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="index.html" class="logo">СБОРКА<span>.</span>research</a>
+    <div class="links">
+      <a href="index.html">Ландшафт рынка</a>
+      <a href="architecture.html">Архитектура</a>
+      <a href="growth.html" class="active">Стратегия роста</a>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge">Growth Strategy / February 2026</div>
+  <h1>От 26 к 1000+:<br><em>Стратегия роста</em></h1>
+  <p class="subtitle">Cold start тактики, SEO-маховик, LLMO/MCP growth loops, Web3 потенциал, unit economics и 4-фазный roadmap.</p>
+</div>
+
+<!-- COLD START -->
+<section>
+  <span class="section-label">01 / Cold Start</span>
+  <h2>Как гиганты решали chicken-and-egg</h2>
+
+  <div class="grid-3">
+    <div class="card">
+      <h4>Uber</h4>
+      <p style="margin-bottom: 0.5rem;"><strong>Hard side first (drivers).</strong> Cold-called black car services, guaranteed $30/hr. City-by-city с hyperlocal density.</p>
+      <p style="font-size: 0.8rem; color: var(--emerald-600);"><strong>Для СБОРКИ:</strong> Seed supply (вакансии) через агрегацию hh.ru + TG каналов</p>
+    </div>
+    <div class="card">
+      <h4>Airbnb</h4>
+      <p style="margin-bottom: 0.5rem;"><strong>Supply seeding через события.</strong> Конференции с sold-out отелями. Cross-posting Craigslist. Фото хостов бесплатно.</p>
+      <p style="font-size: 0.8rem; color: var(--emerald-600);"><strong>Для СБОРКИ:</strong> Вебинары + живые встречи = события для привлечения обеих сторон</p>
+    </div>
+    <div class="card">
+      <h4>Tinder</h4>
+      <p style="margin-bottom: 0.5rem;"><strong>Manufactured demand через exclusivity.</strong> Campus-by-campus, sorority-fraternity паринг, FOMO.</p>
+      <p style="font-size: 0.8rem; color: var(--emerald-600);"><strong>Для СБОРКИ:</strong> "СБОРКА Verified" badge как эксклюзив для прошедших mock-интервью</p>
+    </div>
+  </div>
+
+  <h3>Atomic Network СБОРКИ</h3>
+  <p>По Andrew Chen: <strong>Atomic Network</strong> &mdash; минимальная сеть, дающая standalone ценность. Для СБОРКИ: один работодатель с открытыми ролями + достаточно квалифицированных кандидатов в нише.</p>
+
+  <div class="insight">
+    <h3>Преимущество СБОРКИ: обе стороны уже есть</h3>
+    <p>В отличие от чистого стартапа, у СБОРКИ <strong>26 CRM-пользователей</strong> (соискатели) и связи с работодателями через карьерный коучинг. Cold start problem реален, но смягчён. Стратегия: <strong>Supply-First с синтетической ликвидностью</strong> &mdash; агрегируем 5,000-15,000 вакансий с HH.ru в день 1, marketplace выглядит полным.</p>
+  </div>
+
+  <h3>14 тактик NFX для СБОРКИ</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>#</th><th>Тактика</th><th>Применение для СБОРКИ</th><th>Усилие</th><th>Импакт</th><th>Срок</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Hard side first</td><td>Агрегируем HH.ru + TG вакансии, "Apply via СБОРКА"</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">High</span></td><td>Нед 1-2</td></tr>
+        <tr><td>2</td><td>Tight niche</td><td>Старт с 3 ролей: marketing, product, analytics</td><td><span class="tag green">Low</span></td><td><span class="tag green">High</span></td><td>Нед 1</td></tr>
+        <tr><td>3</td><td>Subsidize valuable side</td><td>Бесплатные вакансии для первых 50 работодателей</td><td><span class="tag green">Low</span></td><td><span class="tag green">High</span></td><td>Нед 2</td></tr>
+        <tr><td>4</td><td>Make supply look bigger</td><td>Агрегация HH + Habr + SuperJob через API</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">High</span></td><td>Нед 2-3</td></tr>
+        <tr><td>7</td><td>SaaS tool for one side</td><td>Бесплатный resume builder / career assessment</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">High</span></td><td>Нед 3-4</td></tr>
+        <tr><td>8</td><td>Find one giant user</td><td>Партнёрство с кадровым агентством (100+ вакансий)</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">Very High</span></td><td>Нед 2-3</td></tr>
+        <tr><td>9</td><td>Don't change behavior</td><td>Работодатели постят на HH, мы агрегируем + AI matching</td><td><span class="tag green">Low</span></td><td><span class="tag green">High</span></td><td>Нед 2</td></tr>
+        <tr><td>11</td><td>Product first, marketplace later</td><td>Bot + 150 статей + подкаст = продукт. NOW open marketplace</td><td><span class="tag green">Done</span></td><td><span class="tag green">High</span></td><td>Now</td></tr>
+        <tr><td>12</td><td>Connect by hand</td><td>Вручную свести первые 50 кандидатов с вакансиями</td><td><span class="tag red">High</span></td><td><span class="tag green">Very High</span></td><td>Нед 2-4</td></tr>
+        <tr><td>13</td><td>Buyers are sellers</td><td>Соискатели сегодня = hiring managers завтра. Career club loop</td><td><span class="tag green">Low</span></td><td><span class="tag amber">Medium</span></td><td>Ongoing</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- SEO FLYWHEEL -->
+<section>
+  <span class="section-label">02 / SEO + LLMO</span>
+  <h2>Content Flywheel</h2>
+  <p>Каждая вакансия = индексируемая страница. Каждое резюме = индексируемый профиль. HH.ru получает 40M+ визитов/мес в основном через эту стратегию.</p>
+
+  <div class="flywheel">
+    <div style="font-size: 0.75rem; color: var(--stone-500); margin-bottom: 1.5rem; letter-spacing: 0.1em; text-transform: uppercase;">SEO + MCP Flywheel</div>
+    <div class="flywheel-ring">
+      <div class="flywheel-step green">
+        <div class="num">01</div>
+        <div class="label">Jobs Posted</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Employers + aggregation</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step amber">
+        <div class="num">02</div>
+        <div class="label">Indexed Pages</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">JobPosting Schema.org</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step violet">
+        <div class="num">03</div>
+        <div class="label">Traffic</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Google for Jobs + MCP agents</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step green">
+        <div class="num">04</div>
+        <div class="label">Candidates Register</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Profiles created</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step amber">
+        <div class="num">05</div>
+        <div class="label">Better Matches</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">AI improves with data</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step violet">
+        <div class="num">06</div>
+        <div class="label">More Employers</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Attracted by candidates</div>
+      </div>
+    </div>
+    <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--stone-400);">&uarr; Cycle repeats &mdash; each iteration strengthens the flywheel</div>
+  </div>
+
+  <h3>MCP как уникальный канал трафика</h3>
+  <div class="grid-2">
+    <div class="card" style="border-left: 4px solid var(--emerald-500);">
+      <h4>MCP Agent Loop (novel)</h4>
+      <p>AI-агент использует СБОРКА MCP &rarr; возвращает data + CTA &rarr; юзер заходит на sborka.work &rarr; регистрируется &rarr; говорит AI-ассистенту про СБОРКУ &rarr; больше MCP-запросов.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--emerald-600);"><strong>CAC = $0. Ни один конкурент на русском рынке не имеет MCP.</strong></p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--amber-500);">
+      <h4>Salary Data Strategy (Glassdoor model)</h4>
+      <p>HH.ru API &rarr; компиляция зарплатных данных по роли/городу/грейду &rarr; красивые визуализации на sborka.work &rarr; viral sharing (люди любят проверять зарплаты) &rarr; СМИ цитируют &rarr; LLMO authority.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--amber-600);"><strong>Зарплатные данные &mdash; самый виральный карьерный контент.</strong></p>
+    </div>
+  </div>
+
+  <h3>LLMO Чеклист</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Действие</th><th>Статус</th><th>Приоритет</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>robots.txt для AI crawlers (GPTBot, ClaudeBot, etc.)</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
+        <tr><td>llms.txt на sborka.work</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
+        <tr><td>Schema.org Organization + Service + FAQ</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
+        <tr><td>150 knowledge articles</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
+        <tr><td>MCP server на PyPI + registries</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
+        <tr><td>Публикации на vc.ru, Habr (authority)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>Wikipedia mention</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>Salary data reports (viral content)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>Entity optimization (10+ авторитетных источников)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>Тестовые запросы в ChatGPT/Claude/Perplexity</td><td><span class="tag red">Not started</span></td><td><span class="tag amber">Medium</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- WEB3 -->
+<section>
+  <span class="section-label">03 / Web3 Future</span>
+  <h2>Web3 потенциал</h2>
+  <p><strong>Вердикт: НЕ реализовывать сейчас.</strong> 26 юзеров слишком мало для токен-экономики. Регуляторная неопределённость. Marketplace должен работать в Web2 сначала. Но &mdash; проектировать с учётом миграции.</p>
+
+  <div class="grid-3">
+    <div class="web3-card">
+      <span class="status"><span class="tag green">Active</span></span>
+      <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Braintrust</h4>
+      <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Decentralized talent network. BTRST token. 0% fee for talent.</p>
+      <p style="font-size: 0.8rem; color: var(--stone-500);">102K+ talent, Fortune 1000 clients. Pivoted to AI+Web3.</p>
+      <p style="font-size: 0.78rem; color: var(--emerald-600); margin-top: 0.5rem;"><strong>Урок:</strong> Web3 talent marketplace работает at scale, но нужны крупные клиенты + AI pivot</p>
+    </div>
+    <div class="web3-card">
+      <span class="status"><span class="tag amber">Niche</span></span>
+      <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Human Protocol</h4>
+      <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Decentralized data labeling + work distribution. HMT token.</p>
+      <p style="font-size: 0.8rem; color: var(--stone-500);">Smart contract escrow for work. Узкий рынок.</p>
+      <p style="font-size: 0.78rem; color: var(--amber-600); margin-top: 0.5rem;"><strong>Урок:</strong> Escrow работает, но ниша ограничивает рост</p>
+    </div>
+    <div class="web3-card">
+      <span class="status"><span class="tag amber">Early</span></span>
+      <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">TalentLayer</h4>
+      <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">On-chain work history protocol. Cross-platform reputation.</p>
+      <p style="font-size: 0.8rem; color: var(--stone-500);">Portable reputation &mdash; реальная проблема. Adoption пока медленный.</p>
+      <p style="font-size: 0.78rem; color: var(--violet-600); margin-top: 0.5rem;"><strong>Урок:</strong> Protocol layer перспективнее application layer</p>
+    </div>
+  </div>
+
+  <h3>TON интеграция (Phase 4)</h3>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Что готовить сейчас</h4>
+      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
+        <li>Reputation system в Web2 (DB) с миграцией на on-chain</li>
+        <li>TON Connect для опционального wallet auth в TMA</li>
+        <li>POAP-style attendance badges для вебинаров</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Что делать в Phase 4 (6+ мес)</h4>
+      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
+        <li>Soulbound Tokens (SBTs) для верификации навыков</li>
+        <li>Smart contract escrow для фриланс-найма</li>
+        <li>TON Jettons для reputation/rewards</li>
+        <li>TON DNS для профилей (user.sborka.ton)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section>
+  <span class="section-label">04 / Roadmap</span>
+  <h2>4-фазный план реализации</h2>
+
+  <div class="roadmap">
+    <div class="phase p1">
+      <div class="phase-label">Phase 1 &mdash; MVP (2 недели)</div>
+      <h4>"Concierge Marketplace"</h4>
+      <ul>
+        <li>Web-форма: Submit Job на sborka.work/post-job</li>
+        <li>Web-форма: Submit Resume</li>
+        <li>Страница sborka.work/jobs (листинг)</li>
+        <li>MCP tools: submit_job, submit_resume, find_matches</li>
+        <li>Seed: 50 вакансий с HH.ru API</li>
+        <li>Manual matching первых 5 пар</li>
+        <li>Schema.org JobPosting на каждой вакансии</li>
+      </ul>
+      <div class="metric">Target: 10 вакансий, 50 резюме, 5 matches</div>
+    </div>
+
+    <div class="phase p2">
+      <div class="phase-label">Phase 2 &mdash; AI Matching (1 месяц)</div>
+      <h4>Semantic + Dashboard</h4>
+      <ul>
+        <li>LLM semantic matching (Groq free tier)</li>
+        <li>Employer dashboard: кандидаты, scores, контакты</li>
+        <li>Candidate dashboard в TMA: matched jobs, статусы</li>
+        <li>TG bot уведомления: "87% fit для PM at X"</li>
+        <li>Email capture: SEO &rarr; popup &rarr; weekly digest</li>
+        <li>Referral program v1</li>
+        <li>10 salary pages с HH.ru данными</li>
+      </ul>
+      <div class="metric">Target: 50 вакансий, 200 резюме, 20 employers</div>
+    </div>
+
+    <div class="phase p3">
+      <div class="phase-label">Phase 3 &mdash; Verification + Premium (2-3 мес)</div>
+      <h4>Монетизация</h4>
+      <ul>
+        <li>СБОРКА Verified badge (mock-интервью)</li>
+        <li>Premium employer: 5,000 RUB/мес</li>
+        <li>Premium candidate: 1,990 RUB/мес</li>
+        <li>Market analytics dashboard</li>
+        <li>Google for Jobs включение</li>
+        <li>Partnership с 3-5 кадровыми агентствами</li>
+        <li>UGC: 200+ индексируемых страниц</li>
+      </ul>
+      <div class="metric">Target: 200 вакансий, 1,000 резюме, 10 paying employers</div>
+    </div>
+
+    <div class="phase p4">
+      <div class="phase-label">Phase 4 &mdash; Scale + Web3 (6+ мес)</div>
+      <h4>Масштабирование</h4>
+      <ul>
+        <li>API для HR систем (Huntflow, Talantix)</li>
+        <li>TON Connect wallet auth</li>
+        <li>Reputation SBTs</li>
+        <li>Smart contract escrow</li>
+        <li>Yandex Rabota интеграция</li>
+        <li>English version для CIS/remote</li>
+        <li>DAO governance pilot</li>
+      </ul>
+      <div class="metric">Target: 1,000+ вакансий, 5,000+ резюме</div>
+    </div>
+  </div>
+</section>
+
+<!-- UNIT ECONOMICS -->
+<section>
+  <span class="section-label">05 / Unit Economics</span>
+  <h2>Экономика проекта</h2>
+
+  <div class="grid-2">
+    <div>
+      <h3>Затраты (near-zero)</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Статья</th><th>Стоимость/мес</th></tr></thead>
+          <tbody>
+            <tr><td>RUVDS hosting</td><td>450 RUB ($5)</td></tr>
+            <tr><td>Domain + SSL</td><td>~200 RUB (amort.)</td></tr>
+            <tr><td>AI/LLM (Groq free)</td><td>0</td></tr>
+            <tr><td>Tim + Kristina</td><td>0 (existing)</td></tr>
+            <tr><td style="font-weight: 800;">ИТОГО</td><td style="font-weight: 800; color: var(--emerald-600);">~650 RUB/мес</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3>Employer Unit Economics</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Метрика</th><th>Conservative</th><th>Moderate</th></tr></thead>
+          <tbody>
+            <tr><td>CAC</td><td>5,000 RUB</td><td>3,000 RUB</td></tr>
+            <tr><td>ARPU</td><td>5,000 RUB/мес</td><td>7,000 RUB/мес</td></tr>
+            <tr><td>Retention</td><td>60%/мес</td><td>70%/мес</td></tr>
+            <tr><td>LTV</td><td>12,500 RUB</td><td>23,100 RUB</td></tr>
+            <tr><td style="font-weight: 800;">LTV:CAC</td><td style="color: var(--emerald-600); font-weight: 800;">2.5:1</td><td style="color: var(--emerald-600); font-weight: 800;">7.7:1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>Break-even: 5 работодателей</h3>
+    <p>Инфраструктурные затраты <strong>~650 RUB/мес</strong>. При 5 платящих работодателях (5,000 RUB/мес каждый) = <strong>25,000 RUB revenue</strong>. Прибыльность с первых 5 клиентов. Сравните с HH.ru: <strong>63,600 RUB ARPU</strong> при марже <strong>60%</strong>. У СБОРКИ маржа <strong>~95%</strong> при ARPU <strong>37,785 RUB/год</strong>.</p>
+  </div>
+
+  <h3>12-месячные сценарии (MRR)</h3>
+  <div style="margin: 1.5rem 0;">
+    <div class="scenario-row">
+      <div class="scenario-label">Conservative</div>
+      <div class="scenario-bar-bg">
+        <div class="scenario-bar" style="width: 12%; background: linear-gradient(90deg, var(--emerald-600), var(--emerald-400));">420K</div>
+      </div>
+    </div>
+    <div class="scenario-row">
+      <div class="scenario-label">Moderate</div>
+      <div class="scenario-bar-bg">
+        <div class="scenario-bar" style="width: 40%; background: linear-gradient(90deg, var(--amber-600), var(--amber-400));">1.4M RUB</div>
+      </div>
+    </div>
+    <div class="scenario-row">
+      <div class="scenario-label">Aggressive</div>
+      <div class="scenario-bar-bg">
+        <div class="scenario-bar" style="width: 100%; background: linear-gradient(90deg, var(--violet-600), #a78bfa);">3.5M RUB/мес</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Сценарий</th><th>Мес 3</th><th>Мес 6</th><th>Мес 9</th><th>Мес 12</th><th>Seekers</th><th>Employers</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Conservative</td><td>55,920</td><td>175,000</td><td>315,000</td><td style="font-weight: 800;">420,000</td><td>1,200</td><td>80</td></tr>
+        <tr><td>Moderate</td><td>140,000</td><td>420,000</td><td>840,000</td><td style="font-weight: 800; color: var(--amber-600);">1,400,000</td><td>4,000</td><td>250</td></tr>
+        <tr><td>Aggressive</td><td>245,000</td><td>840,000</td><td>2,100,000</td><td style="font-weight: 800; color: var(--violet-600);">3,500,000</td><td>15,000</td><td>800</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TOP ACTIONS -->
+<section>
+  <span class="section-label">06 / Action Items</span>
+  <h2>Топ-10 приоритетных действий</h2>
+
+  <div style="margin: 1.5rem 0;">
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">01</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Форма Submit Job на sborka.work</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Web-форма + API endpoint. Неделя 1.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">02</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Агрегация HH.ru вакансий по нишевым ролям</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Nightly cron + hh_client.py. 5,000-15,000 вакансий в день 1. Неделя 1-2.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">03</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Schema.org JobPosting на всех вакансиях</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Google for Jobs включение. JSON-LD, individual URLs. Неделя 2.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">04</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">MCP tools: submit_job, submit_resume, find_matches</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Расширение sborka-career-mcp. PyPI update. Неделя 2.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--amber-600); min-width: 2rem;">05</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Первый salary data report (marketing/product в России)</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Viral content. HH.ru API данные + визуализация. Неделя 2-3.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--amber-600); min-width: 2rem;">06</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Партнёрство с 1 кадровым агентством</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">100+ вакансий для initial supply. "СБОРКА Verified" badge. Неделя 2-3.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--amber-600); min-width: 2rem;">07</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Referral program: пригласи друга &rarr; priority matching</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Viral loop с K-factor 0.3+. Неделя 3.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">08</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Submit MCP в 5+ registries</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Smithery, MCP.so, PulseMCP, Glama, ChatGPT Apps. Неделя 3.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">09</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">3 статьи на vc.ru/Habr о зарплатах и карьере</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">LLMO authority building. Цитирование = LLM рекомендации. Неделя 3-4.</p>
+      </div>
+    </div>
+    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0;">
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">10</span>
+      <div>
+        <h4 style="font-size: 0.95rem;">Employer dashboard на sborka.work/employer</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Просмотр кандидатов, match scores, контакт. Неделя 4.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL INSIGHT -->
+<section>
+  <div class="insight" style="background: linear-gradient(135deg, var(--emerald-900), #1e1b4b);">
+    <h3>Стратегический вывод</h3>
+    <p style="font-size: 1.1rem; line-height: 1.8;">
+      СБОРКА может стать <strong>первой AI-native двусторонней платформой для русского рынка труда</strong>. Уникальная комбинация: MCP-вход для машин (ноль конкурентов), semantic matching (vs keyword у HH), community verification (живые встречи), и near-zero infrastructure cost ($5/мес). Break-even при 5 работодателях. Potential: <strong>до 3.5M RUB/мес MRR</strong> за 12 месяцев (aggressive). Phase 1 MVP &mdash; 2 недели.
+    </p>
+  </div>
+</section>
+
+<footer>
+  <span>СБОРКА Matching Engine Research &mdash; Feb 2026</span>
+  <span class="mono" style="font-size: 0.75rem;">sborka.work</span>
+</footer>
+
+</body>
+</html>
