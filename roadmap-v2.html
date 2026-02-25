@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>СБОРКА Matching Engine — Roadmap V2</title>
+<title>СБОРКА Matching Engine — Roadmap V2 (MCP-first)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -123,12 +123,13 @@ tr:hover { background: var(--stone-100); }
 
 /* TIMELINE */
 .timeline { position: relative; padding-left: 2rem; margin: 1.5rem 0; }
-.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--emerald-400), var(--amber-400), var(--violet-500), var(--rose-500)); }
+.timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--emerald-400), var(--amber-400), var(--violet-500), var(--blue-600), var(--rose-500)); }
 .tl-item { position: relative; padding: 0.75rem 0 1.5rem; }
 .tl-dot { position: absolute; left: -2rem; top: 0.85rem; width: 18px; height: 18px; border-radius: 50%; border: 3px solid; background: white; }
 .tl-dot.e { border-color: var(--emerald-500); }
 .tl-dot.a { border-color: var(--amber-500); }
 .tl-dot.v { border-color: var(--violet-500); }
+.tl-dot.b { border-color: var(--blue-600); }
 .tl-dot.r { border-color: var(--rose-500); }
 .tl-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
 .tl-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.2rem; }
@@ -160,69 +161,142 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
 </nav>
 
 <div class="hero">
-  <div class="badge">Roadmap V2 &bull; Февраль 2026</div>
-  <h1>От кода к деньгам<br>за <em>5 спринтов</em></h1>
-  <p class="subtitle">Конкретный план: что кодим в каждом спринте, какие файлы трогаем, что деливерим, когда начинаем зарабатывать. Отправная точка для всех будущих ТЗ и спецификаций.</p>
+  <div class="badge">Roadmap V2 &bull; MCP-first &bull; Февраль 2026</div>
+  <h1>MCP — это продукт.<br><em>5 спринтов</em> до revenue.</h1>
+  <p class="subtitle">MCP-сервер уже на PyPI и mcp.sborka.work. Не строим с нуля — расширяем. Каждый спринт: конкретные файлы, SQL, MCP-тулы, deliverable. Модель Dice: бесплатный MCP для соискателей, работодатели платят за доступ к кандидатам.</p>
 </div>
 
 <!-- SECTION 1: EXISTING ASSETS -->
 <section>
   <span class="sl e">01 / Что у нас есть</span>
   <h2>Инвентаризация платформы</h2>
-  <p>Прежде чем писать код — зафиксируем, что уже работает. СБОРКА не стартует с нуля: у нас production-ready инфраструктура с 878 тестами.</p>
+  <p>Главный актив #1 — работающий MCP-сервер на PyPI с 5 тулами и публичный endpoint mcp.sborka.work. Это не MVP, это уже production. Расширяем, не пересоздаём.</p>
 
   <div class="inv-grid">
+    <div class="inv-item" style="border: 2px solid var(--violet-500);"><div class="val v">5</div><div class="lbl">MCP-тулов на PyPI</div></div>
+    <div class="inv-item" style="border: 2px solid var(--violet-500);"><div class="val v">LIVE</div><div class="lbl">mcp.sborka.work</div></div>
     <div class="inv-item"><div class="val e">878</div><div class="lbl">Тестов в боте</div></div>
     <div class="inv-item"><div class="val a">150</div><div class="lbl">SEO-статей</div></div>
-    <div class="inv-item"><div class="val v">5</div><div class="lbl">MCP-тулов</div></div>
     <div class="inv-item"><div class="val e">20+</div><div class="lbl">Таблиц в PostgreSQL</div></div>
-    <div class="inv-item"><div class="val a">10</div><div class="lbl">Ролей в HH-кэше</div></div>
-    <div class="inv-item"><div class="val v">3</div><div class="lbl">Тарифа (4.9K-15.9K)</div></div>
+    <div class="inv-item"><div class="val a">3</div><div class="lbl">Тарифа (4.9K-15.9K)</div></div>
   </div>
 
   <div class="table-wrapper">
     <table>
-      <thead><tr><th>Компонент</th><th>Стек</th><th>Статус</th><th>Переиспользуем</th></tr></thead>
+      <thead><tr><th>Компонент</th><th>Стек</th><th>Статус</th><th>Роль в MCP-first</th></tr></thead>
       <tbody>
-        <tr><td><strong>Сборка Ворг бот</strong></td><td>Python, FastAPI, Aiogram 3, PostgreSQL</td><td><span class="tag g">LIVE</span></td><td>Хэндлеры, модели, buddy-matching, оплата</td></tr>
-        <tr><td><strong>sborka.work</strong></td><td>React 18, Vite, TypeScript, Tailwind v4</td><td><span class="tag g">LIVE</span></td><td>150 статей, Schema.org, sitemap, llms.txt</td></tr>
-        <tr><td><strong>sborka-career-mcp</strong></td><td>FastMCP 3.0, Python, HH.ru API</td><td><span class="tag a">PyPI</span></td><td>salary_data, market_trends, resume_review</td></tr>
-        <tr><td><strong>Telegram Mini App v2</strong></td><td>React 19, TypeScript, Vite</td><td><span class="tag a">Built</span></td><td>Dashboard, leaderboard, activity feed шаблоны</td></tr>
-        <tr><td><strong>Buddy Matching</strong></td><td>Python (gamification/buddy.py)</td><td><span class="tag g">LIVE</span></td><td><strong>Алгоритм паринга — основа для job matching!</strong></td></tr>
-        <tr><td><strong>Tribute Payments</strong></td><td>Webhook + idempotency table</td><td><span class="tag g">LIVE</span></td><td>Гейтинг фич по тарифу — используем as-is</td></tr>
-        <tr><td><strong>HH.ru кэш</strong></td><td>JSON, 10 ролей × 4 грейда × 4 города</td><td><span class="tag g">LIVE</span></td><td>Зарплаты, навыки, работодатели</td></tr>
-        <tr><td><strong>Admin CRM</strong></td><td>FastAPI, порт 8686</td><td><span class="tag g">LIVE</span></td><td>Управление пользователями, рассылки</td></tr>
+        <tr style="background: var(--violet-100);">
+          <td><strong>sborka-career-mcp</strong></td>
+          <td>FastMCP 3.0, Python, HH.ru API</td>
+          <td><span class="tag v">PyPI + LIVE</span></td>
+          <td><strong>ЯДРО ПРОДУКТА.</strong> salary_data, market_trends, resume_review, career_advice, interview_prep</td>
+        </tr>
+        <tr style="background: var(--violet-100);">
+          <td><strong>mcp.sborka.work</strong></td>
+          <td>FastMCP SSE endpoint</td>
+          <td><span class="tag v">LIVE</span></td>
+          <td><strong>Публичный endpoint.</strong> AI-агенты подключаются по URL</td>
+        </tr>
+        <tr>
+          <td><strong>Сборка Ворг бот</strong></td>
+          <td>Python, FastAPI, Aiogram 3, PostgreSQL</td>
+          <td><span class="tag g">LIVE</span></td>
+          <td>@Sborka_work_bot — human interface к тем же данным</td>
+        </tr>
+        <tr>
+          <td><strong>sborka.work</strong></td>
+          <td>React 18, Vite, TypeScript, Tailwind v4</td>
+          <td><span class="tag g">LIVE</span></td>
+          <td>150 статей, Schema.org, sitemap, llms.txt, /jobs страница</td>
+        </tr>
+        <tr>
+          <td><strong>Buddy Matching</strong></td>
+          <td>Python (gamification/buddy.py)</td>
+          <td><span class="tag g">LIVE</span></td>
+          <td>Алгоритм паринга — основа для job matching</td>
+        </tr>
+        <tr>
+          <td><strong>Tribute Payments</strong></td>
+          <td>Webhook + idempotency table</td>
+          <td><span class="tag g">LIVE</span></td>
+          <td>Гейтинг фич по тарифу (до перехода на ЮKassa)</td>
+        </tr>
+        <tr>
+          <td><strong>HH.ru кэш</strong></td>
+          <td>JSON, 10 ролей x 4 грейда x 4 города</td>
+          <td><span class="tag g">LIVE</span></td>
+          <td>Зарплаты, навыки, работодатели — фид для MCP</td>
+        </tr>
+        <tr>
+          <td><strong>Admin CRM</strong></td>
+          <td>FastAPI, порт 8686</td>
+          <td><span class="tag g">LIVE</span></td>
+          <td>Управление пользователями, рассылки</td>
+        </tr>
       </tbody>
     </table>
   </div>
 
   <div class="insight">
-    <h3>Ключевой инсайт</h3>
-    <p>У нас уже есть <strong>buddy-matching алгоритм</strong> (gamification/buddy.py), который парит пользователей по схожести. Это <strong>готовый паттерн для job matching</strong> — расширяем similarity_score() с учётом навыков, зарплаты, локации. Не пишем matching с нуля — расширяем существующий.</p>
+    <h3>MCP-first = Product-first</h3>
+    <p>У нас уже есть <strong>5 MCP-тулов на PyPI</strong> и <strong>mcp.sborka.work endpoint</strong>. Это не фича — это <strong>сам продукт</strong>. AI-агенты (Claude, Cursor, Windsurf, Cline) уже могут подключиться и получить зарплатные данные. Sprint 1 не «создаёт» MCP, а <strong>расширяет</strong> его: добавляет search_jobs, post_job, get_salary_data, засевает 500+ вакансий. Бот и сайт — это UI к MCP-данным, не наоборот.</p>
   </div>
 </section>
 
 <!-- SECTION 2: THE 5-SPRINT PLAN -->
 <section>
-  <span class="sl v">02 / План: 5 спринтов</span>
+  <span class="sl v">02 / План: 5 спринтов (MCP-first)</span>
   <h2>Каждый спринт = 3-4 часа кодинга</h2>
-  <p>Реалистичная разбивка. Каждый спринт имеет конкретные файлы, SQL, endpoints и deliverable. Спринт 1 можно запустить сегодня.</p>
+  <p>MCP Core &rarr; Discoverable &rarr; Intelligent &rarr; Monetizable &rarr; Scalable. Каждый спринт начинается с MCP-тулов, затем добавляет web/bot UI поверх тех же данных.</p>
 
   <!-- SPRINT 1 -->
   <div class="sprint s1">
     <div class="sprint-header" onclick="toggleSprint(this)">
       <div>
-        <div class="sprint-num" style="color: var(--emerald-600);">Sprint 1 — День 1</div>
-        <div class="sprint-title">Matchable: Ядро matching engine</div>
+        <div class="sprint-num" style="color: var(--emerald-600);">Sprint 1 — День 1 (3-4ч)</div>
+        <div class="sprint-title">MCP Core: расширяем sborka-career-mcp</div>
       </div>
       <div class="sprint-meta">
         <span>3-4 часа</span>
-        <span>Opus 4.6</span>
         <span>$0 доп. расходов</span>
       </div>
     </div>
     <div class="sprint-body">
-      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Минимальный matching: 2 новые таблицы, TF-IDF алгоритм, 3 команды бота. Пользователь вводит навыки → получает топ-5 вакансий с match score.</p>
+      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Не создаём MCP с нуля — расширяем существующий пакет на PyPI. Добавляем 3 новых тула (search_jobs, post_job, get_salary_data), создаём SQL-таблицы для вакансий и матчей, засеваем 500+ позиций из HH.ru API автоматически.</p>
+
+      <h4 style="margin: 1.25rem 0 0.5rem;">Новые MCP-тулы (добавляем к существующим 5)</h4>
+      <div class="code-block">
+<span class="comment"># sborka-career-mcp/tools/ — расширяем существующий пакет</span>
+
+<span class="keyword">@mcp.tool</span>()
+<span class="keyword">async def</span> search_jobs(
+    skills: list[str],
+    salary_min: int | None = None,
+    location: str | None = None,
+    limit: int = 10
+) -> list[dict]:
+    <span class="string">"""Search jobs by skills, salary range, and location.
+    Returns top matches with relevance score."""</span>
+    ...
+
+<span class="keyword">@mcp.tool</span>()
+<span class="keyword">async def</span> post_job(
+    title: str, company: str, skills: list[str],
+    salary_min: int, salary_max: int,
+    location: str, description: str
+) -> dict:
+    <span class="string">"""Post a new job vacancy. Returns job ID and URL."""</span>
+    ...
+
+<span class="keyword">@mcp.tool</span>()
+<span class="keyword">async def</span> get_salary_data(
+    role: str, city: str = <span class="string">"Москва"</span>,
+    grade: str = <span class="string">"middle"</span>
+) -> dict:
+    <span class="string">"""Get salary statistics for a role/city/grade.
+    Sources: HH.ru API + СБОРКА cache (160 combinations)."""</span>
+    ...
+      </div>
 
       <h4 style="margin: 1.25rem 0 0.5rem;">База данных</h4>
       <div class="code-block">
@@ -230,7 +304,7 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
 
 <span class="keyword">CREATE TABLE</span> jobs (
     id <span class="keyword">SERIAL PRIMARY KEY</span>,
-    source <span class="keyword">VARCHAR</span>(50) <span class="keyword">DEFAULT</span> <span class="string">'manual'</span>,  <span class="comment">-- manual / hh_ru / telegram</span>
+    source <span class="keyword">VARCHAR</span>(50) <span class="keyword">DEFAULT</span> <span class="string">'manual'</span>,  <span class="comment">-- manual / hh_ru / mcp</span>
     source_id <span class="keyword">VARCHAR</span>(100),           <span class="comment">-- ID на источнике (hh.ru vacancy_id)</span>
     company_name <span class="keyword">VARCHAR</span>(200),
     title <span class="keyword">VARCHAR</span>(300) <span class="keyword">NOT NULL</span>,
@@ -239,7 +313,7 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
     salary_min <span class="keyword">INTEGER</span>,
     salary_max <span class="keyword">INTEGER</span>,
     location <span class="keyword">VARCHAR</span>(200),
-    url <span class="keyword">VARCHAR</span>(500),               <span class="comment">-- ссылка на оригинал</span>
+    url <span class="keyword">VARCHAR</span>(500),
     is_active <span class="keyword">BOOLEAN DEFAULT TRUE</span>,
     created_at <span class="keyword">TIMESTAMP DEFAULT NOW</span>()
 );
@@ -249,7 +323,7 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
     job_id <span class="keyword">INTEGER REFERENCES</span> jobs(id),
     user_id <span class="keyword">BIGINT REFERENCES</span> users(telegram_id),
     score <span class="keyword">FLOAT NOT NULL</span>,
-    status <span class="keyword">VARCHAR</span>(30) <span class="keyword">DEFAULT</span> <span class="string">'sent'</span>,  <span class="comment">-- sent/interested/applied/rejected</span>
+    status <span class="keyword">VARCHAR</span>(30) <span class="keyword">DEFAULT</span> <span class="string">'sent'</span>,
     created_at <span class="keyword">TIMESTAMP DEFAULT NOW</span>(),
     <span class="keyword">UNIQUE</span>(job_id, user_id)
 );
@@ -260,15 +334,14 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
 
       <h4 style="margin: 1.25rem 0 0.5rem;">Задачи</h4>
       <ul class="task-list">
+        <li>Расширить sborka-career-mcp: 3 новых тула (search_jobs, post_job, get_salary_data) <span class="time">~45 мин</span> <span class="file">sborka-career-mcp/tools/</span></li>
         <li>Alembic миграция: 2 новые таблицы (jobs, matches) <span class="time">~15 мин</span> <span class="file">models/job.py</span></li>
         <li>SQLAlchemy модели: Job, Match <span class="time">~15 мин</span> <span class="file">models/job.py</span></li>
-        <li>Matching engine: TF-IDF + skills overlap + salary fit <span class="time">~45 мин</span> <span class="file">matching/engine.py</span></li>
-        <li>FastAPI endpoints: POST /jobs, GET /jobs, POST /match/{user_id} <span class="time">~30 мин</span> <span class="file">api/routes/jobs.py</span></li>
-        <li>Telegram: /find_job (ввод навыков → показ матчей) <span class="time">~30 мин</span> <span class="file">bot/handlers/matching.py</span></li>
-        <li>Telegram: /post_job (работодатель постит вакансию) <span class="time">~20 мин</span> <span class="file">bot/handlers/matching.py</span></li>
-        <li>Telegram: inline-кнопки "Интересно" / "Пропустить" на матчах <span class="time">~15 мин</span></li>
-        <li>Seed: 20 вакансий вручную из HH кэша <span class="time">~10 мин</span> <span class="file">scripts/seed_jobs.py</span></li>
-        <li>Тесты: test_matching_engine.py (10 тестов) <span class="time">~20 мин</span> <span class="file">tests/test_matching.py</span></li>
+        <li>HH.ru API импортер: 15 ключевых запросов, автозаполнение 500+ вакансий <span class="time">~30 мин</span> <span class="file">matching/hh_importer.py</span></li>
+        <li>Matching engine: TF-IDF + skills overlap + salary fit <span class="time">~30 мин</span> <span class="file">matching/engine.py</span></li>
+        <li>Обновить mcp.sborka.work endpoint (redeploy) <span class="time">~10 мин</span></li>
+        <li>Bump PyPI версия sborka-career-mcp <span class="time">~5 мин</span></li>
+        <li>Тесты: MCP tools + matching engine (12 тестов) <span class="time">~20 мин</span> <span class="file">tests/test_mcp_tools.py</span></li>
         <li>Docker build + deploy RUVDS <span class="time">~15 мин</span></li>
       </ul>
 
@@ -279,7 +352,7 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
 
 <span class="keyword">def</span> compute_match(candidate_skills: list, candidate_salary: int,
                    job: dict) -> float:
-    <span class="comment">"""Гибридный scoring: TF-IDF + skills + salary."""</span>
+    <span class="string">"""Гибридный scoring: TF-IDF + skills + salary."""</span>
     <span class="comment"># 1. Text similarity (50%)</span>
     texts = [<span class="string">' '</span>.join(candidate_skills),
              f"<span class="string">{job['title']} {job['description']} {' '.join(job['skills'])}</span>"]
@@ -308,7 +381,12 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
 
       <div class="deliverable">
         <h5>Deliverable Sprint 1</h5>
-        <p>Рабочий Telegram-бот: пользователь вводит навыки → получает топ-5 вакансий с % совпадения. Работодатель через /post_job добавляет вакансию. 20 seed-вакансий в системе. 10 новых тестов.</p>
+        <p>mcp.sborka.work имеет 8+ тулов (5 существующих + 3 новых). 500+ вакансий из HH.ru доступны через search_jobs. PyPI пакет обновлён. AI-агенты могут искать вакансии и получать зарплатные данные прямо сейчас.</p>
+      </div>
+
+      <div class="revenue-box">
+        <h5>Revenue: $0 (строим supply)</h5>
+        <p>Этот спринт — инвестиция в supply side. 500+ вакансий = контент для привлечения соискателей и основа для продажи работодателям. MCP-тулы = канал дистрибуции через AI-агенты.</p>
       </div>
     </div>
   </div>
@@ -317,39 +395,56 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
   <div class="sprint s2">
     <div class="sprint-header" onclick="toggleSprint(this)">
       <div>
-        <div class="sprint-num" style="color: var(--amber-600);">Sprint 2 — День 2-3</div>
-        <div class="sprint-title">Discoverable: HH.ru импорт + веб-каталог</div>
+        <div class="sprint-num" style="color: var(--amber-600);">Sprint 2 — День 2-3 (3-4ч)</div>
+        <div class="sprint-title">Discoverable: web + MCP каталоги + бот</div>
       </div>
       <div class="sprint-meta">
         <span>3-4 часа</span>
-        <span>Opus 4.6</span>
-        <span>$0 доп. расходов</span>
+        <span>CTA revenue</span>
       </div>
     </div>
     <div class="sprint-body">
-      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Решаем cold start: автоимпорт 500+ вакансий из HH.ru API. Публичная страница вакансий на sborka.work с Schema.org JobPosting. Google for Jobs + GEO-оптимизация.</p>
+      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Делаем MCP и вакансии обнаруживаемыми: sborka.work/jobs для людей, Schema.org JobPosting для Google, .well-known/mcp для AI, каталоги MCP для дистрибуции. Бот-команды в Сборка Ворг как human-интерфейс.</p>
 
       <ul class="task-list">
-        <li>HH.ru API клиент: поиск вакансий по 15 ключевым запросам <span class="time">~30 мин</span> <span class="file">matching/hh_importer.py</span></li>
-        <li>Cron-задача: ежедневный импорт + дедупликация по source_id <span class="time">~20 мин</span> <span class="file">matching/hh_importer.py</span></li>
-        <li>Маппинг навыков: JSON-файл 200 IT-навыков с синонимами <span class="time">~20 мин</span> <span class="file">matching/skills_taxonomy.json</span></li>
-        <li>Веб-страница /jobs на sborka.work (React компонент) <span class="time">~40 мин</span> <span class="file">sborka/src/pages/Jobs.tsx</span></li>
+        <li>sborka.work/jobs — HTML-страница каталога вакансий (для людей) <span class="time">~40 мин</span> <span class="file">sborka/src/pages/Jobs.tsx</span></li>
         <li>Schema.org JobPosting JSON-LD на каждой вакансии <span class="time">~15 мин</span></li>
-        <li>Telegram-уведомления: "3 новых матча" при появлении релевантных <span class="time">~20 мин</span></li>
-        <li>API endpoint: GET /api/jobs с фильтрами (skills, salary, location) <span class="time">~15 мин</span></li>
+        <li>Обновить llms.txt — добавить информацию о job-тулах <span class="time">~10 мин</span> <span class="file">sborka/public/llms.txt</span></li>
+        <li>Добавить .well-known/mcp/server.json (стандарт MCP discovery) <span class="time">~10 мин</span> <span class="file">sborka/public/.well-known/mcp/server.json</span></li>
+        <li>Регистрация в MCP-каталогах: Smithery, Apify, mcp.run, Glama <span class="time">~20 мин</span></li>
+        <li>Бот-команды в Сборка Ворг: /find_job, /post_job <span class="time">~30 мин</span> <span class="file">bot/handlers/matching.py</span></li>
+        <li>Inline-кнопки в боте: "Интересно" / "Пропустить" на матчах <span class="time">~15 мин</span></li>
         <li>Sitemap обновление (добавить /jobs/* маршруты) <span class="time">~10 мин</span></li>
-        <li>Тесты: hh_importer, skills_taxonomy (8 тестов) <span class="time">~15 мин</span></li>
-        <li>Deploy: бот + сайт <span class="time">~15 мин</span></li>
+        <li>CTA карьерного клуба на каждой вакансии (sborka.work) <span class="time">~10 мин</span></li>
+        <li>Тесты: bot handlers, Schema.org output (8 тестов) <span class="time">~15 мин</span></li>
+        <li>Deploy: MCP + бот + сайт <span class="time">~15 мин</span></li>
       </ul>
+
+      <h4 style="margin: 1.25rem 0 0.5rem;">.well-known/mcp/server.json</h4>
+      <div class="code-block">
+{
+  <span class="string">"name"</span>: <span class="string">"sborka-career-mcp"</span>,
+  <span class="string">"description"</span>: <span class="string">"Career intelligence for Russian IT market"</span>,
+  <span class="string">"url"</span>: <span class="string">"https://mcp.sborka.work"</span>,
+  <span class="string">"transport"</span>: <span class="string">"sse"</span>,
+  <span class="string">"tools"</span>: [
+    <span class="string">"salary_data"</span>, <span class="string">"market_trends"</span>, <span class="string">"resume_review"</span>,
+    <span class="string">"career_advice"</span>, <span class="string">"interview_prep"</span>,
+    <span class="string">"search_jobs"</span>, <span class="string">"post_job"</span>, <span class="string">"get_salary_data"</span>
+  ],
+  <span class="string">"pypi"</span>: <span class="string">"sborka-career-mcp"</span>,
+  <span class="string">"docs"</span>: <span class="string">"https://sborka.work/llms.txt"</span>
+}
+      </div>
 
       <div class="deliverable">
         <h5>Deliverable Sprint 2</h5>
-        <p>500+ вакансий в системе (HH.ru импорт). Публичная страница sborka.work/jobs с Schema.org. Автоматические Telegram-нотификации при новых матчах. Google for Jobs индексация.</p>
+        <p>Dual interface live: sborka.work/jobs для людей (с Schema.org, Google for Jobs индексация), mcp.sborka.work для AI-агентов. Бот-команды /find_job и /post_job в @Sborka_work_bot. MCP зарегистрирован в 4+ каталогах.</p>
       </div>
 
       <div class="revenue-box">
-        <h5>Точка монетизации #1</h5>
-        <p>CTA на каждой вакансии: "Хочешь подготовиться к собеседованию? → Карьерный клуб СБОРКА от 4 900 ₽". Конверсия 2-3% от органического трафика на /jobs → первые оплаты через существующий Tribute.</p>
+        <h5>Точка монетизации #1: Career Club CTA</h5>
+        <p>CTA на каждой странице вакансии: "Хочешь подготовиться к собеседованию? Карьерный клуб СБОРКА от 4 900 ₽/мес". Конверсия 2-3% от органики на /jobs. Первые оплаты через существующий Tribute.</p>
       </div>
     </div>
   </div>
@@ -358,37 +453,52 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
   <div class="sprint s3">
     <div class="sprint-header" onclick="toggleSprint(this)">
       <div>
-        <div class="sprint-num" style="color: var(--violet-600);">Sprint 3 — День 4-5</div>
-        <div class="sprint-title">Intelligent: Резюме + семантический matching</div>
+        <div class="sprint-num" style="color: var(--violet-600);">Sprint 3 — День 4-5 (3-4ч)</div>
+        <div class="sprint-title">Intelligent: резюме + семантический matching</div>
       </div>
       <div class="sprint-meta">
         <span>3-4 часа</span>
-        <span>Opus 4.6</span>
-        <span>$0 доп. расходов</span>
+        <span>990 ₽/ревью</span>
       </div>
     </div>
     <div class="sprint-body">
-      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Приём резюме через бот (текст / PDF). Улучшение matching: sentence-transformers для семантики. AI-ревью резюме как freemium-тул.</p>
+      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Приём резюме (текст + PDF), sentence-transformers для семантического matching (MiniLM-L6-v2, CPU, 80MB). AI-ревью резюме: бесплатный базовый, платный детальный. 2 новых MCP-тула: submit_resume, review_resume.</p>
 
       <ul class="task-list">
-        <li>Приём резюме в боте: /submit_resume (текст или PDF) <span class="time">~30 мин</span> <span class="file">bot/handlers/resume.py</span></li>
-        <li>PDF-парсинг: pyresparser или простой PyPDF2 + текстовый анализ <span class="time">~25 мин</span> <span class="file">matching/resume_parser.py</span></li>
+        <li>MCP-тул: submit_resume (принять резюме, вернуть матчи) <span class="time">~25 мин</span> <span class="file">sborka-career-mcp/tools/resume.py</span></li>
+        <li>MCP-тул: review_resume (AI-ревью, бесплатный/платный) <span class="time">~25 мин</span> <span class="file">sborka-career-mcp/tools/resume.py</span></li>
         <li>Таблица resumes (user_id, raw_text, parsed_skills, parsed_salary) <span class="time">~15 мин</span> <span class="file">models/resume.py</span></li>
-        <li>Улучшенный scoring: sentence-transformers (all-MiniLM-L6-v2, 80MB, CPU) <span class="time">~30 мин</span> <span class="file">matching/engine.py</span></li>
-        <li>AI Resume Review: бесплатный базовый + платный детальный <span class="time">~25 мин</span> <span class="file">matching/resume_review.py</span></li>
-        <li>Веб-форма "Загрузить резюме" на sborka.work <span class="time">~20 мин</span> <span class="file">sborka/src/pages/SubmitResume.tsx</span></li>
-        <li>MCP: добавить match_resume и search_jobs тулы <span class="time">~20 мин</span> <span class="file">sborka-career-mcp/tools/</span></li>
-        <li>Тесты: resume parsing, semantic matching (8 тестов) <span class="time">~15 мин</span></li>
+        <li>PDF-парсинг: PyPDF2 + текстовый анализ навыков <span class="time">~25 мин</span> <span class="file">matching/resume_parser.py</span></li>
+        <li>Улучшенный scoring: sentence-transformers (all-MiniLM-L6-v2, CPU) <span class="time">~30 мин</span> <span class="file">matching/engine.py</span></li>
+        <li>AI Resume Review: бесплатный (score + 3 совета), платный (20+ рекомендаций) <span class="time">~20 мин</span> <span class="file">matching/resume_review.py</span></li>
+        <li>Бот: /submit_resume в @Sborka_work_bot (текст или PDF) <span class="time">~20 мин</span> <span class="file">bot/handlers/resume.py</span></li>
+        <li>Bump PyPI + redeploy mcp.sborka.work <span class="time">~10 мин</span></li>
+        <li>Тесты: resume parsing, semantic matching, MCP tools (10 тестов) <span class="time">~20 мин</span></li>
       </ul>
+
+      <h4 style="margin: 1.25rem 0 0.5rem;">Semantic matching</h4>
+      <div class="code-block">
+<span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer
+
+<span class="comment"># all-MiniLM-L6-v2: 80MB, CPU-only, понимает семантику</span>
+<span class="comment"># "data scientist" ≈ "ML engineer" (cosine ~0.82)</span>
+model = SentenceTransformer(<span class="string">'all-MiniLM-L6-v2'</span>)
+
+<span class="keyword">def</span> semantic_match(resume_text: str, job_descriptions: list[str]) -> list[float]:
+    resume_emb = model.encode([resume_text])
+    job_embs = model.encode(job_descriptions)
+    scores = cosine_similarity(resume_emb, job_embs)[0]
+    <span class="keyword">return</span> scores.tolist()
+      </div>
 
       <div class="deliverable">
         <h5>Deliverable Sprint 3</h5>
-        <p>Двусторонний маркетплейс: вакансии + резюме. Семантический matching понимает "data scientist" ≈ "ML engineer". AI-ревью резюме как lead magnet. 2 новых MCP-тула.</p>
+        <p>Полный matching pipeline: вакансии + резюме + семантика. 10+ MCP-тулов на mcp.sborka.work. AI-агенты могут отправить резюме и получить матчи + ревью. "data scientist" находит "ML engineer" вакансии.</p>
       </div>
 
       <div class="revenue-box">
-        <h5>Точка монетизации #2</h5>
-        <p>AI Resume Review: базовый (score + 3 совета) бесплатно. Детальный (20+ рекомендаций, переписывание summary) = 990 ₽ разово или включён в СТАРТ (4 900 ₽/мес). Конверсия: каждый 5-й загрузивший резюме покупает детальный ревью.</p>
+        <h5>Точка монетизации #2: AI Resume Review</h5>
+        <p>Базовый (score + 3 совета) — бесплатно через MCP и бот. Детальный (20+ рекомендаций, переписывание summary) = 990 ₽ разово. Конверсия: каждый 5-й загрузивший резюме покупает детальный ревью.</p>
       </div>
     </div>
   </div>
@@ -397,38 +507,51 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
   <div class="sprint s4">
     <div class="sprint-header" onclick="toggleSprint(this)">
       <div>
-        <div class="sprint-num" style="color: var(--blue-600);">Sprint 4 — Неделя 2</div>
-        <div class="sprint-title">Monetizable: Работодатели + платные фичи</div>
+        <div class="sprint-num" style="color: var(--blue-600);">Sprint 4 — Неделя 2 (3-4ч)</div>
+        <div class="sprint-title">Monetizable: работодатели + оплата</div>
       </div>
       <div class="sprint-meta">
         <span>3-4 часа</span>
-        <span>Opus 4.6</span>
         <span>Первые прямые продажи</span>
       </div>
     </div>
     <div class="sprint-body">
-      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Работодательская сторона: дашборд, просмотр кандидатов, promoted вакансии. Cold outreach к 50 HR-менеджерам.</p>
+      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Employer side: регистрация + дашборд на sborka.work. Два варианта оплаты: T-Bank платёжные ссылки (zero code, day 1) и ЮKassa (Python SDK, автоматизация). Cold outreach к 50 HR-контактам.</p>
 
       <ul class="task-list">
-        <li>Employer registration flow: /register_employer в боте <span class="time">~25 мин</span> <span class="file">bot/handlers/employer.py</span></li>
+        <li>Employer registration на sborka.work (web-форма) <span class="time">~30 мин</span> <span class="file">sborka/src/pages/Employer.tsx</span></li>
+        <li>Employer dashboard: мои вакансии + кандидаты + match scores <span class="time">~35 мин</span> <span class="file">api/routes/employer.py</span></li>
         <li>Таблица employers (company_name, contact, plan, is_verified) <span class="time">~10 мин</span> <span class="file">models/employer.py</span></li>
-        <li>Employer dashboard: мои вакансии + кандидаты + match scores <span class="time">~40 мин</span> <span class="file">api/routes/employer.py</span></li>
-        <li>Promoted vacancy: флаг is_promoted + сортировка выше <span class="time">~15 мин</span></li>
-        <li>Оплата promoted: 2 000 ₽/вакансия через Tribute <span class="time">~20 мин</span></li>
-        <li>Status tracking: matched → applied → reviewed → interview → hired <span class="time">~20 мин</span></li>
-        <li>Telegram: уведомления работодателю о новых кандидатах <span class="time">~15 мин</span></li>
-        <li>Cold outreach шаблон: 50 HR через LinkedIn/Telegram <span class="time">~20 мин</span> <span class="file">scripts/outreach_template.md</span></li>
-        <li>Тесты: employer flow (6 тестов) <span class="time">~15 мин</span></li>
+        <li>T-Bank платёжные ссылки (zero code, сразу в production) <span class="time">~15 мин</span></li>
+        <li>ЮKassa интеграция (Python SDK: yookassa-payments) <span class="time">~30 мин</span> <span class="file">payments/yukassa.py</span></li>
+        <li>Promoted vacancy: is_promoted + приоритетная выдача, 2 000 ₽/шт <span class="time">~15 мин</span></li>
+        <li>Telegram: уведомления работодателю через @Sborka_work_bot <span class="time">~15 мин</span></li>
+        <li>Cold outreach: шаблон + 50 HR через LinkedIn/Telegram <span class="time">~20 мин</span> <span class="file">scripts/outreach_template.md</span></li>
+        <li>Тесты: employer flow, payment webhooks (8 тестов) <span class="time">~15 мин</span></li>
       </ul>
+
+      <h4 style="margin: 1.25rem 0 0.5rem;">Сравнение платёжных систем</h4>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Параметр</th><th>T-Bank ссылки</th><th>ЮKassa SDK</th><th>Tribute (текущий)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Интеграция</strong></td><td>0 кода — ссылка в браузере</td><td>Python SDK, webhook</td><td>Уже работает</td></tr>
+            <tr><td><strong>Комиссия</strong></td><td>2.49%</td><td>3.5% (карты)</td><td>~10%</td></tr>
+            <tr><td><strong>Подписки</strong></td><td>Нет</td><td>Да (recurring)</td><td>Да</td></tr>
+            <tr><td><strong>Когда использовать</strong></td><td>Day 1 — первые продажи</td><td>Sprint 5 — автоматизация</td><td>Career club (пока)</td></tr>
+            <tr><td><strong>Юрлицо нужно?</strong></td><td>Нет (самозанятый)</td><td>Да (ИП/ООО)</td><td>Нет</td></tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="deliverable">
         <h5>Deliverable Sprint 4</h5>
-        <p>Полноценный двусторонний маркетплейс. Работодатель регистрируется → постит вакансию → видит кандидатов с score → приглашает. Promoted вакансии за 2 000 ₽. Cold outreach к 50 компаниям.</p>
+        <p>Работодатели регистрируются на sborka.work, постят вакансии, видят кандидатов с match score, платят за promoted (2 000 ₽). T-Bank ссылки для мгновенной оплаты. Cold outreach запущен к 50 компаниям.</p>
       </div>
 
       <div class="revenue-box">
         <h5>Прогноз первого месяца</h5>
-        <p>5 promoted вакансий × 2 000 ₽ = 10 000 ₽. 3 детальных ревью × 990 ₽ = 2 970 ₽. 2 подписки СТАРТ × 4 900 ₽ = 9 800 ₽. <strong>Итого: ~22 770 ₽ (~$250)</strong> при нулевых доп. затратах.</p>
+        <p>5 promoted вакансий x 2 000 ₽ = 10 000 ₽. 3 детальных ревью x 990 ₽ = 2 970 ₽. 2 подписки СТАРТ x 4 900 ₽ = 9 800 ₽. <strong>Итого: ~22 770 ₽ (~$250)</strong> при нулевых доп. затратах.</p>
       </div>
     </div>
   </div>
@@ -437,38 +560,38 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
   <div class="sprint s5">
     <div class="sprint-header" onclick="toggleSprint(this)">
       <div>
-        <div class="sprint-num" style="color: var(--rose-500);">Sprint 5 — Неделя 2-3</div>
-        <div class="sprint-title">Scalable: Подписки + MCP + аналитика</div>
+        <div class="sprint-num" style="color: var(--rose-500);">Sprint 5 — Неделя 2-3 (3-4ч)</div>
+        <div class="sprint-title">Scalable: подписки + API keys + SEO</div>
       </div>
       <div class="sprint-meta">
         <span>3-4 часа</span>
-        <span>Opus 4.6</span>
         <span>Регулярный revenue</span>
       </div>
     </div>
     <div class="sprint-body">
-      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Подписочная модель для работодателей. Полный MCP с matching. Дашборд аналитики. Интеграция всех 150 статей с вакансиями.</p>
+      <p style="font-size: 0.9rem; color: var(--stone-600); margin: 1rem 0;">Подписочная модель для работодателей через ЮKassa (9 900 ₽/мес). Rate limiting и API keys для MCP. Programmatic SEO (city+role страницы). Аналитика. 4 новых MCP-тула (итого 14+).</p>
 
       <ul class="task-list">
-        <li>Employer subscription: Бизнес 9 900 ₽/мес (безлимит + MCP) <span class="time">~25 мин</span></li>
-        <li>MCP: 4 новых тула (search_jobs, match_resume, get_salary, career_advice) <span class="time">~30 мин</span> <span class="file">sborka-career-mcp/tools/</span></li>
-        <li>Rate limiting MCP: free = 5 req/day, paid = unlimited <span class="time">~15 мин</span></li>
-        <li>Analytics dashboard: matches/day, conversion, top skills, salary trends <span class="time">~30 мин</span> <span class="file">api/routes/analytics.py</span></li>
-        <li>Статьи ↔ вакансии: deep links ("Python interview prep" → Python jobs) <span class="time">~20 мин</span></li>
-        <li>Programmatic SEO: auto-generated "/jobs/python-developer-moscow" pages <span class="time">~25 мин</span></li>
-        <li>Performance: Redis кэш для matching scores <span class="time">~15 мин</span></li>
-        <li>Тесты: MCP, analytics, subscription (8 тестов) <span class="time">~15 мин</span></li>
-        <li>Регистрация обновлённого MCP на Apify + Smithery <span class="time">~10 мин</span></li>
+        <li>Employer subscription: 9 900 ₽/мес через ЮKassa recurring <span class="time">~25 мин</span> <span class="file">payments/yukassa.py</span></li>
+        <li>4 новых MCP-тула: company_insights, interview_questions, skill_gap_analysis, job_alerts <span class="time">~30 мин</span> <span class="file">sborka-career-mcp/tools/</span></li>
+        <li>Rate limiting MCP: free = 10 req/day, employer API key = unlimited <span class="time">~20 мин</span></li>
+        <li>API keys: генерация, валидация, dashboard <span class="time">~20 мин</span> <span class="file">api/routes/api_keys.py</span></li>
+        <li>Analytics dashboard: matches/day, conversion, top skills, salary trends <span class="time">~25 мин</span> <span class="file">api/routes/analytics.py</span></li>
+        <li>Programmatic SEO: auto-generated /jobs/python-developer-moscow <span class="time">~25 мин</span></li>
+        <li>Статьи &harr; вакансии: deep links (150 статей ведут в /jobs) <span class="time">~15 мин</span></li>
+        <li>Bump PyPI (v2.0) + redeploy mcp.sborka.work <span class="time">~10 мин</span></li>
+        <li>Обновить регистрации в MCP-каталогах (14+ тулов) <span class="time">~10 мин</span></li>
+        <li>Тесты: subscriptions, rate limiting, API keys, analytics (10 тестов) <span class="time">~20 мин</span></li>
       </ul>
 
       <div class="deliverable">
         <h5>Deliverable Sprint 5 = V1.0</h5>
-        <p>Полная платформа: matching, резюме, вакансии (500+ из HH), работодатели, подписки, MCP с 9 тулами, programmatic SEO, аналитика. Готов к масштабированию.</p>
+        <p>Полная платформа: 14+ MCP-тулов на mcp.sborka.work, 500+ вакансий, matching, резюме, работодатели, подписки через ЮKassa, API keys, programmatic SEO, аналитика. MCP зарегистрирован в 5+ каталогах. Готов к масштабированию.</p>
       </div>
 
       <div class="revenue-box">
         <h5>Target к концу месяца 2</h5>
-        <p>10 promoted вакансий (20K ₽) + 5 ревью (5K ₽) + 3 employer subs (30K ₽) + 5 career club (35K ₽) = <strong>~90 000 ₽/мес (~$1 000)</strong>. При 0 рекламных расходов.</p>
+        <p>10 promoted вакансий (20K ₽) + 10 ревью (10K ₽) + 3 employer subs (30K ₽) + 5 career club (35K ₽) = <strong>~95 000 ₽/мес (~$1 050)</strong>. При 0 рекламных расходов.</p>
       </div>
     </div>
   </div>
@@ -478,111 +601,117 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
 <section>
   <span class="sl a">03 / Таймлайн</span>
   <h2>Когда что появляется</h2>
-  <p>Визуальный roadmap. Зелёное — инфраструктура. Янтарное — контент и трафик. Фиолетовое — монетизация. Розовое — масштабирование.</p>
+  <p>Визуальный roadmap. Зелёное — MCP core. Янтарное — дистрибуция. Фиолетовое — интеллект. Синее — монетизация. Розовое — масштабирование.</p>
 
   <div class="timeline">
     <div class="tl-item">
       <div class="tl-dot e"></div>
-      <div class="tl-label" style="color: var(--emerald-600);">День 1 (Sprint 1)</div>
-      <div class="tl-title">Matching engine живой в Telegram</div>
-      <div class="tl-desc">2 таблицы, TF-IDF + skills matching, /find_job и /post_job, 20 seed-вакансий</div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-dot e"></div>
-      <div class="tl-label" style="color: var(--emerald-600);">День 2-3 (Sprint 2)</div>
-      <div class="tl-title">500+ вакансий + sborka.work/jobs</div>
-      <div class="tl-desc">HH.ru автоимпорт, публичная страница, Schema.org, Google for Jobs, нотификации</div>
+      <div class="tl-label" style="color: var(--emerald-600);">День 1 (Sprint 1) — MCP Core</div>
+      <div class="tl-title">8+ MCP-тулов, 500+ вакансий из HH.ru</div>
+      <div class="tl-desc">Расширяем существующий MCP на PyPI. search_jobs, post_job, get_salary_data. SQL таблицы. HH.ru автоимпорт.</div>
     </div>
     <div class="tl-item">
       <div class="tl-dot a"></div>
-      <div class="tl-label" style="color: var(--amber-600);">День 4-5 (Sprint 3)</div>
-      <div class="tl-title">Резюме + AI ревью + 2 новых MCP-тула</div>
-      <div class="tl-desc">Загрузка резюме, sentence-transformers, бесплатный/платный ревью, match_resume MCP</div>
+      <div class="tl-label" style="color: var(--amber-600);">День 2-3 (Sprint 2) — Discoverable</div>
+      <div class="tl-title">sborka.work/jobs + MCP каталоги + бот</div>
+      <div class="tl-desc">Web-каталог с Schema.org, .well-known/mcp, 4+ MCP-каталога, /find_job и /post_job в @Sborka_work_bot.</div>
     </div>
     <div class="tl-item">
       <div class="tl-dot v"></div>
-      <div class="tl-label" style="color: var(--violet-600);">Неделя 2 (Sprint 4)</div>
-      <div class="tl-title">Работодатели + первые деньги</div>
-      <div class="tl-desc">Employer dashboard, promoted вакансии (2K ₽), cold outreach к 50 HR. Первый revenue.</div>
+      <div class="tl-label" style="color: var(--violet-600);">День 4-5 (Sprint 3) — Intelligent</div>
+      <div class="tl-title">Резюме + AI ревью + semantic matching</div>
+      <div class="tl-desc">submit_resume и review_resume MCP-тулы. MiniLM-L6-v2 на CPU. 10+ тулов. 990 ₽/ревью.</div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot b"></div>
+      <div class="tl-label" style="color: var(--blue-600);">Неделя 2 (Sprint 4) — Monetizable</div>
+      <div class="tl-title">Работодатели + T-Bank + ЮKassa + первые деньги</div>
+      <div class="tl-desc">Employer dashboard, promoted вакансии (2K ₽), два платёжных канала, cold outreach к 50 HR.</div>
     </div>
     <div class="tl-item">
       <div class="tl-dot r"></div>
-      <div class="tl-label" style="color: var(--rose-500);">Неделя 2-3 (Sprint 5)</div>
-      <div class="tl-title">V1.0: Подписки + MCP + аналитика</div>
-      <div class="tl-desc">Employer subs (9.9K ₽/мес), 9 MCP-тулов, programmatic SEO, analytics. Target: ~$1K MRR</div>
+      <div class="tl-label" style="color: var(--rose-500);">Неделя 2-3 (Sprint 5) — Scalable</div>
+      <div class="tl-title">V1.0: 14+ MCP-тулов, подписки, API keys, SEO</div>
+      <div class="tl-desc">Employer subs (9.9K ₽/мес via ЮKassa), rate limiting, programmatic SEO, analytics. Target: ~$1K MRR</div>
     </div>
   </div>
 </section>
 
 <!-- SECTION 4: COLD START -->
 <section>
-  <span class="sl b">04 / Cold Start решение</span>
+  <span class="sl b">04 / Cold Start: MCP + агрегация</span>
   <h2>Откуда берутся вакансии и люди</h2>
-  <p>Chicken-and-egg problem решается тремя тактиками: агрегация (supply), single-player tools (demand), контент-маховик (growth).</p>
+  <p>Chicken-and-egg problem решается MCP-first: AI-агенты приносят трафик без маркетинга. HH.ru агрегация даёт supply с Day 1. Контент-маховик масштабирует.</p>
 
   <div class="grid-3">
-    <div class="card" style="border-top: 4px solid var(--emerald-500);">
-      <h4>Supply: Агрегация</h4>
-      <p style="margin-bottom: 0.75rem;">500+ вакансий с Day 2 без единого работодателя.</p>
+    <div class="card" style="border-top: 4px solid var(--violet-500);">
+      <h4>MCP: AI-агенты как канал</h4>
+      <p style="margin-bottom: 0.75rem;">AI-агенты (Claude, Cursor, Cline) ищут вакансии через MCP — бесплатная дистрибуция.</p>
       <ul style="list-style: none; padding: 0; font-size: 0.82rem; color: var(--stone-600);">
-        <li style="padding: 0.2rem 0;">&#8226; HH.ru API: 15 запросов × до 2 000 вакансий</li>
+        <li style="padding: 0.2rem 0;">&#8226; mcp.sborka.work — уже live, подключай и ищи</li>
+        <li style="padding: 0.2rem 0;">&#8226; PyPI: <span class="mono" style="font-size: 0.75rem;">pip install sborka-career-mcp</span></li>
+        <li style="padding: 0.2rem 0;">&#8226; .well-known/mcp — авто-discovery</li>
+        <li style="padding: 0.2rem 0;">&#8226; 5+ каталогов: Smithery, Apify, mcp.run, Glama</li>
+        <li style="padding: 0.2rem 0;">&#8226; llms.txt — LLM-оптимизированное описание</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--emerald-500);">
+      <h4>Supply: HH.ru агрегация</h4>
+      <p style="margin-bottom: 0.75rem;">500+ вакансий с Day 1 без единого работодателя.</p>
+      <ul style="list-style: none; padding: 0; font-size: 0.82rem; color: var(--stone-600);">
+        <li style="padding: 0.2rem 0;">&#8226; HH.ru API: 15 запросов x до 2 000 вакансий</li>
         <li style="padding: 0.2rem 0;">&#8226; Ежедневный cron: синхронизация + дедупликация</li>
         <li style="padding: 0.2rem 0;">&#8226; Атрибуция: "Вакансия с HH.ru" + link back</li>
         <li style="padding: 0.2rem 0;">&#8226; Добавленная ценность: match score + salary context</li>
       </ul>
     </div>
     <div class="card" style="border-top: 4px solid var(--amber-500);">
-      <h4>Demand: Single-player tools</h4>
-      <p style="margin-bottom: 0.75rem;">"Приди ради инструмента, останься ради сети".</p>
+      <h4>Growth: контент-маховик</h4>
+      <p style="margin-bottom: 0.75rem;">150 статей + programmatic SEO + GEO = органика.</p>
       <ul style="list-style: none; padding: 0; font-size: 0.82rem; color: var(--stone-600);">
-        <li style="padding: 0.2rem 0;">&#8226; AI Resume Review (бесплатный базовый)</li>
-        <li style="padding: 0.2rem 0;">&#8226; Зарплатный калькулятор (HH.ru данные)</li>
-        <li style="padding: 0.2rem 0;">&#8226; Career Health Check (квиз + рекомендации)</li>
-        <li style="padding: 0.2rem 0;">&#8226; 150 SEO-статей с CTA на matching</li>
-      </ul>
-    </div>
-    <div class="card" style="border-top: 4px solid var(--violet-500);">
-      <h4>Growth: Контент-маховик</h4>
-      <p style="margin-bottom: 0.75rem;">Органический рост через SEO + GEO + MCP.</p>
-      <ul style="list-style: none; padding: 0; font-size: 0.82rem; color: var(--stone-600);">
+        <li style="padding: 0.2rem 0;">&#8226; 150 SEO-статей с CTA на /jobs</li>
         <li style="padding: 0.2rem 0;">&#8226; Programmatic SEO: /jobs/python-moscow</li>
-        <li style="padding: 0.2rem 0;">&#8226; Schema.org JobPosting → Google for Jobs</li>
-        <li style="padding: 0.2rem 0;">&#8226; MCP → AI-агенты ищут через нас</li>
+        <li style="padding: 0.2rem 0;">&#8226; Schema.org JobPosting &rarr; Google for Jobs</li>
         <li style="padding: 0.2rem 0;">&#8226; GEO: зарплатные страницы = LLM-бейт</li>
       </ul>
     </div>
   </div>
+
+  <div class="insight">
+    <h3>Почему MCP — лучший cold start канал</h3>
+    <p>Традиционный job board: купи рекламу &rarr; привлеки соискателей &rarr; покажи работодателям. <strong>MCP-first</strong>: AI-агенты уже ищут карьерные данные. Мы — <strong>единственный карьерный MCP для российского рынка</strong>. Каждый разработчик с Claude/Cursor — потенциальный пользователь. Стоимость привлечения: $0.</p>
+  </div>
 </section>
 
-<!-- SECTION 5: ECONOMICS -->
+<!-- SECTION 5: ECONOMICS (Dice Model) -->
 <section>
-  <span class="sl r">05 / Экономика</span>
-  <h2>Revenue потоки</h2>
-  <p>4 revenue stream'а, от самого быстрого к самому масштабному. Первые деньги — на Sprint 2 (карьерный клуб upsell), регулярные — с Sprint 4.</p>
+  <span class="sl r">05 / Экономика: модель Dice</span>
+  <h2>Бесплатно для соискателей, платно для работодателей</h2>
+  <p>Variant A (Dice model): соискатели используют MCP, бот, сайт бесплатно. Работодатели платят за доступ к кандидатам, promoted вакансии, подписки. Career club — дополнительный stream для продвинутых соискателей.</p>
 
   <div class="table-wrapper">
     <table>
-      <thead><tr><th>Stream</th><th>Когда</th><th>Кто платит</th><th>Цена</th><th>Объём (мес 2)</th><th>Revenue</th></tr></thead>
+      <thead><tr><th>Revenue Stream</th><th>Sprint</th><th>Кто платит</th><th>Цена</th><th>Объём (мес 2)</th><th>Revenue</th></tr></thead>
       <tbody>
         <tr>
-          <td><strong>Карьерный клуб</strong></td>
-          <td><span class="tag g">Sprint 2</span></td>
-          <td>Соискатели</td>
-          <td>4 900 — 15 900 ₽/мес</td>
+          <td><strong>Career Club upsell</strong></td>
+          <td><span class="tag a">Sprint 2</span></td>
+          <td>Соискатели (опционально)</td>
+          <td>4 900 - 15 900 ₽/мес</td>
           <td>5 подписок</td>
           <td class="mono">~35 000 ₽</td>
         </tr>
         <tr>
           <td><strong>AI Resume Review</strong></td>
-          <td><span class="tag a">Sprint 3</span></td>
-          <td>Соискатели</td>
-          <td>990 ₽ разово</td>
+          <td><span class="tag v">Sprint 3</span></td>
+          <td>Соискатели (разово)</td>
+          <td>990 ₽</td>
           <td>10 ревью</td>
           <td class="mono">~10 000 ₽</td>
         </tr>
         <tr>
           <td><strong>Promoted вакансии</strong></td>
-          <td><span class="tag v">Sprint 4</span></td>
+          <td><span class="tag b">Sprint 4</span></td>
           <td>Работодатели</td>
           <td>2 000 ₽/вакансия</td>
           <td>10 promoted</td>
@@ -590,7 +719,7 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
         </tr>
         <tr>
           <td><strong>Employer подписка</strong></td>
-          <td><span class="tag b">Sprint 5</span></td>
+          <td><span class="tag r">Sprint 5</span></td>
           <td>Работодатели</td>
           <td>9 900 ₽/мес</td>
           <td>3 подписки</td>
@@ -604,9 +733,24 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
     </table>
   </div>
 
+  <h3 style="margin: 2rem 0 1rem;">Сравнение платёжных систем</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead><tr><th>Параметр</th><th>Tribute (текущий)</th><th>T-Bank ссылки</th><th>ЮKassa SDK</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Готовность</strong></td><td><span class="tag g">Работает</span></td><td><span class="tag g">Day 1</span></td><td><span class="tag a">Sprint 4-5</span></td></tr>
+        <tr><td><strong>Код</strong></td><td>Webhook готов</td><td>0 строк кода</td><td>Python SDK</td></tr>
+        <tr><td><strong>Комиссия</strong></td><td>~10%</td><td>2.49%</td><td>3.5%</td></tr>
+        <tr><td><strong>Recurring</strong></td><td>Да</td><td>Нет</td><td>Да</td></tr>
+        <tr><td><strong>Юрлицо</strong></td><td>Не нужно</td><td>Самозанятый</td><td>ИП/ООО</td></tr>
+        <tr><td><strong>Используем для</strong></td><td>Career club</td><td>Первые продажи</td><td>Employer subs</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="insight">
-    <h3>Масштабирование через клуб</h3>
-    <p>Главный insight: <strong>matching engine — это воронка для карьерного клуба</strong>. Каждый, кто ищет работу через СБОРКУ, видит: "Хочешь подготовиться к собеседованию в Тинькофф? Карьерный клуб — 4 900 ₽/мес". Matching генерирует intent, клуб монетизирует intent. Работодатели — второй поток, но клуб масштабируется быстрее (не нужен sales team).</p>
+    <h3>Dice model = сетевые эффекты бесплатно</h3>
+    <p>Модель Dice (крупнейший job board США): <strong>соискатели бесплатно</strong>, работодатели платят. Наш MCP — бесплатный инструмент для 1000+ разработчиков с Claude/Cursor. Каждый пользователь MCP = потенциальный кандидат, за доступ к которому <strong>работодатель платит 2 000 - 9 900 ₽</strong>. Чем больше бесплатных пользователей MCP — тем ценнее платформа для работодателей.</p>
   </div>
 </section>
 
@@ -614,7 +758,7 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
 <section>
   <span class="sl e">06 / Скиллы и инструменты</span>
   <h2>Что ускоряет разработку</h2>
-  <p>Проверенные Claude Code скиллы и open-source инструменты для каждой фазы. Результат исследования aitmpl.com, skillsmp.com и GitHub.</p>
+  <p>Проверенные Claude Code скиллы и open-source инструменты для каждой фазы. MCP builder для расширения тулов.</p>
 
   <div class="table-wrapper">
     <table>
@@ -622,32 +766,32 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
       <tbody>
         <tr>
           <td rowspan="3"><span class="tag g">S1</span></td>
-          <td>fastapi-expert</td><td>Jeffallan/claude-skills</td><td>FastAPI паттерны, async, DI, error handling</td>
+          <td>mcp-builder</td><td>jezweb/claude-skills</td><td>MCP server development, FastMCP паттерны</td>
         </tr>
+        <tr><td>fastapi-expert</td><td>Jeffallan/claude-skills</td><td>FastAPI async, DI, error handling</td></tr>
         <tr><td>postgres-pro</td><td>Jeffallan/claude-skills</td><td>Schema design, indexes, GIN arrays</td></tr>
-        <tr><td>domain-driven-design</td><td>antigravity-skills</td><td>Моделирование Job, Candidate, Match</td></tr>
         <tr>
           <td rowspan="3"><span class="tag a">S2</span></td>
           <td>schema-markup</td><td>coreyhaines31/marketingskills</td><td>JobPosting structured data</td>
         </tr>
         <tr><td>programmatic-seo</td><td>coreyhaines31/marketingskills</td><td>Auto-generated job pages</td></tr>
-        <tr><td>parse-hh-data (PyPI)</td><td>PyPI</td><td>HH.ru API парсинг</td></tr>
+        <tr><td>ai-seo</td><td>coreyhaines31/marketingskills</td><td>LLM/GEO optimization, llms.txt</td></tr>
         <tr>
           <td rowspan="3"><span class="tag v">S3</span></td>
-          <td>proficiently-claude-skills</td><td>proficientlyjobs/</td><td>Job search + resume analysis patterns</td>
+          <td>all-MiniLM-L6-v2</td><td>HuggingFace</td><td>Semantic matching (80MB, CPU)</td>
         </tr>
-        <tr><td>pyresparser</td><td>PyPI</td><td>Resume PDF → skills extraction</td></tr>
-        <tr><td>all-MiniLM-L6-v2</td><td>HuggingFace</td><td>Semantic matching (80MB, CPU)</td></tr>
+        <tr><td>proficiently-claude-skills</td><td>proficientlyjobs/</td><td>Job search + resume analysis patterns</td></tr>
+        <tr><td>pyresparser</td><td>PyPI</td><td>Resume PDF &rarr; skills extraction</td></tr>
         <tr>
           <td rowspan="2"><span class="tag b">S4</span></td>
           <td>cold-email</td><td>coreyhaines31/marketingskills</td><td>B2B outreach templates</td>
         </tr>
-        <tr><td>pricing-strategy</td><td>coreyhaines31/marketingskills</td><td>Pricing model optimization</td></tr>
+        <tr><td>yookassa (PyPI)</td><td>PyPI</td><td>Python SDK для ЮKassa payments</td></tr>
         <tr>
           <td rowspan="2"><span class="tag r">S5</span></td>
-          <td>ai-seo</td><td>coreyhaines31/marketingskills</td><td>LLM/GEO optimization</td>
+          <td>pricing-strategy</td><td>coreyhaines31/marketingskills</td><td>Pricing model optimization</td>
         </tr>
-        <tr><td>mcp-builder</td><td>jezweb/claude-skills</td><td>MCP server development</td></tr>
+        <tr><td>domain-driven-design</td><td>antigravity-skills</td><td>Моделирование subscription domain</td></tr>
       </tbody>
     </table>
   </div>
@@ -656,49 +800,49 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; display: flex; j
   <div class="grid-2">
     <div class="card">
       <h4>nofoobar/JobBoard-Fastapi</h4>
-      <p>FastAPI job board с auth, CRUD, PostgreSQL. ~300 stars. Лучший стартовый reference для API-дизайна. <strong>Не форкать</strong> — у нас база зрелее.</p>
+      <p>FastAPI job board с auth, CRUD, PostgreSQL. ~300 stars. Reference для API-дизайна. <strong>Не форкать</strong> — у нас база зрелее.</p>
     </div>
     <div class="card">
       <h4>sentence-transformers</h4>
-      <p>all-MiniLM-L6-v2: 80MB, CPU-only, понимает семантику. "Data scientist" ≈ "ML engineer". Ставится за 30 секунд через pip.</p>
+      <p>all-MiniLM-L6-v2: 80MB, CPU-only. "Data scientist" ≈ "ML engineer". Ставится через pip за 30 секунд.</p>
     </div>
   </div>
 </section>
 
-<!-- SECTION 7: WHAT THIS DOC IS FOR -->
+<!-- SECTION 7: HOW TO USE -->
 <section>
   <span class="sl v">07 / Как использовать этот документ</span>
-  <h2>Отправная точка для всего</h2>
-  <p>Этот roadmap — не одноразовый план. Это живой reference, к которому мы возвращаемся при каждом спринте.</p>
+  <h2>Отправная точка для каждого спринта</h2>
+  <p>Этот roadmap — живой reference. Каждый Sprint = промпт для Claude Code. MCP-тулы — первый приоритет в каждом спринте.</p>
 
   <div class="grid-2">
+    <div class="card" style="border-left: 4px solid var(--violet-500);">
+      <h4>MCP-first правило</h4>
+      <p>В каждом спринте сначала делаем MCP-тулы, потом web/bot UI. Данные — в PostgreSQL. MCP, бот и сайт — три интерфейса к одним данным. MCP — продукт, остальное — обёртка.</p>
+    </div>
     <div class="card" style="border-left: 4px solid var(--emerald-500);">
       <h4>Перед каждым спринтом</h4>
-      <p>Открываем этот документ → находим текущий Sprint → берём task list → каждая задача становится промптом для Opus 4.6. Файлы указаны, время оценено, deliverable ясен.</p>
+      <p>Открываем этот документ, находим текущий Sprint, берём task list. Каждая задача = промпт для Claude Code. Файлы указаны, время оценено, deliverable ясен.</p>
     </div>
     <div class="card" style="border-left: 4px solid var(--amber-500);">
       <h4>Для ТЗ и спецификаций</h4>
-      <p>Каждый Sprint → ТЗ для Claude Code. Формат: "Создай [файл] с [функционалом]. Контекст: [схема из Sprint]. Тесты: [X штук]. Deploy: Docker на RUVDS."</p>
-    </div>
-    <div class="card" style="border-left: 4px solid var(--violet-500);">
-      <h4>Для оценки прогресса</h4>
-      <p>Галочки в task list = прогресс. Deliverable в конце каждого Sprint = checkpoint. Revenue box = target для сверки.</p>
+      <p>Формат: "Расширь sborka-career-mcp: добавь [тул] с [параметрами]. SQL: [схема]. Тесты: [X штук]. Deploy: PyPI + mcp.sborka.work + RUVDS."</p>
     </div>
     <div class="card" style="border-left: 4px solid var(--rose-500);">
       <h4>Для приоритизации</h4>
-      <p>Если времени мало — Sprint 1 и 2 дают 90% ценности. Sprint 3-5 — масштабирование. Каждый Sprint самодостаточен и деливерит работающий продукт.</p>
+      <p>Sprint 1-2 дают 90% ценности (MCP + discovery). Sprint 3-5 — масштабирование и revenue. Каждый Sprint самодостаточен и деливерит работающий продукт.</p>
     </div>
   </div>
 
   <div class="insight">
-    <h3>V1 → V2: Что изменилось</h3>
-    <p>V1 (страница Ревью) давал <strong>общие фазы по месяцам</strong> без конкретики. V2 даёт: <strong>конкретные файлы</strong>, <strong>SQL-схемы</strong>, <strong>код matching engine</strong>, <strong>минуты на каждую задачу</strong>, <strong>revenue target на каждый sprint</strong>. Это не план-мечта — это план-инструкция, которую можно открыть в Claude Code и начать выполнять прямо сейчас.</p>
+    <h3>V1 &rarr; V2 (MCP-first): Что изменилось</h3>
+    <p>V1 начинал с Telegram бот-команд. V2 начинает с <strong>MCP как продукта</strong>: существующие 5 тулов на PyPI и mcp.sborka.work — это стартовая точка, не финальная цель. Sprint 1 расширяет MCP (не создаёт бота). Модель Dice: <strong>бесплатный MCP для соискателей</strong>, работодатели платят за кандидатов. Платежи: T-Bank (day 1) + ЮKassa (автоматизация). Бот @Sborka_work_bot и sborka.work — интерфейсы к MCP-данным.</p>
   </div>
 </section>
 
 <footer>
-  <span>СБОРКА Matching Engine — Roadmap V2 — Feb 2026</span>
-  <span class="mono" style="font-size: 0.75rem;">sborka.work</span>
+  <span>СБОРКА Matching Engine — Roadmap V2 (MCP-first) — Feb 2026</span>
+  <span class="mono" style="font-size: 0.75rem;">mcp.sborka.work &bull; sborka.work</span>
 </footer>
 
 <script>

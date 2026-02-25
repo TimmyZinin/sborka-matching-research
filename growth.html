@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>СБОРКА Matching Engine — Стратегия роста</title>
+<title>СБОРКА Matching Engine — Стратегия роста (MCP-First)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -91,14 +91,14 @@ td:first-child { font-weight: 600; color: var(--stone-900); }
   flex-wrap: wrap;
   justify-content: center;
   gap: 1rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 .flywheel-step {
   border: 2px solid;
   border-radius: 12px;
   padding: 0.75rem 1.25rem;
-  min-width: 160px;
+  min-width: 140px;
   font-size: 0.8rem;
   position: relative;
 }
@@ -188,19 +188,34 @@ td:first-child { font-weight: 600; color: var(--stone-900); }
   transition: width 1s ease;
 }
 
-/* WEB3 CARDS */
-.web3-card {
+/* MCP DISTRIBUTION CARDS */
+.mcp-card {
   background: white;
   border: 1px solid var(--stone-200);
   border-radius: 16px;
   padding: 1.5rem;
   position: relative;
 }
-.web3-card .status {
+.mcp-card .status {
   position: absolute;
   top: 1rem;
   right: 1rem;
 }
+
+/* DICE MODEL */
+.dice-model {
+  background: linear-gradient(135deg, #1e1b4b, var(--stone-900));
+  border-radius: 16px;
+  padding: 2rem;
+  margin: 2rem 0;
+  color: white;
+}
+.dice-model h4 { color: var(--amber-400); font-size: 1rem; margin-bottom: 0.75rem; }
+.dice-model p { color: rgba(255,255,255,0.8); font-size: 0.9rem; max-width: none; }
+.dice-step { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1rem; }
+.dice-step .icon { font-size: 1.5rem; min-width: 2rem; text-align: center; }
+.dice-step .text { font-size: 0.85rem; color: rgba(255,255,255,0.85); }
+.dice-step .text strong { color: var(--amber-300); }
 
 footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px solid var(--stone-200); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--stone-500); }
 
@@ -230,269 +245,285 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
 </nav>
 
 <div class="hero">
-  <div class="badge">Growth Strategy / February 2026</div>
-  <h1>От 26 к 1000+:<br><em>Стратегия роста</em></h1>
-  <p class="subtitle">Cold start тактики, SEO-маховик, LLMO/MCP growth loops, Web3 потенциал, unit economics и 4-фазный roadmap.</p>
+  <div class="badge">MCP-First Growth / February 2026</div>
+  <h1>MCP &mdash; это дистрибуция.<br><em>Стратегия роста</em></h1>
+  <p class="subtitle">MCP как primary growth engine. Каждый AI-агент &mdash; бесплатный канал дистрибуции. Cold start через агрегацию HH.ru. SEO/GEO усиливают, но MCP &mdash; ядро.</p>
 </div>
 
-<!-- COLD START -->
+<!-- 01: MCP DISTRIBUTION -->
 <section>
-  <span class="section-label">01 / Cold Start</span>
-  <h2>Как гиганты решали chicken-and-egg</h2>
-
-  <div class="grid-3">
-    <div class="card">
-      <h4>Uber</h4>
-      <p style="margin-bottom: 0.5rem;"><strong>Hard side first (drivers).</strong> Cold-called black car services, guaranteed $30/hr. City-by-city с hyperlocal density.</p>
-      <p style="font-size: 0.8rem; color: var(--emerald-600);"><strong>Для СБОРКИ:</strong> Seed supply (вакансии) через агрегацию hh.ru + TG каналов</p>
-    </div>
-    <div class="card">
-      <h4>Airbnb</h4>
-      <p style="margin-bottom: 0.5rem;"><strong>Supply seeding через события.</strong> Конференции с sold-out отелями. Cross-posting Craigslist. Фото хостов бесплатно.</p>
-      <p style="font-size: 0.8rem; color: var(--emerald-600);"><strong>Для СБОРКИ:</strong> Вебинары + живые встречи = события для привлечения обеих сторон</p>
-    </div>
-    <div class="card">
-      <h4>Tinder</h4>
-      <p style="margin-bottom: 0.5rem;"><strong>Manufactured demand через exclusivity.</strong> Campus-by-campus, sorority-fraternity паринг, FOMO.</p>
-      <p style="font-size: 0.8rem; color: var(--emerald-600);"><strong>Для СБОРКИ:</strong> "СБОРКА Verified" badge как эксклюзив для прошедших mock-интервью</p>
-    </div>
-  </div>
-
-  <h3>Atomic Network СБОРКИ</h3>
-  <p>По Andrew Chen: <strong>Atomic Network</strong> &mdash; минимальная сеть, дающая standalone ценность. Для СБОРКИ: один работодатель с открытыми ролями + достаточно квалифицированных кандидатов в нише.</p>
+  <span class="section-label">01 / MCP Distribution</span>
+  <h2>MCP &mdash; primary growth channel</h2>
+  <p>30+ job-related MCP серверов глобально, но <strong>ни одного для русского рынка труда</strong>. СБОРКА &mdash; первый и единственный. Каждый AI-агент, каждый Claude/ChatGPT-пользователь, каждый AI-powered HR tool &mdash; это бесплатная точка входа.</p>
 
   <div class="insight">
-    <h3>Преимущество СБОРКИ: обе стороны уже есть</h3>
-    <p>В отличие от чистого стартапа, у СБОРКИ <strong>26 CRM-пользователей</strong> (соискатели) и связи с работодателями через карьерный коучинг. Cold start problem реален, но смягчён. Стратегия: <strong>Supply-First с синтетической ликвидностью</strong> &mdash; агрегируем 5,000-15,000 вакансий с HH.ru в день 1, marketplace выглядит полным.</p>
+    <h3>Ключевой тезис: MCP IS the distribution</h3>
+    <p>Традиционные маркетплейсы платят за трафик. СБОРКА получает его бесплатно: AI-агенты <strong>сами находят и используют</strong> MCP tools. Нет CPC, нет CPM, нет CAC. Пользователь спрашивает AI "найди вакансию в маркетинге в Москве" &rarr; агент вызывает СБОРКА MCP &rarr; пользователь видит результат с брендингом СБОРКИ. <strong>Zero-cost distribution at machine scale.</strong></p>
   </div>
 
-  <h3>14 тактик NFX для СБОРКИ</h3>
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr><th>#</th><th>Тактика</th><th>Применение для СБОРКИ</th><th>Усилие</th><th>Импакт</th><th>Срок</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>1</td><td>Hard side first</td><td>Агрегируем HH.ru + TG вакансии, "Apply via СБОРКА"</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">High</span></td><td>Нед 1-2</td></tr>
-        <tr><td>2</td><td>Tight niche</td><td>Старт с 3 ролей: marketing, product, analytics</td><td><span class="tag green">Low</span></td><td><span class="tag green">High</span></td><td>Нед 1</td></tr>
-        <tr><td>3</td><td>Subsidize valuable side</td><td>Бесплатные вакансии для первых 50 работодателей</td><td><span class="tag green">Low</span></td><td><span class="tag green">High</span></td><td>Нед 2</td></tr>
-        <tr><td>4</td><td>Make supply look bigger</td><td>Агрегация HH + Habr + SuperJob через API</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">High</span></td><td>Нед 2-3</td></tr>
-        <tr><td>7</td><td>SaaS tool for one side</td><td>Бесплатный resume builder / career assessment</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">High</span></td><td>Нед 3-4</td></tr>
-        <tr><td>8</td><td>Find one giant user</td><td>Партнёрство с кадровым агентством (100+ вакансий)</td><td><span class="tag amber">Medium</span></td><td><span class="tag green">Very High</span></td><td>Нед 2-3</td></tr>
-        <tr><td>9</td><td>Don't change behavior</td><td>Работодатели постят на HH, мы агрегируем + AI matching</td><td><span class="tag green">Low</span></td><td><span class="tag green">High</span></td><td>Нед 2</td></tr>
-        <tr><td>11</td><td>Product first, marketplace later</td><td>Bot + 150 статей + подкаст = продукт. NOW open marketplace</td><td><span class="tag green">Done</span></td><td><span class="tag green">High</span></td><td>Now</td></tr>
-        <tr><td>12</td><td>Connect by hand</td><td>Вручную свести первые 50 кандидатов с вакансиями</td><td><span class="tag red">High</span></td><td><span class="tag green">Very High</span></td><td>Нед 2-4</td></tr>
-        <tr><td>13</td><td>Buyers are sellers</td><td>Соискатели сегодня = hiring managers завтра. Career club loop</td><td><span class="tag green">Low</span></td><td><span class="tag amber">Medium</span></td><td>Ongoing</td></tr>
-      </tbody>
-    </table>
+  <h3>Текущее присутствие в MCP-экосистеме</h3>
+  <div class="grid-4">
+    <div class="mcp-card">
+      <span class="status"><span class="tag green">Live</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Smithery</h4>
+      <p style="font-size: 0.82rem;">Крупнейший MCP каталог. Индексация, поиск, автоустановка.</p>
+    </div>
+    <div class="mcp-card">
+      <span class="status"><span class="tag green">Live</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">Glama</h4>
+      <p style="font-size: 0.82rem;">AI-focused registry. Рекомендации агентам.</p>
+    </div>
+    <div class="mcp-card">
+      <span class="status"><span class="tag green">Live</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">mcp.so</h4>
+      <p style="font-size: 0.82rem;">Community-driven каталог. SEO-вес.</p>
+    </div>
+    <div class="mcp-card">
+      <span class="status"><span class="tag green">Live</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">PyPI</h4>
+      <p style="font-size: 0.82rem;">pip install sborka-career-mcp. Стандартный канал.</p>
+    </div>
+  </div>
+
+  <h3>Следующие каталоги для сабмита</h3>
+  <div class="grid-4">
+    <div class="mcp-card">
+      <span class="status"><span class="tag amber">Next</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">PulseMCP</h4>
+      <p style="font-size: 0.82rem;">Growing directory. Weekly newsletter = exposure.</p>
+    </div>
+    <div class="mcp-card">
+      <span class="status"><span class="tag amber">Next</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">mcpservers.org</h4>
+      <p style="font-size: 0.82rem;">Community list. GitHub stars drive ranking.</p>
+    </div>
+    <div class="mcp-card">
+      <span class="status"><span class="tag amber">Next</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">OpenTools</h4>
+      <p style="font-size: 0.82rem;">AI tool aggregator. Cross-links to MCP.</p>
+    </div>
+    <div class="mcp-card">
+      <span class="status"><span class="tag violet">Future</span></span>
+      <h4 style="font-size: 0.95rem; margin-bottom: 0.5rem;">ChatGPT Actions</h4>
+      <p style="font-size: 0.82rem;">OpenAI native. Massive reach when supported.</p>
+    </div>
+  </div>
+
+  <div class="dice-model">
+    <h4>Dice Model: Free MCP &rarr; Employer Revenue</h4>
+    <p style="margin-bottom: 1.25rem;">Dice.com pioneered the model: free job search for candidates, paid listings for employers. СБОРКА applies this to MCP distribution:</p>
+    <div class="dice-step">
+      <div class="icon">1.</div>
+      <div class="text"><strong>Free MCP tools</strong> &mdash; search_jobs, get_salary_data, career_advice. Любой AI-агент использует бесплатно. Massive reach.</div>
+    </div>
+    <div class="dice-step">
+      <div class="icon">2.</div>
+      <div class="text"><strong>Branded results</strong> &mdash; каждый ответ MCP содержит "via СБОРКА" + ссылку на sborka.work. Бренд-импрессии при нулевых затратах.</div>
+    </div>
+    <div class="dice-step">
+      <div class="icon">3.</div>
+      <div class="text"><strong>Candidate funnel</strong> &mdash; MCP users &rarr; visit site &rarr; create profile &rarr; join СБОРКА club. Growing candidate pool.</div>
+    </div>
+    <div class="dice-step">
+      <div class="icon">4.</div>
+      <div class="text"><strong>Employer monetization</strong> &mdash; "У нас 500+ квалифицированных кандидатов через AI-каналы". Employer pays 5,000 RUB/мес for promoted listing + direct contact.</div>
+    </div>
   </div>
 </section>
 
-<!-- SEO FLYWHEEL -->
+<!-- 02: MCP GROWTH FLYWHEEL -->
 <section>
-  <span class="section-label">02 / SEO + LLMO</span>
-  <h2>Content Flywheel</h2>
-  <p>Каждая вакансия = индексируемая страница. Каждое резюме = индексируемый профиль. HH.ru получает 40M+ визитов/мес в основном через эту стратегию.</p>
+  <span class="section-label">02 / MCP Growth Flywheel</span>
+  <h2>Маховик роста через MCP</h2>
+  <p>Каждый элемент усиливает следующий. В отличие от SEO-маховика (месяцы на раскачку), MCP-маховик работает с момента публикации &mdash; AI-агенты находят инструменты сразу.</p>
 
   <div class="flywheel">
-    <div style="font-size: 0.75rem; color: var(--stone-500); margin-bottom: 1.5rem; letter-spacing: 0.1em; text-transform: uppercase;">SEO + MCP Flywheel</div>
+    <div style="font-size: 0.75rem; color: var(--stone-500); margin-bottom: 1.5rem; letter-spacing: 0.1em; text-transform: uppercase;">MCP-First Growth Flywheel</div>
     <div class="flywheel-ring">
       <div class="flywheel-step green">
         <div class="num">01</div>
-        <div class="label">Jobs Posted</div>
-        <div style="font-size: 0.7rem; opacity: 0.7;">Employers + aggregation</div>
-      </div>
-      <div class="flywheel-arrow">&rarr;</div>
-      <div class="flywheel-step amber">
-        <div class="num">02</div>
-        <div class="label">Indexed Pages</div>
-        <div style="font-size: 0.7rem; opacity: 0.7;">JobPosting Schema.org</div>
+        <div class="label">Jobs in DB</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">HH.ru aggregation + organic</div>
       </div>
       <div class="flywheel-arrow">&rarr;</div>
       <div class="flywheel-step violet">
+        <div class="num">02</div>
+        <div class="label">MCP Tools</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">search_jobs, salaries, advice</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step amber">
         <div class="num">03</div>
-        <div class="label">Traffic</div>
-        <div style="font-size: 0.7rem; opacity: 0.7;">Google for Jobs + MCP agents</div>
+        <div class="label">AI Agents Discover</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Claude, ChatGPT, custom bots</div>
       </div>
       <div class="flywheel-arrow">&rarr;</div>
       <div class="flywheel-step green">
         <div class="num">04</div>
-        <div class="label">Candidates Register</div>
-        <div style="font-size: 0.7rem; opacity: 0.7;">Profiles created</div>
-      </div>
-      <div class="flywheel-arrow">&rarr;</div>
-      <div class="flywheel-step amber">
-        <div class="num">05</div>
-        <div class="label">Better Matches</div>
-        <div style="font-size: 0.7rem; opacity: 0.7;">AI improves with data</div>
+        <div class="label">Users Get Results</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">"via СБОРКА" CTA in every response</div>
       </div>
       <div class="flywheel-arrow">&rarr;</div>
       <div class="flywheel-step violet">
+        <div class="num">05</div>
+        <div class="label">Visit &rarr; Join Club</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Profile, resume, community</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step amber">
         <div class="num">06</div>
-        <div class="label">More Employers</div>
-        <div style="font-size: 0.7rem; opacity: 0.7;">Attracted by candidates</div>
+        <div class="label">Employers See Traction</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Candidates pool growing</div>
+      </div>
+      <div class="flywheel-arrow">&rarr;</div>
+      <div class="flywheel-step green">
+        <div class="num">07</div>
+        <div class="label">More Jobs Posted</div>
+        <div style="font-size: 0.7rem; opacity: 0.7;">Organic employer supply</div>
       </div>
     </div>
-    <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--stone-400);">&uarr; Cycle repeats &mdash; each iteration strengthens the flywheel</div>
+    <div style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--stone-400);">&uarr; Cycle repeats &mdash; each job added makes MCP tools more valuable &mdash; more agents use them &mdash; more users discover СБОРКА</div>
   </div>
 
-  <h3>MCP как уникальный канал трафика</h3>
+  <h3>Почему MCP-маховик быстрее SEO-маховика</h3>
+  <div class="grid-2">
+    <div class="card" style="border-left: 4px solid var(--violet-600);">
+      <h4>MCP Distribution</h4>
+      <p><strong>Время до первого пользователя:</strong> часы (после публикации в каталоге)</p>
+      <p><strong>Marginal cost per user:</strong> $0</p>
+      <p><strong>Масштабирование:</strong> каждый новый AI-агент = новый канал. Автоматически.</p>
+      <p><strong>Compound effect:</strong> больше данных &rarr; лучше ответы &rarr; больше агентов используют</p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--stone-400);">
+      <h4>SEO / Content Marketing</h4>
+      <p><strong>Время до первого пользователя:</strong> 3-6 месяцев (индексация, авторитет)</p>
+      <p><strong>Marginal cost per user:</strong> ~0, но high initial investment (контент)</p>
+      <p><strong>Масштабирование:</strong> линейное (1 страница = 1 keyword = ограниченный трафик)</p>
+      <p><strong>Compound effect:</strong> медленный, но стабильный. Domain authority растёт годами.</p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>MCP = новый SEO</h3>
+    <p>В 2010-х каждый маркетплейс строил SEO-маховик: больше листингов &rarr; больше индексированных страниц &rarr; больше Google-трафика. В 2026 каждый AI-native маркетплейс строит <strong>MCP-маховик</strong>: больше данных &rarr; лучше MCP tools &rarr; больше AI-агентов используют &rarr; больше пользователей видят бренд. СБОРКА строит оба, но <strong>MCP &mdash; primary, SEO &mdash; amplifier</strong>.</p>
+  </div>
+</section>
+
+<!-- 03: COLD START VIA AGGREGATION -->
+<section>
+  <span class="section-label">03 / Cold Start</span>
+  <h2>Cold start через агрегацию + MCP</h2>
+  <p>Chicken-and-egg problem маркетплейса: нет вакансий &mdash; нет кандидатов, нет кандидатов &mdash; нет работодателей. MCP + агрегация решают обе стороны одновременно.</p>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="stat">500+</div>
+      <h4>Вакансий в день 1</h4>
+      <p>HH.ru API импортирует вакансии по target-нишам (marketing, product, analytics). Marketplace выглядит полным с первого дня.</p>
+    </div>
+    <div class="card">
+      <div class="stat">$0</div>
+      <h4>Стоимость supply</h4>
+      <p>HH.ru API бесплатен (rate limited, но достаточно). Агрегируем, обогащаем AI-аналитикой, выдаём через MCP.</p>
+    </div>
+    <div class="card">
+      <div class="stat">24/7</div>
+      <h4>AI-агенты работают</h4>
+      <p>В отличие от сайта (нужен трафик), MCP tools доступны всем AI-агентам 24/7. Каждый запрос &mdash; потенциальный лид.</p>
+    </div>
+  </div>
+
+  <h3>Стратегия: Supply-First + MCP Exposure</h3>
   <div class="grid-2">
     <div class="card" style="border-left: 4px solid var(--emerald-500);">
-      <h4>MCP Agent Loop (novel)</h4>
-      <p>AI-агент использует СБОРКА MCP &rarr; возвращает data + CTA &rarr; юзер заходит на sborka.work &rarr; регистрируется &rarr; говорит AI-ассистенту про СБОРКУ &rarr; больше MCP-запросов.</p>
-      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--emerald-600);"><strong>CAC = $0. Ни один конкурент на русском рынке не имеет MCP.</strong></p>
+      <h4>Шаг 1: Агрегация (неделя 1)</h4>
+      <p style="margin-bottom: 0.5rem;">HH.ru API &rarr; nightly cron &rarr; 500+ вакансий в 3 нишах (marketing, product, analytics). Данные нормализуются, обогащаются (зарплатные диапазоны, skill extraction).</p>
+      <p style="font-size: 0.8rem; color: var(--emerald-600);"><strong>Результат:</strong> полная БД вакансий для MCP и сайта</p>
     </div>
-    <div class="card" style="border-left: 4px solid var(--amber-500);">
-      <h4>Salary Data Strategy (Glassdoor model)</h4>
-      <p>HH.ru API &rarr; компиляция зарплатных данных по роли/городу/грейду &rarr; красивые визуализации на sborka.work &rarr; viral sharing (люди любят проверять зарплаты) &rarr; СМИ цитируют &rarr; LLMO authority.</p>
-      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--amber-600);"><strong>Зарплатные данные &mdash; самый виральный карьерный контент.</strong></p>
+    <div class="card" style="border-left: 4px solid var(--violet-600);">
+      <h4>Шаг 2: MCP Exposure (неделя 1-2)</h4>
+      <p style="margin-bottom: 0.5rem;">Агрегированные вакансии сразу доступны через MCP tools. AI-агенты начинают находить и использовать СБОРКА для поиска работы. Каждый ответ содержит бренд.</p>
+      <p style="font-size: 0.8rem; color: var(--violet-600);"><strong>Результат:</strong> бесплатная дистрибуция через AI-экосистему</p>
     </div>
   </div>
 
-  <h3>LLMO Чеклист</h3>
+  <h3>Как AI-агенты решают chicken-and-egg</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Проблема</th><th>Традиционное решение</th><th>MCP решение для СБОРКИ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Нет вакансий</td><td>Холодные звонки работодателям</td><td>HH.ru API агрегация &rarr; 500+ в день 1</td></tr>
+        <tr><td>Нет кандидатов</td><td>Реклама, SEO, контент</td><td>AI-агенты приводят пользователей через MCP бесплатно</td></tr>
+        <tr><td>Нет бренда</td><td>PR, статьи, конференции</td><td>Каждый MCP-ответ = бренд-импрессия. Тысячи в день.</td></tr>
+        <tr><td>Нет данных для ML</td><td>Ручная разметка, cold start</td><td>MCP usage logs = обучающие данные для matching</td></tr>
+        <tr><td>Нет доверия работодателей</td><td>"У нас N кандидатов"</td><td>"Нас используют AI-агенты, 500+ запросов/день"</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight">
+    <h3>Atomic Network СБОРКИ: MCP + 26 CRM users</h3>
+    <p>По Andrew Chen, <strong>Atomic Network</strong> &mdash; минимальная сеть со standalone ценностью. Для СБОРКИ: агрегированные вакансии + MCP tools + 26 существующих CRM-пользователей + карьерный клуб. MCP делает сеть ценной <strong>до достижения критической массы</strong> &mdash; AI-агенты обеспечивают demand-side даже при малом supply.</p>
+  </div>
+</section>
+
+<!-- 04: SEO + GEO -->
+<section>
+  <span class="section-label">04 / SEO + GEO</span>
+  <h2>SEO + GEO: усиление MCP-канала</h2>
+  <p>SEO и GEO (Generative Engine Optimization) &mdash; не primary, но мощный усилитель. Каждая вакансия = индексируемая страница. Каждый salary report = вирусный контент. llms.txt уже задеплоен.</p>
+
+  <h3>Что уже сделано</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr><th>Действие</th><th>Статус</th><th>Эффект</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>robots.txt для AI crawlers (GPTBot, ClaudeBot)</td><td><span class="tag green">Done</span></td><td>AI боты индексируют sborka.work</td></tr>
+        <tr><td>llms.txt на sborka.work</td><td><span class="tag green">Done</span></td><td>Structured data для LLM-ответов</td></tr>
+        <tr><td>Schema.org Organization + Service + FAQ</td><td><span class="tag green">Done</span></td><td>Rich snippets в Google</td></tr>
+        <tr><td>150 knowledge articles</td><td><span class="tag green">Done</span></td><td>Content authority</td></tr>
+        <tr><td>MCP server на PyPI + 4 registries</td><td><span class="tag green">Done</span></td><td>AI-native discovery</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Что нужно сделать</h3>
+  <div class="grid-2">
+    <div class="card" style="border-left: 4px solid var(--amber-500);">
+      <h4>Schema.org JobPosting</h4>
+      <p>Каждая вакансия на sborka.work/jobs с JSON-LD разметкой &rarr; Google for Jobs включение. HH.ru получает 40M+ визитов/мес через эту стратегию.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--amber-600);"><strong>Impact:</strong> бесплатный трафик из Google for Jobs виджета</p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--amber-500);">
+      <h4>Salary Data Pages (Glassdoor model)</h4>
+      <p>HH.ru API &rarr; зарплатные данные по роли/городу/грейду &rarr; визуализации &rarr; вирусный контент. Люди делятся зарплатными отчётами, СМИ цитируют.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem; color: var(--amber-600);"><strong>Impact:</strong> backlinks + LLMO authority + viral sharing</p>
+    </div>
+  </div>
+
+  <h3>GEO/LLMO чеклист</h3>
   <div class="table-wrapper">
     <table>
       <thead>
         <tr><th>Действие</th><th>Статус</th><th>Приоритет</th></tr>
       </thead>
       <tbody>
-        <tr><td>robots.txt для AI crawlers (GPTBot, ClaudeBot, etc.)</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
-        <tr><td>llms.txt на sborka.work</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
-        <tr><td>Schema.org Organization + Service + FAQ</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
-        <tr><td>150 knowledge articles</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
-        <tr><td>MCP server на PyPI + registries</td><td><span class="tag green">Done</span></td><td>&mdash;</td></tr>
-        <tr><td>Публикации на vc.ru, Habr (authority)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
-        <tr><td>Wikipedia mention</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
-        <tr><td>Salary data reports (viral content)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
-        <tr><td>Entity optimization (10+ авторитетных источников)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>Schema.org JobPosting на вакансиях</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>10 salary data pages (marketing, product, analytics)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>Публикации на vc.ru, Habr (authority + backlinks)</td><td><span class="tag red">Not started</span></td><td><span class="tag red">HIGH</span></td></tr>
+        <tr><td>Entity optimization (10+ авторитетных упоминаний)</td><td><span class="tag red">Not started</span></td><td><span class="tag amber">Medium</span></td></tr>
+        <tr><td>Wikipedia mention (СБОРКА как карьерный клуб)</td><td><span class="tag red">Not started</span></td><td><span class="tag amber">Medium</span></td></tr>
         <tr><td>Тестовые запросы в ChatGPT/Claude/Perplexity</td><td><span class="tag red">Not started</span></td><td><span class="tag amber">Medium</span></td></tr>
       </tbody>
     </table>
   </div>
 </section>
 
-<!-- WEB3 -->
-<section>
-  <span class="section-label">03 / Web3 Future</span>
-  <h2>Web3 потенциал</h2>
-  <p><strong>Вердикт: НЕ реализовывать сейчас.</strong> 26 юзеров слишком мало для токен-экономики. Регуляторная неопределённость. Marketplace должен работать в Web2 сначала. Но &mdash; проектировать с учётом миграции.</p>
-
-  <div class="grid-3">
-    <div class="web3-card">
-      <span class="status"><span class="tag green">Active</span></span>
-      <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Braintrust</h4>
-      <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Decentralized talent network. BTRST token. 0% fee for talent.</p>
-      <p style="font-size: 0.8rem; color: var(--stone-500);">102K+ talent, Fortune 1000 clients. Pivoted to AI+Web3.</p>
-      <p style="font-size: 0.78rem; color: var(--emerald-600); margin-top: 0.5rem;"><strong>Урок:</strong> Web3 talent marketplace работает at scale, но нужны крупные клиенты + AI pivot</p>
-    </div>
-    <div class="web3-card">
-      <span class="status"><span class="tag amber">Niche</span></span>
-      <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">Human Protocol</h4>
-      <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">Decentralized data labeling + work distribution. HMT token.</p>
-      <p style="font-size: 0.8rem; color: var(--stone-500);">Smart contract escrow for work. Узкий рынок.</p>
-      <p style="font-size: 0.78rem; color: var(--amber-600); margin-top: 0.5rem;"><strong>Урок:</strong> Escrow работает, но ниша ограничивает рост</p>
-    </div>
-    <div class="web3-card">
-      <span class="status"><span class="tag amber">Early</span></span>
-      <h4 style="font-size: 1rem; margin-bottom: 0.75rem;">TalentLayer</h4>
-      <p style="font-size: 0.85rem; margin-bottom: 0.5rem;">On-chain work history protocol. Cross-platform reputation.</p>
-      <p style="font-size: 0.8rem; color: var(--stone-500);">Portable reputation &mdash; реальная проблема. Adoption пока медленный.</p>
-      <p style="font-size: 0.78rem; color: var(--violet-600); margin-top: 0.5rem;"><strong>Урок:</strong> Protocol layer перспективнее application layer</p>
-    </div>
-  </div>
-
-  <h3>TON интеграция (Phase 4)</h3>
-  <div class="grid-2">
-    <div class="card">
-      <h4>Что готовить сейчас</h4>
-      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
-        <li>Reputation system в Web2 (DB) с миграцией на on-chain</li>
-        <li>TON Connect для опционального wallet auth в TMA</li>
-        <li>POAP-style attendance badges для вебинаров</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>Что делать в Phase 4 (6+ мес)</h4>
-      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
-        <li>Soulbound Tokens (SBTs) для верификации навыков</li>
-        <li>Smart contract escrow для фриланс-найма</li>
-        <li>TON Jettons для reputation/rewards</li>
-        <li>TON DNS для профилей (user.sborka.ton)</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ROADMAP -->
-<section>
-  <span class="section-label">04 / Roadmap</span>
-  <h2>4-фазный план реализации</h2>
-
-  <div class="roadmap">
-    <div class="phase p1">
-      <div class="phase-label">Phase 1 &mdash; MVP (2 недели)</div>
-      <h4>"Concierge Marketplace"</h4>
-      <ul>
-        <li>Web-форма: Submit Job на sborka.work/post-job</li>
-        <li>Web-форма: Submit Resume</li>
-        <li>Страница sborka.work/jobs (листинг)</li>
-        <li>MCP tools: submit_job, submit_resume, find_matches</li>
-        <li>Seed: 50 вакансий с HH.ru API</li>
-        <li>Manual matching первых 5 пар</li>
-        <li>Schema.org JobPosting на каждой вакансии</li>
-      </ul>
-      <div class="metric">Target: 10 вакансий, 50 резюме, 5 matches</div>
-    </div>
-
-    <div class="phase p2">
-      <div class="phase-label">Phase 2 &mdash; AI Matching (1 месяц)</div>
-      <h4>Semantic + Dashboard</h4>
-      <ul>
-        <li>LLM semantic matching (Groq free tier)</li>
-        <li>Employer dashboard: кандидаты, scores, контакты</li>
-        <li>Candidate dashboard в TMA: matched jobs, статусы</li>
-        <li>TG bot уведомления: "87% fit для PM at X"</li>
-        <li>Email capture: SEO &rarr; popup &rarr; weekly digest</li>
-        <li>Referral program v1</li>
-        <li>10 salary pages с HH.ru данными</li>
-      </ul>
-      <div class="metric">Target: 50 вакансий, 200 резюме, 20 employers</div>
-    </div>
-
-    <div class="phase p3">
-      <div class="phase-label">Phase 3 &mdash; Verification + Premium (2-3 мес)</div>
-      <h4>Монетизация</h4>
-      <ul>
-        <li>СБОРКА Verified badge (mock-интервью)</li>
-        <li>Premium employer: 5,000 RUB/мес</li>
-        <li>Premium candidate: 1,990 RUB/мес</li>
-        <li>Market analytics dashboard</li>
-        <li>Google for Jobs включение</li>
-        <li>Partnership с 3-5 кадровыми агентствами</li>
-        <li>UGC: 200+ индексируемых страниц</li>
-      </ul>
-      <div class="metric">Target: 200 вакансий, 1,000 резюме, 10 paying employers</div>
-    </div>
-
-    <div class="phase p4">
-      <div class="phase-label">Phase 4 &mdash; Scale + Web3 (6+ мес)</div>
-      <h4>Масштабирование</h4>
-      <ul>
-        <li>API для HR систем (Huntflow, Talantix)</li>
-        <li>TON Connect wallet auth</li>
-        <li>Reputation SBTs</li>
-        <li>Smart contract escrow</li>
-        <li>Yandex Rabota интеграция</li>
-        <li>English version для CIS/remote</li>
-        <li>DAO governance pilot</li>
-      </ul>
-      <div class="metric">Target: 1,000+ вакансий, 5,000+ резюме</div>
-    </div>
-  </div>
-</section>
-
-<!-- UNIT ECONOMICS -->
+<!-- 05: UNIT ECONOMICS -->
 <section>
   <span class="section-label">05 / Unit Economics</span>
   <h2>Экономика проекта</h2>
@@ -507,6 +538,8 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
             <tr><td>RUVDS hosting</td><td>450 RUB ($5)</td></tr>
             <tr><td>Domain + SSL</td><td>~200 RUB (amort.)</td></tr>
             <tr><td>AI/LLM (Groq free)</td><td>0</td></tr>
+            <tr><td>MCP каталоги</td><td>0 (бесплатные)</td></tr>
+            <tr><td>HH.ru API</td><td>0 (бесплатный)</td></tr>
             <tr><td>Tim + Kristina</td><td>0 (existing)</td></tr>
             <tr><td style="font-weight: 800;">ИТОГО</td><td style="font-weight: 800; color: var(--emerald-600);">~650 RUB/мес</td></tr>
           </tbody>
@@ -530,9 +563,28 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
     </div>
   </div>
 
+  <h3>Cost per Lead: MCP vs Web channels</h3>
+  <div class="grid-3">
+    <div class="card" style="border-top: 4px solid var(--violet-600);">
+      <div class="stat">$0</div>
+      <h4>MCP Lead Cost</h4>
+      <p>Органический: AI-агенты находят MCP сами через каталоги. Ноль рекламных затрат. Marginal cost = hosting (уже оплачен).</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--amber-500);">
+      <div class="stat">~$0.50</div>
+      <h4>SEO/GEO Lead Cost</h4>
+      <p>Время на создание контента + Schema.org разметку. Бесплатный трафик, но требует initial investment в контент.</p>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--stone-400);">
+      <div class="stat">$2-5</div>
+      <h4>Paid/Outreach Lead Cost</h4>
+      <p>Cold email, TG-каналы, vc.ru promoted. Дороже, но предсказуемее. Используем для employer acquisition.</p>
+    </div>
+  </div>
+
   <div class="insight">
     <h3>Break-even: 5 работодателей</h3>
-    <p>Инфраструктурные затраты <strong>~650 RUB/мес</strong>. При 5 платящих работодателях (5,000 RUB/мес каждый) = <strong>25,000 RUB revenue</strong>. Прибыльность с первых 5 клиентов. Сравните с HH.ru: <strong>63,600 RUB ARPU</strong> при марже <strong>60%</strong>. У СБОРКИ маржа <strong>~95%</strong> при ARPU <strong>37,785 RUB/год</strong>.</p>
+    <p>Инфраструктурные затраты <strong>~650 RUB/мес</strong>. При 5 платящих работодателях (5,000 RUB/мес каждый) = <strong>25,000 RUB revenue</strong>. Прибыльность с первых 5 клиентов. MCP-канал обеспечивает <strong>бесплатный поток кандидатов</strong>, что делает предложение для работодателей убедительным: "Ваша вакансия видна через AI-агентов + sborka.work". Маржа <strong>~95%</strong> при ARPU <strong>37,785 RUB/год</strong>.</p>
   </div>
 
   <h3>12-месячные сценарии (MRR)</h3>
@@ -560,91 +612,156 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
   <div class="table-wrapper">
     <table>
       <thead>
-        <tr><th>Сценарий</th><th>Мес 3</th><th>Мес 6</th><th>Мес 9</th><th>Мес 12</th><th>Seekers</th><th>Employers</th></tr>
+        <tr><th>Сценарий</th><th>Мес 3</th><th>Мес 6</th><th>Мес 9</th><th>Мес 12</th><th>MCP requests/day</th><th>Employers</th></tr>
       </thead>
       <tbody>
-        <tr><td>Conservative</td><td>55,920</td><td>175,000</td><td>315,000</td><td style="font-weight: 800;">420,000</td><td>1,200</td><td>80</td></tr>
-        <tr><td>Moderate</td><td>140,000</td><td>420,000</td><td>840,000</td><td style="font-weight: 800; color: var(--amber-600);">1,400,000</td><td>4,000</td><td>250</td></tr>
-        <tr><td>Aggressive</td><td>245,000</td><td>840,000</td><td>2,100,000</td><td style="font-weight: 800; color: var(--violet-600);">3,500,000</td><td>15,000</td><td>800</td></tr>
+        <tr><td>Conservative</td><td>55,920</td><td>175,000</td><td>315,000</td><td style="font-weight: 800;">420,000</td><td>50</td><td>80</td></tr>
+        <tr><td>Moderate</td><td>140,000</td><td>420,000</td><td>840,000</td><td style="font-weight: 800; color: var(--amber-600);">1,400,000</td><td>300</td><td>250</td></tr>
+        <tr><td>Aggressive</td><td>245,000</td><td>840,000</td><td>2,100,000</td><td style="font-weight: 800; color: var(--violet-600);">3,500,000</td><td>2,000</td><td>800</td></tr>
       </tbody>
     </table>
   </div>
 </section>
 
-<!-- TOP ACTIONS -->
+<!-- 06: 4-PHASE ROADMAP -->
 <section>
-  <span class="section-label">06 / Action Items</span>
+  <span class="section-label">06 / Roadmap</span>
+  <h2>4-фазный план: MCP-first</h2>
+
+  <div class="roadmap">
+    <div class="phase p1">
+      <div class="phase-label">Phase 1 &mdash; MCP + Aggregation (нед 1-2)</div>
+      <h4>"AI-Powered Job Discovery"</h4>
+      <ul>
+        <li>Расширить MCP: search_jobs, get_salary, submit_resume</li>
+        <li>HH.ru API агрегация: 500+ вакансий nightly</li>
+        <li>Submit в 3+ новых MCP каталога</li>
+        <li>sborka.work/jobs &mdash; листинг с Schema.org</li>
+        <li>MCP usage analytics (запросы, конверсии)</li>
+        <li>CTA в каждом MCP-ответе: "via СБОРКА"</li>
+      </ul>
+      <div class="metric">Target: 500 jobs, 100 MCP req/day, 50 site visits from MCP</div>
+    </div>
+
+    <div class="phase p2">
+      <div class="phase-label">Phase 2 &mdash; SEO + Content (нед 2-4)</div>
+      <h4>"Content Amplifier"</h4>
+      <ul>
+        <li>10 salary data pages (viral content)</li>
+        <li>Schema.org JobPosting на всех вакансиях</li>
+        <li>3 статьи на vc.ru / Habr (authority)</li>
+        <li>Email capture: SEO &rarr; popup &rarr; weekly digest</li>
+        <li>Answer-first content для GEO</li>
+        <li>Entity optimization (10+ sources)</li>
+      </ul>
+      <div class="metric">Target: 1,000 indexed pages, 500 organic visits/week</div>
+    </div>
+
+    <div class="phase p3">
+      <div class="phase-label">Phase 3 &mdash; Employer Acquisition (мес 2-3)</div>
+      <h4>"Monetization"</h4>
+      <ul>
+        <li>Cold outreach: 50 target employers</li>
+        <li>Employer dashboard: candidates, scores, contact</li>
+        <li>Premium listing: 5,000 RUB/мес</li>
+        <li>СБОРКА Verified badge (mock-interview)</li>
+        <li>Partnership с 3-5 кадровыми агентствами</li>
+        <li>Referral program: invite &rarr; priority matching</li>
+      </ul>
+      <div class="metric">Target: 10 paying employers, 200 active candidates</div>
+    </div>
+
+    <div class="phase p4">
+      <div class="phase-label">Phase 4 &mdash; Scale + Monetization (мес 3-6)</div>
+      <h4>"Growth Machine"</h4>
+      <ul>
+        <li>AI semantic matching (Groq/DeepSeek)</li>
+        <li>Candidate dashboard в TMA: matched jobs</li>
+        <li>API для HR систем (Huntflow, Talantix)</li>
+        <li>Premium candidate: 1,990 RUB/мес</li>
+        <li>Market analytics dashboard</li>
+        <li>English version для CIS/remote</li>
+      </ul>
+      <div class="metric">Target: 1,000+ jobs, 50+ paying employers, 2,000 MCP req/day</div>
+    </div>
+  </div>
+</section>
+
+<!-- 07: TOP 10 ACTIONS -->
+<section>
+  <span class="section-label">07 / Action Items</span>
   <h2>Топ-10 приоритетных действий</h2>
+  <p>MCP-related действия &mdash; #1-3. Это primary growth engine и делается первым.</p>
 
   <div style="margin: 1.5rem 0;">
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
-      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">01</span>
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">01</span>
       <div>
-        <h4 style="font-size: 0.95rem;">Форма Submit Job на sborka.work</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Web-форма + API endpoint. Неделя 1.</p>
+        <h4 style="font-size: 0.95rem;">Расширить MCP tools: search_jobs, get_salary_data, submit_resume</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Обновить sborka-career-mcp. PyPI publish. Каждый новый tool = новый use case для AI-агентов. <strong>Неделя 1.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
-      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">02</span>
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">02</span>
       <div>
-        <h4 style="font-size: 0.95rem;">Агрегация HH.ru вакансий по нишевым ролям</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Nightly cron + hh_client.py. 5,000-15,000 вакансий в день 1. Неделя 1-2.</p>
+        <h4 style="font-size: 0.95rem;">HH.ru агрегация: 500+ вакансий в день 1</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Nightly cron + hh_client.py. Marketing, product, analytics ниши. Данные питают и MCP, и сайт. <strong>Неделя 1.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
-      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">03</span>
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">03</span>
       <div>
-        <h4 style="font-size: 0.95rem;">Schema.org JobPosting на всех вакансиях</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Google for Jobs включение. JSON-LD, individual URLs. Неделя 2.</p>
+        <h4 style="font-size: 0.95rem;">Submit MCP в 3+ новых каталога</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">PulseMCP, mcpservers.org, OpenTools. Каждый каталог = новый discovery channel для AI-агентов. <strong>Неделя 1-2.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
       <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">04</span>
       <div>
-        <h4 style="font-size: 0.95rem;">MCP tools: submit_job, submit_resume, find_matches</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Расширение sborka-career-mcp. PyPI update. Неделя 2.</p>
+        <h4 style="font-size: 0.95rem;">sborka.work/jobs с Schema.org JobPosting</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Листинг агрегированных вакансий. JSON-LD разметка. Google for Jobs. <strong>Неделя 2.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
-      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--amber-600); min-width: 2rem;">05</span>
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--emerald-600); min-width: 2rem;">05</span>
       <div>
-        <h4 style="font-size: 0.95rem;">Первый salary data report (marketing/product в России)</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Viral content. HH.ru API данные + визуализация. Неделя 2-3.</p>
+        <h4 style="font-size: 0.95rem;">Salary reports (marketing/product в России)</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Viral content из HH.ru данных. Визуализации, sharing, backlinks. Питает и GEO, и MCP get_salary_data. <strong>Неделя 2-3.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
       <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--amber-600); min-width: 2rem;">06</span>
       <div>
-        <h4 style="font-size: 0.95rem;">Партнёрство с 1 кадровым агентством</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">100+ вакансий для initial supply. "СБОРКА Verified" badge. Неделя 2-3.</p>
+        <h4 style="font-size: 0.95rem;">Cold outreach: 50 target employers</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Email + LinkedIn. "Ваша вакансия видна через AI-агентов бесплатно. Premium = promoted + direct contact." <strong>Неделя 2-3.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
       <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--amber-600); min-width: 2rem;">07</span>
       <div>
-        <h4 style="font-size: 0.95rem;">Referral program: пригласи друга &rarr; priority matching</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Viral loop с K-factor 0.3+. Неделя 3.</p>
+        <h4 style="font-size: 0.95rem;">3 статьи на vc.ru/Habr</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">LLMO authority. Темы: зарплаты в маркетинге, AI в HR, карьерные тренды. Цитирование = LLM рекомендации. <strong>Неделя 3.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
-      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">08</span>
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--amber-600); min-width: 2rem;">08</span>
       <div>
-        <h4 style="font-size: 0.95rem;">Submit MCP в 5+ registries</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Smithery, MCP.so, PulseMCP, Glama, ChatGPT Apps. Неделя 3.</p>
+        <h4 style="font-size: 0.95rem;">Referral program: invite &rarr; priority matching</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Viral loop, K-factor 0.3+. Кандидат приглашает коллегу &rarr; оба получают priority в matching. <strong>Неделя 3.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--stone-200);">
-      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">09</span>
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--stone-600); min-width: 2rem;">09</span>
       <div>
-        <h4 style="font-size: 0.95rem;">3 статьи на vc.ru/Habr о зарплатах и карьере</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">LLMO authority building. Цитирование = LLM рекомендации. Неделя 3-4.</p>
+        <h4 style="font-size: 0.95rem;">Partnership с 1-3 кадровыми агентствами</h4>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">100+ вакансий для supply. "СБОРКА Verified" badge. Revenue share. <strong>Неделя 3-4.</strong></p>
       </div>
     </div>
     <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 0;">
-      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--violet-600); min-width: 2rem;">10</span>
+      <span class="mono" style="font-size: 1.2rem; font-weight: 800; color: var(--stone-600); min-width: 2rem;">10</span>
       <div>
         <h4 style="font-size: 0.95rem;">Employer dashboard на sborka.work/employer</h4>
-        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Просмотр кандидатов, match scores, контакт. Неделя 4.</p>
+        <p style="font-size: 0.82rem; color: var(--stone-500); margin: 0;">Просмотр кандидатов, match scores, контакт, аналитика. Монетизация: premium features. <strong>Неделя 4.</strong></p>
       </div>
     </div>
   </div>
@@ -653,9 +770,9 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
 <!-- FINAL INSIGHT -->
 <section>
   <div class="insight" style="background: linear-gradient(135deg, var(--emerald-900), #1e1b4b);">
-    <h3>Стратегический вывод</h3>
+    <h3>Стратегический вывод: MCP IS the distribution</h3>
     <p style="font-size: 1.1rem; line-height: 1.8;">
-      СБОРКА может стать <strong>первой AI-native двусторонней платформой для русского рынка труда</strong>. Уникальная комбинация: MCP-вход для машин (ноль конкурентов), semantic matching (vs keyword у HH), community verification (живые встречи), и near-zero infrastructure cost ($5/мес). Break-even при 5 работодателях. Potential: <strong>до 3.5M RUB/мес MRR</strong> за 12 месяцев (aggressive). Phase 1 MVP &mdash; 2 недели.
+      СБОРКА &mdash; <strong>первый AI-native маркетплейс труда для русского рынка</strong>, где MCP &mdash; не side channel, а primary growth engine. Уникальная позиция: ноль конкурентов в русскоязычных MCP-каталогах, semantic matching vs keyword у HH, community verification через живые встречи, near-zero cost ($5/мес). Каждый AI-агент = бесплатный канал дистрибуции. MCP lead cost = <strong>$0</strong>. Break-even при <strong>5 работодателях</strong>. Phase 1 (MCP + Aggregation) &mdash; <strong>2 недели</strong>. Потенциал: <strong>до 3.5M RUB/мес MRR</strong> за 12 месяцев.
     </p>
   </div>
 </section>

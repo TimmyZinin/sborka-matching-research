@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>СБОРКА Matching Engine — Ландшафт рынка</title>
+<title>СБОРКА — Первая MCP-first карьерная платформа России</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -476,16 +476,174 @@ footer {
 </nav>
 
 <div class="hero">
-  <div class="badge">Research / February 2026</div>
-  <h1>Matching Engine:<br><em>Ландшафт рынка труда</em></h1>
-  <p class="subtitle">Исследование конкурентов, pain points, MCP-экосистемы и технологий матчинга для двусторонней биржи СБОРКА.</p>
+  <div class="badge">MCP-First Platform / February 2026</div>
+  <h1>СБОРКА &mdash; первая российская<br><em>MCP-first карьерная платформа</em></h1>
+  <p class="subtitle">Model Context Protocol меняет правила рекрутинга. AI-агенты заменяют формы и поисковые строки. СБОРКА &mdash; единственная российская платформа, которая строится вокруг MCP как первичного интерфейса.</p>
 </div>
 
-<!-- MARKET SIZE -->
+<!-- 01: MCP ECOSYSTEM (elevated to section 01) -->
 <section>
-  <span class="section-label">01 / Размер рынка</span>
-  <h2>Рынок онлайн-рекрутинга</h2>
-  <p>Глобальный рынок онлайн-рекрутинга оценивается в $34-58 млрд с CAGR 6.5-12.6%. Россия контролирует ~$550-660М ежегодно, причём HeadHunter забирает 70-75% рынка.</p>
+  <span class="section-label">01 / MCP-экосистема</span>
+  <h2>Почему MCP &mdash; это новый API рекрутинга</h2>
+  <p>Model Context Protocol &mdash; открытый стандарт Anthropic для подключения AI-агентов к данным и инструментам. В карьерной сфере MCP превращает job-платформы из веб-сайтов в программируемые сервисы: AI-агент соискателя напрямую общается с платформой, минуя формы, баннеры и спам.</p>
+
+  <div class="metrics">
+    <div class="metric">
+      <div class="value">30+</div>
+      <div class="label">Job MCP серверов глобально</div>
+    </div>
+    <div class="metric">
+      <div class="value" style="color: var(--amber-600);">3</div>
+      <div class="label">Official first-party MCP (Dice, Himalayas, СБОРКА)</div>
+    </div>
+    <div class="metric">
+      <div class="value">0</div>
+      <div class="label">Official MCP от других RU платформ</div>
+    </div>
+    <div class="metric">
+      <div class="value" style="color: var(--amber-600);">2</div>
+      <div class="label">Community wrappers для HH.ru</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>Ключевой инсайт: first-party vs community</h3>
+    <p>У HH.ru есть 2 неофициальных community MCP-обёртки (Apify scraper, hh-mcp-server). Но это <strong>не то же самое</strong>, что first-party MCP. Community-обёртки ломаются при смене HTML, не имеют доступа к полным данным, не контролируют качество матчинга. <strong>СБОРКА &mdash; единственный first-party MCP от российской карьерной платформы.</strong> Мы контролируем нарратив, данные и качество ответов.</p>
+  </div>
+
+  <h3>Глобальная карта job MCP серверов</h3>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>MCP Сервер</th>
+          <th>Тип</th>
+          <th>Возможности</th>
+          <th>Рынок</th>
+          <th>Статус</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dice.com MCP</td>
+          <td><span class="tag green">Official</span></td>
+          <td>Job search (13 фильтров), natural language queries</td>
+          <td>USA</td>
+          <td>Live</td>
+        </tr>
+        <tr>
+          <td>Himalayas MCP</td>
+          <td><span class="tag green">Official</span></td>
+          <td>Remote jobs + company profiles</td>
+          <td>Global</td>
+          <td>Live</td>
+        </tr>
+        <tr>
+          <td style="color: var(--emerald-700); font-weight: 800;">СБОРКА Career MCP</td>
+          <td><span class="tag green">Official</span></td>
+          <td>Salary + Market + Resume review + Interview prep + Career advice</td>
+          <td>Russia</td>
+          <td><span class="tag green">Live</span></td>
+        </tr>
+        <tr>
+          <td>Indeed MCP</td>
+          <td><span class="tag amber">Semi-official</span></td>
+          <td>Jobs + Resumes + Companies</td>
+          <td>USA</td>
+          <td>Beta</td>
+        </tr>
+        <tr>
+          <td>JobSpy MCP</td>
+          <td><span class="tag amber">Community</span></td>
+          <td>Агрегатор Indeed+LinkedIn+Glassdoor+ZipRecruiter</td>
+          <td>Global</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>LinkedIn MCP</td>
+          <td><span class="tag amber">Community</span></td>
+          <td>Profile scraping, job search, connection automation</td>
+          <td>Global</td>
+          <td>Active</td>
+        </tr>
+        <tr>
+          <td>HH.ru (Apify)</td>
+          <td><span class="tag red">Community scraper</span></td>
+          <td>HTML-парсинг вакансий HH.ru</td>
+          <td>Russia</td>
+          <td>Fragile</td>
+        </tr>
+        <tr>
+          <td>hh-mcp-server</td>
+          <td><span class="tag red">Community wrapper</span></td>
+          <td>Обёртка над HH.ru API (ограниченная)</td>
+          <td>Russia</td>
+          <td>Fragile</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Хронология MCP-запусков в рекрутинге</h3>
+
+  <div class="timeline">
+    <div class="item">
+      <div class="date">Ноябрь 2024</div>
+      <h4>Anthropic выпускает Model Context Protocol</h4>
+      <p>Открытый стандарт для подключения AI-моделей к внешним данным. Начинается волна MCP-серверов.</p>
+    </div>
+    <div class="item">
+      <div class="date">12 января 2026</div>
+      <h4>Dice.com &mdash; первый official job MCP</h4>
+      <p>13+ параметров фильтрации, natural language queries, без авторизации. Получил значительное внимание индустрии.</p>
+    </div>
+    <div class="item">
+      <div class="date">Январь 2026</div>
+      <h4>Himalayas MCP &mdash; remote-first</h4>
+      <p>Official MCP от платформы удалённой работы. Remote jobs + company data через AI-агентов.</p>
+    </div>
+    <div class="item">
+      <div class="date">Январь&ndash;февраль 2026</div>
+      <h4>Indeed MCP (beta) + волна community серверов</h4>
+      <p>Indeed запускает semi-official MCP. Community создаёт JobSpy, LinkedIn MCP, Glassdoor scrapers.</p>
+    </div>
+    <div class="item">
+      <div class="date">Февраль 2026</div>
+      <h4>СБОРКА Career MCP &mdash; первый first-party для RU</h4>
+      <p>5 tools: salary_data, job_market_trends, resume_review, interview_prep, career_advice. PyPI + SSE endpoint (mcp.sborka.work/sse). Единственный нативный MCP от российской карьерной платформы.</p>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-top: 3px solid var(--emerald-500);">
+      <h4>Почему first-party MCP критичен</h4>
+      <p style="margin-bottom: 0.5rem;">Community-обёртки &mdash; это костыли. First-party MCP даёт:</p>
+      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
+        <li><strong>Контроль данных</strong> &mdash; мы решаем, что AI-агент видит и как</li>
+        <li><strong>Стабильность</strong> &mdash; не ломается при смене HTML/API</li>
+        <li><strong>Качество матчинга</strong> &mdash; semantic search, а не scraping</li>
+        <li><strong>Бизнес-модель</strong> &mdash; монетизация через MCP tools (premium endpoints)</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--amber-500);">
+      <h4>Что будет с платформами без MCP</h4>
+      <p style="margin-bottom: 0.5rem;">Без official MCP платформу всё равно будут использовать AI-агенты &mdash; но через:</p>
+      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
+        <li><strong>Scrapers</strong> &mdash; Apify уже парсит HH.ru (нестабильно)</li>
+        <li><strong>Неконтролируемые обёртки</strong> &mdash; данные утекают, качество падает</li>
+        <li><strong>Потеря нарратива</strong> &mdash; AI-агент видит "сырые" данные без контекста</li>
+        <li><strong>Юридические риски</strong> &mdash; scraping vs official API</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 02: MARKET THROUGH MCP LENS -->
+<section>
+  <span class="section-label">02 / Рынок через призму MCP</span>
+  <h2>$58B рынок, который AI переформатирует</h2>
+  <p>Глобальный рынок онлайн-рекрутинга оценивается в $34&ndash;58 млрд с CAGR 6.5&ndash;12.6%. Россия контролирует ~$550&ndash;660М ежегодно. MCP &mdash; это не просто новый API. Это смена парадигмы: от "человек заходит на сайт" к "AI-агент запрашивает матч".</p>
 
   <div class="metrics">
     <div class="metric">
@@ -507,15 +665,33 @@ footer {
   </div>
 
   <div class="insight">
-    <h3>Ключевой инсайт</h3>
-    <p>HeadHunter генерирует <strong>~$440M/год</strong> с маржой <strong>60%+</strong> и монопольным ценообразованием. ФАС уже вмешивалась (дек 2025), заставив HH отменить плату для госсектора. Это создаёт огромное пространство для ценового дисраптора с <strong>AI-native подходом</strong>.</p>
+    <h3>Почему MCP меняет рынок</h3>
+    <p>HeadHunter генерирует <strong>~$440M/год</strong> с маржой <strong>60%+</strong>, продавая доступ к резюме и размещение вакансий. MCP разрушает эту модель: AI-агент соискателя может напрямую запросить "вакансии для Python-разработчика с опытом 3+ года в Москве" &mdash; без подписок, баннеров и pay-to-play. <strong>Платформа, которая не предоставит MCP, будет scraped. Платформа с first-party MCP контролирует канал.</strong></p>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-icon emerald">&#x1F310;</div>
+      <h4>Новый паттерн доступа</h4>
+      <p>Пользователь не открывает hh.ru &mdash; он говорит AI-агенту "найди мне работу". Агент запрашивает MCP-сервер. Нет MCP = нет трафика от AI.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon amber">&#x1F4B0;</div>
+      <h4>Монополия HH уязвима</h4>
+      <p>ФАС уже вмешивалась (дек 2025), заставив HH отменить плату для госсектора. MCP-first дисраптор может предложить в 5&ndash;10x дешевле.</p>
+    </div>
+    <div class="card">
+      <div class="card-icon emerald">&#x1F916;</div>
+      <h4>AI-native поколение</h4>
+      <p>К 2027 50%+ поиска работы пройдёт через AI-агентов (оценка). Платформы без MCP станут "невидимыми" для этого канала.</p>
+    </div>
   </div>
 </section>
 
-<!-- COMPETITIVE LANDSCAPE -->
+<!-- 03: COMPETITORS + MCP STATUS -->
 <section>
-  <span class="section-label">02 / Конкуренты</span>
-  <h2>Карта игроков</h2>
+  <span class="section-label">03 / Конкуренты</span>
+  <h2>Карта игроков: кто готов к MCP-эре</h2>
 
   <h3>Российский рынок</h3>
 
@@ -526,10 +702,10 @@ footer {
           <th>Платформа</th>
           <th>Доля рынка</th>
           <th>База резюме</th>
-          <th>Сегмент</th>
           <th>AI Matching</th>
-          <th>MCP</th>
-          <th>Цены (employer)</th>
+          <th>MCP статус</th>
+          <th>MCP тип</th>
+          <th>Готовность к AI-эре</th>
         </tr>
       </thead>
       <tbody>
@@ -537,184 +713,99 @@ footer {
           <td>HeadHunter</td>
           <td><span class="tag green">70-75%</span></td>
           <td>24M</td>
-          <td>Белые воротнички</td>
           <td><span class="tag red">Keyword</span></td>
-          <td><span class="tag red">Нет</span></td>
-          <td>Высокие (монополия)</td>
+          <td><span class="tag amber">2 community</span></td>
+          <td>Scrapers / API wrappers</td>
+          <td><span class="tag red">Низкая</span></td>
         </tr>
         <tr>
           <td>SuperJob</td>
           <td>10-12%</td>
           <td>25M</td>
-          <td>Белые воротнички</td>
           <td><span class="tag red">Keyword</span></td>
           <td><span class="tag red">Нет</span></td>
-          <td>Средние</td>
+          <td>&mdash;</td>
+          <td><span class="tag red">Нулевая</span></td>
         </tr>
         <tr>
           <td>Rabota.ru</td>
           <td>5-7%</td>
           <td>22M</td>
-          <td>Микс</td>
           <td><span class="tag red">Keyword</span></td>
           <td><span class="tag red">Нет</span></td>
-          <td>Средние</td>
+          <td>&mdash;</td>
+          <td><span class="tag red">Нулевая</span></td>
         </tr>
         <tr>
           <td>Avito Работа</td>
           <td>8-10% &uarr;</td>
           <td>N/A</td>
-          <td>Рабочие, регионы</td>
           <td><span class="tag red">Keyword</span></td>
           <td><span class="tag red">Нет</span></td>
-          <td>Низкие</td>
+          <td>&mdash;</td>
+          <td><span class="tag red">Нулевая</span></td>
         </tr>
         <tr>
           <td style="color: var(--emerald-700); font-weight: 800;">СБОРКА</td>
           <td><span class="tag blue">New</span></td>
           <td>26 CRM</td>
-          <td>IT-карьера, нишевой</td>
           <td><span class="tag green">Semantic AI</span></td>
-          <td><span class="tag green">Есть!</span></td>
-          <td>Бесплатно / дёшево</td>
+          <td><span class="tag green">Official first-party</span></td>
+          <td>Native MCP (PyPI + SSE)</td>
+          <td><span class="tag green">MCP-first</span></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <h3>AI-first рекрутинг (мировая волна)</h3>
+  <h3>Глобальные AI-first платформы</h3>
 
   <div class="grid-3">
     <div class="card">
       <div class="card-icon amber">&#x1F680;</div>
       <div class="stat amber-c">$10B</div>
       <h4>Mercor</h4>
-      <p>От $250M до $10B за 2 года. AI-интервью + скрининг + payroll. Клиенты: OpenAI. Три 21-летних фаундера.</p>
+      <p>AI-интервью + скрининг + payroll. Клиенты: OpenAI. Три 21-летних фаундера. <strong>MCP: нет</strong> &mdash; closed API.</p>
     </div>
     <div class="card">
       <div class="card-icon emerald">&#x1F916;</div>
-      <h4>Moonhub AI</h4>
-      <p>Куплен Salesforce (июнь 2025). -50% time-to-hire. 80% кандидатов доходят до интервью. Теперь часть Agentforce.</p>
+      <h4>Moonhub AI (Salesforce)</h4>
+      <p>Куплен Salesforce (июнь 2025). -50% time-to-hire. Теперь часть Agentforce. <strong>MCP: нет</strong> &mdash; внутренний инструмент.</p>
     </div>
     <div class="card">
       <div class="card-icon emerald">&#x2699;</div>
       <h4>Dover</h4>
-      <p>Бесплатный ATS + AI-скоринг + маркетплейс рекрутеров. Идеален для стартапов с малым бюджетом.</p>
+      <p>Бесплатный ATS + AI-скоринг + маркетплейс рекрутеров. <strong>MCP: нет</strong> &mdash; классический SaaS.</p>
     </div>
     <div class="card">
       <div class="card-icon amber">&#x1F3AF;</div>
-      <h4>Fetcher AI</h4>
-      <p>Sourcing пассивных кандидатов. $379/мес. Верифицированные контакты, персонализированные email-кампании.</p>
+      <h4>Dice.com</h4>
+      <p>$379/мес. Tech job board. <strong>MCP: Official!</strong> 13 фильтров, natural language. Первопроходец job MCP.</p>
     </div>
     <div class="card">
-      <div class="card-icon emerald">&#x1F91D;</div>
-      <h4>Paraform</h4>
-      <p>$20M funding. Маркетплейс независимых рекрутеров + AI. Ставка на human-in-the-loop вместо полной автоматизации.</p>
+      <div class="card-icon emerald">&#x1F30D;</div>
+      <h4>Himalayas</h4>
+      <p>Remote-first job board + company profiles. <strong>MCP: Official!</strong> Полная интеграция с AI-агентами.</p>
     </div>
     <div class="card">
       <div class="card-icon amber">&#x1F9E0;</div>
       <div class="stat amber-c">1.6B</div>
       <h4>Eightfold AI</h4>
-      <p>$2.1B оценка. 1.6 млрд профилей. Semantic embeddings + graph NNs. Золотой стандарт matching quality.</p>
-    </div>
-  </div>
-</section>
-
-<!-- MCP ECOSYSTEM -->
-<section>
-  <span class="section-label">03 / MCP-экосистема</span>
-  <h2>MCP в рекрутинге</h2>
-  <p>Model Context Protocol становится стандартом для AI-агентов. Job-платформы, у которых нет MCP, будут парситься неофициально (Apify уже парсит HH.ru). Лучше контролировать нарратив.</p>
-
-  <div class="sep"></div>
-
-  <h3>Хронология MCP-запусков</h3>
-
-  <div class="timeline">
-    <div class="item">
-      <div class="date">12 января 2026</div>
-      <h4>Dice.com &mdash; первый MCP для вакансий</h4>
-      <p>13+ параметров фильтрации, natural language queries, без авторизации. Получил значительное внимание индустрии.</p>
-    </div>
-    <div class="item">
-      <div class="date">Январь-февраль 2026</div>
-      <h4>Indeed &mdash; комплексный MCP (beta)</h4>
-      <p>Job search + job detail + resume + company data. Полная career intelligence через AI-агентов.</p>
-    </div>
-    <div class="item">
-      <div class="date">Февраль 2026</div>
-      <h4>СБОРКА Career MCP &mdash; первый русский!</h4>
-      <p>5 tools: salary_data, job_market_trends, resume_review, interview_prep, career_advice. PyPI + SSE endpoint. <strong>Ноль конкурентов</strong> на российском рынке.</p>
-    </div>
-    <div class="item">
-      <div class="date">Community</div>
-      <h4>JobSpy, LinkedIn MCP, Apify HH Scraper</h4>
-      <p>Неофициальные MCP-серверы: агрегация Indeed+LinkedIn+Glassdoor, автоматизация откликов, парсинг HH.ru.</p>
+      <p>$2.1B оценка. 1.6 млрд профилей. Semantic embeddings + graph NNs. <strong>MCP: нет</strong> &mdash; enterprise-only.</p>
     </div>
   </div>
 
   <div class="insight">
-    <h3>Стратегическая возможность</h3>
-    <p><strong>Ни одна российская платформа не имеет MCP-сервера.</strong> HeadHunter, SuperJob, Rabota.ru, Avito &mdash; никто. СБОРКА уже запущена на PyPI и mcp.sborka.work/sse. Расширение до marketplace tools (submit_job, submit_resume, find_matches) делает СБОРКУ единственным AI-native входом на русский рынок труда.</p>
-  </div>
-
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>MCP Сервер</th>
-          <th>Тип</th>
-          <th>Возможности</th>
-          <th>Статус</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Dice.com MCP</td>
-          <td><span class="tag green">Official</span></td>
-          <td>Job search (13 фильтров)</td>
-          <td>Live</td>
-        </tr>
-        <tr>
-          <td>Indeed MCP</td>
-          <td><span class="tag green">Official</span></td>
-          <td>Jobs + Resumes + Companies</td>
-          <td>Beta</td>
-        </tr>
-        <tr>
-          <td>Himalayas MCP</td>
-          <td><span class="tag green">Official</span></td>
-          <td>Remote jobs + companies</td>
-          <td>Live</td>
-        </tr>
-        <tr>
-          <td>JobSpy MCP</td>
-          <td><span class="tag amber">Community</span></td>
-          <td>Indeed+LinkedIn+Glassdoor</td>
-          <td>Active</td>
-        </tr>
-        <tr>
-          <td style="color: var(--emerald-700); font-weight: 800;">СБОРКА Career MCP</td>
-          <td><span class="tag green">Official</span></td>
-          <td>Salary + Market + Resume + Interview + Advice</td>
-          <td><span class="tag green">Live</span></td>
-        </tr>
-        <tr>
-          <td>HH.ru</td>
-          <td>&mdash;</td>
-          <td>&mdash;</td>
-          <td><span class="tag red">MCP нет</span></td>
-        </tr>
-      </tbody>
-    </table>
+    <h3>Паттерн MCP-adoption</h3>
+    <p>Из крупнейших мировых job-платформ <strong>только Dice и Himalayas</strong> запустили official MCP. Indeed &mdash; в beta. LinkedIn, Glassdoor, Monster &mdash; zero. В России: <strong>ноль official MCP</strong> от существующих платформ. HH.ru имеет 2 community-обёртки, но не контролирует их и не инвестирует в MCP. СБОРКА занимает пустой квадрант &mdash; <strong>first-party MCP + российский рынок</strong>.</p>
   </div>
 </section>
 
-<!-- MATCHING TECHNOLOGY -->
+<!-- 04: MATCHING TECHNOLOGY -->
 <section>
   <span class="section-label">04 / Технологии матчинга</span>
-  <h2>Эволюция алгоритмов</h2>
-  <p>Все российские платформы застряли на Gen 1-2 (keyword matching). State of the art использует semantic embeddings + graph neural networks + LLMs с точностью 91%+.</p>
+  <h2>Эволюция алгоритмов: от keywords к MCP + LLM</h2>
+  <p>Все российские платформы застряли на Gen 1&ndash;2 (keyword matching). MCP-first архитектура позволяет СБОРКЕ сразу строить Gen 3&ndash;4 matching: AI-агент передаёт структурированный контекст кандидата, а не просто строку поиска.</p>
 
   <div class="table-wrapper">
     <table>
@@ -724,7 +815,7 @@ footer {
           <th>Технология</th>
           <th>Точность</th>
           <th>Кто использует</th>
-          <th>Ограничения</th>
+          <th>MCP-совместимость</th>
         </tr>
       </thead>
       <tbody>
@@ -733,35 +824,35 @@ footer {
           <td>Keyword matching</td>
           <td>~40-50%</td>
           <td>HH.ru, SuperJob, все RU</td>
-          <td>Пропускает синонимы, контекст</td>
+          <td><span class="tag red">Бесполезен для агентов</span></td>
         </tr>
         <tr>
           <td><span class="mono">Gen 2</span></td>
           <td>TF-IDF + cosine similarity</td>
           <td>~60-70%</td>
           <td>Indeed, LinkedIn</td>
-          <td>Нет семантики</td>
+          <td><span class="tag amber">Базовый</span></td>
         </tr>
         <tr>
           <td><span class="mono">Gen 3</span></td>
           <td>BERT/SBERT embeddings</td>
           <td>~80-85%</td>
           <td>Eightfold, Mercor</td>
-          <td>Статичные навыки</td>
+          <td><span class="tag green">Хороший</span></td>
         </tr>
         <tr>
           <td><span class="mono">Gen 4</span></td>
-          <td>LLM-based + RAG</td>
+          <td>LLM-based + RAG + MCP</td>
           <td>~90%+</td>
           <td>Moonhub, передовые</td>
-          <td>Стоимость, латентность</td>
+          <td><span class="tag green">Нативный</span></td>
         </tr>
         <tr>
           <td style="color: var(--emerald-700); font-weight: 800;"><span class="mono">СБОРКА</span></td>
-          <td>BM25 &rarr; pgvector &rarr; LLM re-rank</td>
+          <td>MCP + BM25 &rarr; pgvector &rarr; LLM re-rank</td>
           <td>80%+ target</td>
           <td>Фазированный подход</td>
-          <td>$0-2/мес стоимость</td>
+          <td><span class="tag green">MCP-first</span></td>
         </tr>
       </tbody>
     </table>
@@ -769,163 +860,169 @@ footer {
 
   <div class="grid-2">
     <div class="card">
-      <h4>Open-source стек СБОРКИ</h4>
-      <p style="margin-bottom: 0.5rem;">Не нужен многомиллионный R&D бюджет. Готовые компоненты:</p>
+      <h4>Почему MCP улучшает matching</h4>
+      <p style="margin-bottom: 0.5rem;">Классический flow: пользователь вводит "Python developer" &rarr; keyword search. MCP flow:</p>
+      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
+        <li><strong>AI-агент</strong> передаёт полный контекст кандидата (навыки, опыт, предпочтения)</li>
+        <li><strong>MCP tool</strong> принимает structured data, а не строку</li>
+        <li><strong>Semantic search</strong> ищет по смыслу, а не по словам</li>
+        <li><strong>LLM re-rank</strong> учитывает career trajectory, soft skills</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Open-source стек СБОРКИ ($0&ndash;5/мес)</h4>
+      <p style="margin-bottom: 0.5rem;">Не нужен многомиллионный R&D. Готовые компоненты:</p>
       <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
         <li><strong>PostgreSQL + pgvector</strong> &mdash; vector similarity search</li>
         <li><strong>Sentence-BERT (MiniLM)</strong> &mdash; 384-dim embeddings, работает на CPU</li>
         <li><strong>DeepSeek V3</strong> &mdash; LLM re-ranking за $0.14/1M токенов</li>
-        <li><strong>FastAPI + tsvector</strong> &mdash; BM25-like full-text search</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>Преимущество фазированного подхода</h4>
-      <p style="margin-bottom: 0.5rem;">Запуск с Phase 1 (keyword), эволюция к Phase 3 (LLM) по мере роста:</p>
-      <ul style="font-size: 0.85rem; color: var(--stone-600); padding-left: 1.2rem; line-height: 2;">
-        <li><strong>Phase 1:</strong> PostgreSQL FTS &mdash; $0/мес, &lt;50ms</li>
-        <li><strong>Phase 2:</strong> + pgvector hybrid &mdash; ~$2/мес, &lt;100ms</li>
-        <li><strong>Phase 3:</strong> + LLM re-ranking &mdash; ~$5/мес, &lt;500ms</li>
-        <li>Порог: Phase 2 при 500+ листингов</li>
+        <li><strong>FastMCP</strong> &mdash; нативный MCP-сервер на Python</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- PAIN POINTS -->
+<!-- 05: PAIN POINTS THROUGH MCP LENS -->
 <section>
-  <span class="section-label">05 / Pain Points</span>
-  <h2>Боли рынка</h2>
+  <span class="section-label">05 / Проблемы, которые решает MCP</span>
+  <h2>Боли рынка &mdash; и почему MCP их закрывает</h2>
+  <p>Каждая ключевая боль рынка труда имеет MCP-решение. AI-агенты не рассылают спам-резюме, не фейкают вакансии, не скрывают обратную связь. MCP &mdash; это протокол качественного матчинга.</p>
 
   <h3>Соискатели</h3>
   <div class="pain-grid">
     <div class="pain-card critical">
-      <div class="severity">Critical</div>
+      <div class="severity">Critical &rarr; MCP fix</div>
       <h4>Нет обратной связи</h4>
-      <p>70%+ откликов получают НОЛЬ ответа. Работодатели смотрят резюме и молчат. HH пытается подталкивать, но compliance низкий.</p>
+      <p>70%+ откликов получают НОЛЬ ответа. <strong>MCP-решение:</strong> AI-агент работодателя автоматически отвечает через MCP tool "provide_feedback". Протокол требует структурированный ответ.</p>
     </div>
     <div class="pain-card high">
-      <div class="severity">High</div>
+      <div class="severity">High &rarr; MCP fix</div>
       <h4>Спам и фейковые вакансии</h4>
-      <p>Скам-листинги, MLM под видом работы, bait-and-switch по зарплате. Платформы не фильтруют эффективно.</p>
+      <p>Скам-листинги, MLM, bait-and-switch. <strong>MCP-решение:</strong> AI-агент верифицирует вакансию через MCP перед показом пользователю. Structured data не позволяет скрывать условия.</p>
     </div>
     <div class="pain-card high">
-      <div class="severity">High</div>
+      <div class="severity">High &rarr; MCP fix</div>
       <h4>Pay-to-play видимость</h4>
-      <p>Резюме без платного буста скрываются на 10+ страницах. Бесплатный доступ де-факто не работает.</p>
+      <p>Резюме без платного буста невидимы. <strong>MCP-решение:</strong> AI-агент ищет по качеству матча, а не по "оплаченности". MCP-эндпоинт не имеет "продвижения".</p>
     </div>
     <div class="pain-card medium">
-      <div class="severity">Medium</div>
+      <div class="severity">Medium &rarr; MCP fix</div>
       <h4>Нерелевантный matching</h4>
-      <p>Keyword matching показывает нерелевантные вакансии. "Python developer" != "Python programmer" для алгоритма.</p>
+      <p>"Python developer" != "Python programmer". <strong>MCP-решение:</strong> AI-агент передаёт семантику навыков, а не keywords. Matching по смыслу, а не по строке.</p>
     </div>
   </div>
 
   <h3>Работодатели</h3>
   <div class="pain-grid">
     <div class="pain-card critical">
-      <div class="severity">Critical</div>
-      <h4>Поток резюме</h4>
-      <p>250 откликов на вакансию, 95%+ нерелевантны. Только 4-6 кандидатов доходят до интервью. Огромные потери времени HR.</p>
+      <div class="severity">Critical &rarr; MCP fix</div>
+      <h4>Поток нерелевантных резюме</h4>
+      <p>250 откликов, 95%+ мусор. <strong>MCP-решение:</strong> AI-агент соискателя проверяет fit ДО отклика через MCP. Агент не отправит резюме, если match score ниже порога. Вместо 250 &mdash; 15 качественных.</p>
     </div>
     <div class="pain-card high">
-      <div class="severity">High</div>
+      <div class="severity">High &rarr; MCP fix</div>
       <h4>Высокая стоимость найма</h4>
-      <p>Средняя стоимость найма: $4,700 (США). В России монопольные цены HH.ru постоянно растут.</p>
+      <p>Средняя стоимость: $4,700 (США). HH.ru &mdash; монопольные цены. <strong>MCP-решение:</strong> MCP-first платформа работает на open-source стеке за $5/мес. Стоимость найма стремится к нулю.</p>
     </div>
     <div class="pain-card high">
-      <div class="severity">High</div>
-      <h4>AI-сгенерированные отклики</h4>
-      <p>74% HR-менеджеров обнаруживают AI-контент в резюме. 58% обеспокоены. Новая проблема 2025+.</p>
+      <div class="severity">High &rarr; MCP fix</div>
+      <h4>AI-сгенерированные резюме</h4>
+      <p>74% HR видят AI-контент. <strong>MCP-решение:</strong> MCP передаёт structured skills data, не "сочинение". AI-агент работодателя проверяет навыки через тестовые задания, не через текст резюме.</p>
     </div>
     <div class="pain-card medium">
-      <div class="severity">Medium</div>
-      <h4>Низкая квалификация</h4>
-      <p>93% российских работодателей жалуются на недостаток навыков у соискателей (HH.ru 2025). Проблема matching, не supply.</p>
+      <div class="severity">Medium &rarr; MCP fix</div>
+      <h4>Низкая квалификация кандидатов</h4>
+      <p>93% работодателей жалуются. <strong>MCP-решение:</strong> community verification через СБОРКУ. MCP tool "get_candidate_profile" возвращает результаты mock-интервью, peer reviews.</p>
     </div>
   </div>
 </section>
 
-<!-- POSITIONING -->
+<!-- 06: POSITIONING -->
 <section>
   <span class="section-label">06 / Позиционирование</span>
-  <h2>Где СБОРКА на карте</h2>
+  <h2>MCP-first &mdash; определяющая ось</h2>
+  <p>Позиционирование СБОРКИ определяется двумя осями: наличие first-party MCP и ориентация на сообщество. Ни один конкурент не занимает квадрант "MCP-first + Community".</p>
 
   <div class="pos-map">
-    <div class="axis-x">AI-Native &rarr;</div>
-    <div class="axis-y">Нишевой / Community &rarr;</div>
+    <div class="axis-x">MCP-first &rarr;</div>
+    <div class="axis-y">Community / Niche &rarr;</div>
 
-    <!-- Q1: Generalist + Traditional -->
+    <!-- Q1: No MCP + Generalist -->
     <div class="quadrant" style="top: 55%; left: 5%; width: 42%; height: 40%; background: rgba(231,229,228,0.3);">
-      <span class="q-label">Generalist + Traditional</span>
+      <span class="q-label">No MCP + Generalist</span>
       <span class="player" style="background: var(--stone-200);">HH.ru &mdash; 70% рынка</span>
       <span class="player" style="background: var(--stone-200);">SuperJob</span>
       <span class="player" style="background: var(--stone-200);">Rabota.ru</span>
+      <span style="font-size: 0.7rem; color: var(--stone-500);">HH имеет 2 community MCP, но не official</span>
     </div>
 
-    <!-- Q2: Generalist + AI -->
+    <!-- Q2: MCP-ready + Generalist -->
     <div class="quadrant" style="top: 55%; left: 52%; width: 44%; height: 40%; background: rgba(254,243,199,0.3);">
-      <span class="q-label">Generalist + AI-Native</span>
-      <span class="player" style="background: var(--amber-200);">Mercor $10B</span>
-      <span class="player" style="background: var(--amber-200);">Indeed MCP</span>
-      <span class="player" style="background: var(--amber-200);">Eightfold 1.6B profiles</span>
+      <span class="q-label">MCP-ready + Generalist</span>
+      <span class="player" style="background: var(--amber-200);">Dice.com (Official MCP)</span>
+      <span class="player" style="background: var(--amber-200);">Indeed (Beta MCP)</span>
+      <span class="player" style="background: var(--amber-200);">Mercor $10B (no MCP)</span>
+      <span class="player" style="background: var(--amber-200);">Eightfold 1.6B (no MCP)</span>
     </div>
 
-    <!-- Q3: Niche + Traditional -->
+    <!-- Q3: No MCP + Niche -->
     <div class="quadrant" style="top: 5%; left: 5%; width: 42%; height: 45%; background: rgba(209,250,229,0.2);">
-      <span class="q-label">Niche + Traditional</span>
+      <span class="q-label">No MCP + Community/Niche</span>
       <span class="player" style="background: var(--emerald-100);">Avito Работа</span>
       <span class="player" style="background: var(--emerald-100);">Hired (tech)</span>
+      <span class="player" style="background: var(--emerald-100);">Paraform</span>
     </div>
 
-    <!-- Q4: Niche + AI = SBORKA -->
+    <!-- Q4: MCP-first + Community = SBORKA -->
     <div class="quadrant" style="top: 5%; left: 52%; width: 44%; height: 45%; background: linear-gradient(135deg, rgba(209,250,229,0.4), rgba(254,243,199,0.4)); border: 2px dashed var(--emerald-500);">
-      <span class="q-label" style="color: var(--emerald-700); opacity: 1;">Community + AI-Native</span>
-      <span class="player" style="background: linear-gradient(135deg, var(--emerald-500), var(--amber-500)); color: white; font-size: 0.95rem; padding: 0.4rem 0.8rem;">СБОРКА Order Book</span>
-      <span style="font-size: 0.75rem; color: var(--stone-600); line-height: 1.4;">MCP-first, semantic matching, community verification, $0 infra cost</span>
+      <span class="q-label" style="color: var(--emerald-700); opacity: 1;">MCP-first + Community</span>
+      <span class="player" style="background: linear-gradient(135deg, var(--emerald-500), var(--amber-500)); color: white; font-size: 0.95rem; padding: 0.4rem 0.8rem;">СБОРКА MCP-first</span>
+      <span class="player" style="background: var(--emerald-100);">Himalayas (Official MCP, remote)</span>
+      <span style="font-size: 0.75rem; color: var(--stone-600); line-height: 1.4;">First-party MCP + semantic matching + community verification + $5/мес инфра</span>
     </div>
   </div>
 </section>
 
-<!-- OPPORTUNITIES -->
+<!-- 07: STRATEGIC OPPORTUNITIES -->
 <section>
-  <span class="section-label">07 / Возможности</span>
-  <h2>Стратегические возможности</h2>
+  <span class="section-label">07 / Стратегические возможности</span>
+  <h2>MCP-first как фундамент</h2>
 
   <div class="grid-2">
     <div class="card" style="border-top: 3px solid var(--emerald-500);">
-      <h4>1. MCP-First &mdash; первая русская job-платформа</h4>
-      <p>Ноль конкурентов в RU. AI-агенты ищут вакансии через MCP &rarr; трафик &rarr; конверсии. Стоимость привлечения = $0.</p>
+      <h4>1. Единственный first-party MCP в RU</h4>
+      <p>Ноль конкурентов с official MCP. AI-агенты Claude, ChatGPT, Gemini подключаются к СБОРКЕ нативно. Каждый запрос через MCP = бесплатный трафик. CAC = $0.</p>
     </div>
     <div class="card" style="border-top: 3px solid var(--amber-500);">
-      <h4>2. Гарантия ответа 72ч</h4>
-      <p>Революция для RU рынка. Deposit от работодателя, возврат только при предоставлении фидбека. #1 pain point solved.</p>
+      <h4>2. MCP как trust layer</h4>
+      <p>MCP-протокол структурирует взаимодействие: AI-агент не может отправить спам-резюме, вакансия содержит все обязательные поля. Гарантия ответа 72ч &mdash; enforcement через MCP.</p>
     </div>
     <div class="card" style="border-top: 3px solid var(--emerald-500);">
-      <h4>3. Semantic Matching для русского языка</h4>
-      <p>Все RU платформы на keyword matching. SBERT + pgvector = 80%+ релевантность vs 40-50% у HH. Open-source стек.</p>
+      <h4>3. Semantic Matching через MCP</h4>
+      <p>AI-агент передаёт rich context через MCP tool &mdash; не строку "Python dev", а полный профиль навыков. SBERT + pgvector = 80%+ релевантность vs 40-50% у HH.</p>
     </div>
     <div class="card" style="border-top: 3px solid var(--amber-500);">
       <h4>4. Community Verification</h4>
-      <p>Живые встречи СБОРКИ = верификация кандидатов. "Этот человек прошёл 3 mock-интервью." HH это не может повторить.</p>
+      <p>Живые встречи СБОРКИ = верификация кандидатов. MCP tool "get_candidate_profile" возвращает peer reviews, mock-интервью. HH не может повторить.</p>
     </div>
     <div class="card" style="border-top: 3px solid var(--emerald-500);">
-      <h4>5. Ценовой дисраптор</h4>
-      <p>HH.ru с маржой 60% оставляет огромное пространство. Даже при 30% марже СБОРКА предложит в 5-10x дешевле.</p>
+      <h4>5. Монетизация через premium MCP tools</h4>
+      <p>Базовый поиск бесплатен. Premium tools: detailed_candidate_profile, bulk_search, analytics &mdash; платные. Модель: freemium MCP.</p>
     </div>
     <div class="card" style="border-top: 3px solid var(--amber-500);">
-      <h4>6. UGC SEO-маховик</h4>
-      <p>Каждая вакансия и резюме = индексируемая страница. Schema.org JobPosting &rarr; Google for Jobs. Бесконечный органический трафик.</p>
+      <h4>6. Network effect: MCP directories</h4>
+      <p>Листинг в Smithery, MCP Hub, Glama.ai, mcp.so. Каждая директория = канал привлечения. 10+ директорий = экспоненциальная видимость для AI-агентов.</p>
     </div>
   </div>
 
   <div class="insight">
     <h3>Ключевой вывод</h3>
-    <p>СБОРКА занимает уникальный квадрант: <strong>Community-driven + AI-native + Russian market</strong>. Ни один конкурент не находится здесь. Первый MCP-сервер для русского рынка труда, semantic matching вместо keywords, верификация через живое сообщество. Всё это на инфраструктуре за <strong>$5/мес</strong>.</p>
+    <p>СБОРКА занимает уникальный квадрант: <strong>MCP-first + Community-driven + Russian market</strong>. Ни один конкурент не находится здесь. Единственный first-party MCP для русского рынка труда, semantic matching вместо keywords, верификация через живое сообщество. Платформы без MCP будут scraped. Платформы с MCP контролируют канал. <strong>СБОРКА контролирует канал.</strong></p>
   </div>
 </section>
 
 <footer>
-  <span>СБОРКА Matching Engine Research &mdash; Feb 2026</span>
+  <span>СБОРКА MCP-First Career Platform Research &mdash; Feb 2026</span>
   <span class="mono" style="font-size: 0.75rem;">sborka.work</span>
 </footer>
 

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>СБОРКА Matching Engine — Ревью и бизнес-модель</title>
+<title>СБОРКА Matching Engine — Ревью и MCP-first модель</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -488,6 +488,7 @@ tr:hover { background: var(--stone-100); }
 .bar-fill.emerald { background: linear-gradient(180deg, var(--emerald-400), var(--emerald-600)); }
 .bar-fill.amber { background: linear-gradient(180deg, var(--amber-400), var(--amber-600)); }
 .bar-fill.rose { background: linear-gradient(180deg, var(--rose-500), var(--rose-600)); }
+
 .bar-label {
   font-size: 0.68rem;
   color: var(--stone-500);
@@ -526,6 +527,110 @@ tr:hover { background: var(--stone-100); }
 }
 .geo-step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
 .geo-step p { font-size: 0.88rem; color: var(--stone-600); }
+
+/* CHOSEN BADGE */
+.chosen {
+  display: inline-block;
+  background: var(--emerald-600);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+.fallback {
+  display: inline-block;
+  background: var(--stone-200);
+  color: var(--stone-600);
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+/* PAYMENT COMPARISON */
+.pay-compare {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.pay-card {
+  background: white;
+  border: 1px solid var(--stone-200);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  transition: all 0.3s;
+}
+.pay-card.recommended {
+  border-color: var(--emerald-500);
+  box-shadow: 0 4px 20px rgba(5, 150, 105, 0.12);
+}
+.pay-card.rejected {
+  opacity: 0.6;
+  background: var(--stone-100);
+}
+.pay-card .pay-name {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+.pay-card .pay-fee {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+.pay-card .pay-fee.good { color: var(--emerald-600); }
+.pay-card .pay-fee.bad { color: var(--rose-600); }
+.pay-card .pay-note {
+  font-size: 0.8rem;
+  color: var(--stone-500);
+  line-height: 1.5;
+}
+
+/* TRIGGER */
+.trigger-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.trigger-item {
+  background: white;
+  border: 1px solid var(--stone-200);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.trigger-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.trigger-icon.emerald { background: var(--emerald-100); color: var(--emerald-700); }
+.trigger-icon.amber { background: var(--amber-100); color: var(--amber-700); }
+.trigger-icon.violet { background: var(--violet-100); color: var(--violet-600); }
+.trigger-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.15rem; }
+.trigger-item p { font-size: 0.78rem; color: var(--stone-500); }
 
 /* FOOTER */
 footer {
@@ -570,20 +675,20 @@ footer {
 
 <!-- HERO -->
 <div class="hero">
-  <div class="badge">Ревью &bull; Февраль 2026</div>
-  <h1>Факт-чек, бизнес-модель<br>и <em>рекомендации CPO</em></h1>
-  <p class="subtitle">Проверка ключевых допущений исследования. Верифицированная карта MCP-конкурентов. Пошаговая бизнес-модель двустороннего маркетплейса с MCP и GEO как каналами роста.</p>
+  <div class="badge">MCP-first модель &bull; Февраль 2026</div>
+  <h1>MCP-first бизнес-модель<br>и <em>платёжная инфраструктура</em></h1>
+  <p class="subtitle">Выбранная стратегия: Вариант A (Dice-модель). MCP бесплатный навсегда. Revenue от работодателей и карьерного клуба. Платежи через ЮKassa и T-Bank. Факт-чек MCP-ландшафта и пошаговый план монетизации.</p>
 </div>
 
 <!-- SECTION 1: MCP FACT-CHECK -->
 <section>
   <span class="section-label">01 / Факт-чек MCP</span>
-  <h2>У HH.ru ЕСТЬ MCP-серверы</h2>
-  <p>Первоначальное исследование утверждало, что ни одна российская job-платформа не имеет MCP. Это оказалось <strong>неверно</strong>. Повторная проверка выявила минимум 2 полноценных MCP-сервера и 2 скрейпера.</p>
+  <h2>Карта MCP-конкурентов: Россия и мир</h2>
+  <p>Первоначальное исследование утверждало, что ни одна российская job-платформа не имеет MCP. Это оказалось <strong>частично неверно</strong>: у HH.ru есть community-built MCP (обёртки API), но нет официального 1st-party сервера.</p>
 
   <div class="correction">
     <h3>&#9888; Коррекция исследования</h3>
-    <p>Утверждение "СБОРКА будет первой российской платформой с MCP" — <strong>неверно</strong>. У HH.ru уже есть community-built MCP-серверы с полным покрытием API (167+ инструментов). Однако это НЕ официальные серверы HH.ru — это сторонние обёртки над их API. У самого HH.ru нет официального MCP.</p>
+    <p>У HH.ru есть <strong>community-built</strong> MCP-серверы (sargonpiraev/hh-mcp-server, 167+ tools). Это сторонние обёртки над открытым API HH.ru, не контролируемые компанией. СБОРКА остаётся <strong>единственной российской платформой с 1st-party MCP</strong> — мы контролируем сервер, бизнес-логику и монетизацию. Разница критична: community MCP не может добавить premium-тулы, вебхуки или аналитику.</p>
   </div>
 
   <div class="table-wrapper">
@@ -626,10 +731,10 @@ footer {
           <td>Apify actors</td>
           <td><span class="tag blue">Scraping</span></td>
         </tr>
-        <tr>
+        <tr style="background: var(--emerald-100);">
           <td><strong>СБОРКА Career MCP</strong></td>
           <td>Official 1st-party</td>
-          <td><span class="mono">5</span></td>
+          <td><span class="mono">5+</span></td>
           <td>Python / FastMCP</td>
           <td><span class="tag green">Активен</span></td>
         </tr>
@@ -637,7 +742,7 @@ footer {
     </table>
   </div>
 
-  <h3 style="margin: 2rem 0 1rem; font-size: 1.15rem;">Глобальная карта Job MCP</h3>
+  <h3 style="margin: 2rem 0 1rem; font-size: 1.15rem;">Глобальная карта Job MCP (февраль 2026)</h3>
 
   <div class="table-wrapper">
     <table>
@@ -647,7 +752,7 @@ footer {
           <th>Страна</th>
           <th>MCP</th>
           <th>Тип</th>
-          <th>Детали</th>
+          <th>Модель монетизации MCP</th>
         </tr>
       </thead>
       <tbody>
@@ -656,62 +761,62 @@ footer {
           <td>US</td>
           <td><span class="tag green">Официальный</span></td>
           <td>1st-party</td>
-          <td>docs.indeed.com/mcp — единственный официальный MCP от job-борды</td>
+          <td>Бесплатный MCP &#8594; sponsored jobs $5-25/клик</td>
         </tr>
         <tr>
           <td><strong>Dice</strong></td>
           <td>US</td>
           <td><span class="tag green">Официальный</span></td>
           <td>1st-party</td>
-          <td>13+ фильтров, прямой доступ к вакансиям через AI</td>
+          <td>Бесплатный MCP &#8594; работодатели платят за постинг</td>
         </tr>
         <tr>
           <td><strong>LinkedIn</strong></td>
           <td>US</td>
           <td><span class="tag amber">Community</span></td>
           <td>5+ серверов</td>
-          <td>Профили, вакансии, отклики — неофициальные обёртки</td>
+          <td>MCP неофициальный, LinkedIn монетизирует подписки</td>
         </tr>
         <tr>
           <td><strong>Himalayas</strong></td>
           <td>US</td>
           <td><span class="tag green">Официальный</span></td>
           <td>1st-party</td>
-          <td>Удалённые вакансии, бесплатный MCP</td>
+          <td>Бесплатный MCP &#8594; premium job posts</td>
         </tr>
         <tr>
           <td><strong>JobSpy</strong></td>
           <td>Global</td>
           <td><span class="tag violet">Агрегатор</span></td>
           <td>Multi-board</td>
-          <td>8 бирж сразу: Indeed, LinkedIn, Glassdoor, ZipRecruiter...</td>
+          <td>8 бирж: Indeed, LinkedIn, Glassdoor, ZipRecruiter...</td>
         </tr>
         <tr>
           <td><strong>HH.ru</strong></td>
           <td>RU</td>
           <td><span class="tag amber">Community</span></td>
           <td>2+ сервера</td>
-          <td>167+ tools (полный API) — НЕ официальные</td>
+          <td>167+ tools (полный API) — НЕ контролируемые HH</td>
         </tr>
         <tr>
           <td><strong>SuperJob</strong></td>
           <td>RU</td>
           <td><span class="tag red">Нет</span></td>
-          <td>—</td>
+          <td>--</td>
           <td>Есть API, MCP нет</td>
         </tr>
         <tr>
           <td><strong>Авито Работа</strong></td>
           <td>RU</td>
           <td><span class="tag red">Нет</span></td>
-          <td>—</td>
-          <td>Нет MCP</td>
+          <td>--</td>
+          <td>Нет публичного API</td>
         </tr>
         <tr>
           <td><strong>Работа.ру</strong></td>
           <td>RU</td>
           <td><span class="tag red">Нет</span></td>
-          <td>—</td>
+          <td>--</td>
           <td>Нет MCP</td>
         </tr>
       </tbody>
@@ -719,72 +824,110 @@ footer {
   </div>
 
   <div class="insight">
-    <h3>Вывод для СБОРКА</h3>
-    <p>СБОРКА — <strong>единственная российская платформа с собственным (1st-party) MCP-сервером</strong>. HH.ru MCP создан сообществом, не HH. Это критически важная разница: СБОРКА контролирует свой MCP, может добавлять бизнес-логику (монетизацию, фильтры, premium-тулы). Community HH MCP — просто обёртка над их API без бизнес-слоя.</p>
+    <h3>Вывод: 1st-party = конкурентное преимущество</h3>
+    <p>СБОРКА -- <strong>единственная российская платформа с собственным (1st-party) MCP-сервером</strong>. Community MCP HH.ru -- просто обёртка над API без бизнес-слоя: нельзя добавить premium-тулы, аналитику, вебхуки. СБОРКА контролирует свой MCP полностью, может встраивать бизнес-логику и использовать его как основной канал привлечения.</p>
   </div>
 </section>
 
-<!-- SECTION 2: BUSINESS MODEL -->
+<!-- SECTION 2: STRATEGY VARIANT A -->
 <section>
-  <span class="section-label amber">02 / Бизнес-модель</span>
-  <h2>Как устроена экономика</h2>
-  <p>Двусторонний маркетплейс, где работодатели платят, соискатели — бесплатны. MCP и GEO — два канала привлечения обеих сторон. Ключевой принцип: <strong>в рекрутинге работодатель платит 90%+ revenue</strong>.</p>
+  <span class="section-label amber">02 / Стратегия: Вариант A (Dice-модель)</span>
+  <h2>Бесплатный MCP, платные работодатели <span class="chosen">Выбран</span></h2>
+  <p>Модель Dice.com адаптированная для российского рынка. MCP бесплатный навсегда -- это канал привлечения, а не продукт для монетизации. Revenue от трёх потоков: размещение вакансий, карьерный клуб, premium AI-фичи.</p>
 
-  <h3 style="margin-bottom: 1.5rem; font-size: 1.15rem;">Кто платит, за что и сколько</h3>
+  <div class="grid-3" style="margin-bottom: 2rem;">
+    <div class="card" style="border-top: 4px solid var(--emerald-600);">
+      <h4>Вариант A: Dice-модель <span class="chosen">Выбран</span></h4>
+      <p><strong>MCP бесплатный.</strong> Работодатели платят за вакансии и доступ к кандидатам. Соискатели бесплатно, upsell в карьерный клуб. Минимальный порог входа для обеих сторон.</p>
+      <div style="margin-top: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--emerald-700);">Revenue: B2B (80%) + B2C (20%)</div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--stone-300); opacity: 0.7;">
+      <h4>Вариант B: Freemium MCP <span class="fallback">Fallback</span></h4>
+      <p>MCP с лимитами (5 req/day free, unlimited paid). Проблема: рынок ожидает бесплатный MCP. Stripe, Dice, Indeed -- все бесплатны. Может убить adoption.</p>
+      <div style="margin-top: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--stone-500);">Только если Вариант A не работает</div>
+    </div>
+    <div class="card" style="border-top: 4px solid var(--stone-300); opacity: 0.7;">
+      <h4>Вариант C: Агрегатор <span class="fallback">Fallback</span></h4>
+      <p>MCP агрегирует вакансии с HH/SuperJob/Авито. Монетизация через premium-фичи (resume review, mock interview). Нет собственного контента.</p>
+      <div style="margin-top: 0.75rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--stone-500);">Pivot если маркетплейс не взлетит</div>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>Почему вариант A</h3>
+    <p>Dice.com -- <strong>единственная job-борда с официальным MCP, которая растёт</strong>. Модель проверена: бесплатный MCP привлекает AI-агентов компаний &#8594; работодатели видят ROI &#8594; платят за расширенный доступ. В России аналогов нет. СБОРКА занимает эту нишу первой.</p>
+  </div>
+</section>
+
+<!-- SECTION 3: BUSINESS MODEL -->
+<section>
+  <span class="section-label emerald">03 / Бизнес-модель</span>
+  <h2>Три потока revenue</h2>
+  <p>Работодатели генерируют 80% дохода. Соискатели -- бесплатные пользователи с upsell. MCP -- бесплатный канал привлечения, который никогда не монетизируется напрямую.</p>
 
   <div class="table-wrapper">
     <table>
       <thead>
         <tr>
-          <th>Сторона</th>
-          <th>Tier</th>
+          <th>Поток</th>
+          <th>Кто платит</th>
+          <th>Free tier</th>
+          <th>Paid tier</th>
           <th>Цена</th>
-          <th>Что получает</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td rowspan="2"><strong>Работодатель</strong></td>
-          <td><span class="tag green">Free</span></td>
+          <td rowspan="3"><strong>A. Вакансии работодателей</strong></td>
+          <td rowspan="3">Работодатель</td>
+          <td>3 вакансии/мес, базовый matching</td>
+          <td>--</td>
           <td><span class="mono">0 &#8381;</span></td>
-          <td>1 вакансия/мес, базовый matching, 5 MCP-запросов/день</td>
         </tr>
         <tr>
-          <td><span class="tag amber">Бизнес</span></td>
+          <td>--</td>
+          <td>Promoted: вакансия в топе выдачи 7 дней</td>
+          <td><span class="mono">2 900 &#8381;/шт</span></td>
+        </tr>
+        <tr>
+          <td>--</td>
+          <td>Бизнес: безлимит вакансий, аналитика, ATS</td>
           <td><span class="mono">9 900 &#8381;/мес</span></td>
-          <td>Безлимит вакансий, полный MCP-доступ, аналитика, приоритет в matching</td>
         </tr>
         <tr>
-          <td rowspan="2"><strong>Соискатель</strong></td>
-          <td><span class="tag green">Free</span></td>
-          <td><span class="mono">0 &#8381;</span></td>
-          <td>Профиль, поиск вакансий, отклики, базовый MCP</td>
-        </tr>
-        <tr>
-          <td><span class="tag violet">Карьерный клуб</span></td>
+          <td><strong>B. Карьерный клуб</strong></td>
+          <td>Соискатель</td>
+          <td>Поиск, отклики, базовый MCP</td>
+          <td>AI-ревью резюме, mock-интервью, ментор</td>
           <td><span class="mono">4 900 &#8381;/мес</span></td>
-          <td>AI-ревью резюме, mock-интервью, карьерный ментор, priority matching</td>
+        </tr>
+        <tr>
+          <td><strong>C. Premium AI</strong></td>
+          <td>Оба</td>
+          <td>Базовый search, submit</td>
+          <td>Глубокий анализ резюме, salary benchmark, рекомендации</td>
+          <td><span class="mono">1 900 &#8381;/запрос</span></td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <h3 style="margin: 2.5rem 0 1rem; font-size: 1.15rem;">Как две стороны находят друг друга</h3>
-  <p style="font-size: 0.95rem; color: var(--stone-600); margin-bottom: 1.5rem;">Три входа на платформу: Web (классический), MCP (AI-агенты), GEO (ответы LLM). Все три ведут в единый matching engine.</p>
+  <h3 style="margin: 2.5rem 0 1rem; font-size: 1.15rem;">Двусторонний маркетплейс: как стороны находят друг друга</h3>
+  <p style="font-size: 0.95rem; color: var(--stone-600); margin-bottom: 1.5rem;">Три входа на платформу: Web (классический), MCP (AI-агенты), GEO (ответы LLM). MCP -- приоритетный канал (Phase 1).</p>
 
   <div class="flow-diagram">
     <!-- Row 1: Entry -->
     <div class="flow-row">
       <div class="flow-side left">
         <h4>Соискатель</h4>
-        <p>Web / MCP / GEO-ответ LLM</p>
+        <p>MCP через Claude/ChatGPT / Web / GEO</p>
       </div>
       <div class="flow-center">
         <div class="flow-node">&#8594;</div>
       </div>
       <div class="flow-side right">
         <h4>Работодатель</h4>
-        <p>Web / MCP API / Прямая интеграция</p>
+        <p>MCP API / Web-кабинет / Прямая интеграция</p>
       </div>
     </div>
 
@@ -792,16 +935,16 @@ footer {
     <div class="flow-row">
       <div class="flow-side left">
         <h4>Размещает резюме</h4>
-        <p>Через web-форму или submit_resume через MCP</p>
-        <div class="price">Бесплатно</div>
+        <p>submit_resume через MCP или web-форму</p>
+        <div class="price">Бесплатно навсегда</div>
       </div>
       <div class="flow-center">
         <div class="flow-node amber">&#9881;</div>
       </div>
       <div class="flow-side right">
         <h4>Размещает вакансию</h4>
-        <p>Через web-форму или submit_job через MCP</p>
-        <div class="price">Free: 1/мес | Бизнес: безлимит</div>
+        <p>submit_job через MCP или web-кабинет</p>
+        <div class="price">Free: 3/мес | Promoted: 2 900&#8381;</div>
       </div>
     </div>
 
@@ -818,7 +961,7 @@ footer {
       <div class="flow-side right">
         <h4>Получает кандидатов</h4>
         <p>AI ранжирует по match score, верификация навыков</p>
-        <div class="price">Free: топ-5 | Бизнес: все</div>
+        <div class="price">Free: топ-5 | Бизнес: все + контакты</div>
       </div>
     </div>
 
@@ -835,7 +978,7 @@ footer {
       <div class="flow-side right">
         <h4>Приглашает на интервью</h4>
         <p>Контакт кандидата, AI-скрининг, шортлист</p>
-        <div class="price">Контакт: от 0 до 500&#8381;</div>
+        <div class="price">Free: 3 контакта/мес | Бизнес: безлимит</div>
       </div>
     </div>
 
@@ -850,129 +993,211 @@ footer {
         <div class="flow-node" style="border-color: var(--violet-600);">&#9733;</div>
       </div>
       <div class="flow-side right" style="background: linear-gradient(90deg, var(--amber-100) 0%, transparent 100%);">
-        <h4>Upsell: MCP API полный доступ</h4>
-        <p>Безлимит запросов, webhooks, ATS-интеграции</p>
+        <h4>Upsell: Бизнес-подписка</h4>
+        <p>Безлимит вакансий, аналитика, ATS-интеграция</p>
         <div class="price">9 900 &#8381;/мес</div>
       </div>
     </div>
   </div>
 
   <div class="insight">
-    <h3>Модель монетизации MCP</h3>
-    <p>MCP <strong>НЕ монетизируется напрямую</strong>. Рынок ожидает бесплатный MCP (Stripe, Dice, Himalayas — все бесплатны). Модель: <strong>бесплатный MCP привлекает трафик → конвертирует в платную подписку</strong>. Для работодателей: бесплатный MCP с лимитами (5 запросов/день) → платный с безлимитом. Для соискателей: бесплатный submit_resume через MCP → upsell в карьерный клуб.</p>
+    <h3>MCP = бесплатный навсегда</h3>
+    <p>Ни одна успешная компания <strong>не берёт деньги за MCP напрямую</strong>. Stripe, Dice, Indeed, Himalayas -- все бесплатны. MCP -- это канал привлечения, а не продукт. СБОРКА MCP всегда бесплатный: search_jobs, submit_resume, get_career_advice. Revenue только от работодателей (вакансии) и соискателей (карьерный клуб).</p>
   </div>
 </section>
 
-<!-- SECTION 3: MCP FLOW -->
+<!-- SECTION 4: PAYMENTS -->
 <section>
-  <span class="section-label emerald">03 / MCP-сценарии</span>
-  <h2>Как работает MCP для обеих сторон</h2>
-  <p>Конкретные сценарии использования MCP-сервера компаниями и соискателями. Каждый сценарий — реальный use case, который работает уже сегодня.</p>
+  <span class="section-label violet">04 / Платёжная инфраструктура</span>
+  <h2>Как принимать деньги</h2>
+  <p>Два этапа: day 1 -- T-Bank платёжные ссылки (zero code). Week 2-3 -- ЮKassa SDK (автоматизация). B2B -- банковские счета (0% комиссия). НЕ Tribute (10% слишком дорого).</p>
 
-  <div class="grid-2">
-    <div class="card">
-      <div class="card-icon amber">&#127970;</div>
-      <h4>Работодатель через MCP</h4>
-      <div style="font-size: 0.88rem; color: var(--stone-600); line-height: 1.7;">
-        <p style="margin-bottom: 0.75rem;">HR-менеджер или AI-агент компании подключает MCP СБОРКИ к Claude/ChatGPT:</p>
-        <div style="background: var(--stone-900); color: #e2e8f0; padding: 1rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; margin-bottom: 0.75rem; overflow-x: auto;">
-          <span style="color: #86efac;">// AI-агент компании</span><br>
-          submit_job(title="Senior Python", salary="300-450K")<br>
-          <span style="color: #86efac;">// Через 5 минут:</span><br>
-          find_matches(job_id=42) <span style="color: #86efac;">// → 15 кандидатов</span><br>
-          get_candidate(id=7) <span style="color: #86efac;">// → навыки, score 94%</span>
-        </div>
-        <p><strong>Бесплатно:</strong> 1 вакансия, 5 запросов/день<br><strong>Бизнес:</strong> безлимит, webhooks, ATS-интеграция</p>
-      </div>
+  <div class="pay-compare">
+    <div class="pay-card recommended">
+      <div class="pay-name">T-Bank ссылки</div>
+      <div class="pay-fee good">0%*</div>
+      <div class="pay-note">Phase 1: day 1. Создаёте ссылку в приложении, отправляете клиенту. Zero code. *Комиссия банка стандартная</div>
+      <div style="margin-top: 0.5rem;"><span class="tag green">Phase 1</span></div>
     </div>
-
-    <div class="card">
-      <div class="card-icon emerald">&#128100;</div>
-      <h4>Соискатель через MCP</h4>
-      <div style="font-size: 0.88rem; color: var(--stone-600); line-height: 1.7;">
-        <p style="margin-bottom: 0.75rem;">Кандидат использует Claude Code / ChatGPT с подключённым MCP:</p>
-        <div style="background: var(--stone-900); color: #e2e8f0; padding: 1rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; margin-bottom: 0.75rem; overflow-x: auto;">
-          <span style="color: #86efac;">// Кандидат через Claude</span><br>
-          submit_resume(skills=["React","TS"], salary="350K")<br>
-          search_jobs(query="frontend lead", city="remote")<br>
-          <span style="color: #86efac;">// → 8 вакансий с match score</span><br>
-          get_career_advice("переход из бэкенда во фронт")
-        </div>
-        <p><strong>Бесплатно:</strong> резюме, поиск, базовый совет<br><strong>Upsell:</strong> AI-ревью резюме → карьерный клуб 4 900&#8381;</p>
-      </div>
+    <div class="pay-card recommended">
+      <div class="pay-name">ЮKassa</div>
+      <div class="pay-fee good">2.0%</div>
+      <div class="pay-note">Phase 2: week 2-3. Карты 2%, SBP 0.4%. Официальный Python SDK. Рекурренты, чеки, 54-ФЗ</div>
+      <div style="margin-top: 0.5rem;"><span class="tag amber">Phase 2</span></div>
+    </div>
+    <div class="pay-card">
+      <div class="pay-name">Банк. счёт (B2B)</div>
+      <div class="pay-fee good">0%</div>
+      <div class="pay-note">Для юрлиц: выставляете счёт, оплата по реквизитам. Нет комиссии. Только РКО банка</div>
+      <div style="margin-top: 0.5rem;"><span class="tag green">Всегда</span></div>
+    </div>
+    <div class="pay-card rejected">
+      <div class="pay-name">Tribute</div>
+      <div class="pay-fee bad">10%</div>
+      <div class="pay-note">Слишком дорого. 10% от каждой транзакции. При MRR $3K -- теряем $300/мес. Отклонено</div>
+      <div style="margin-top: 0.5rem;"><span class="tag red">Отклонён</span></div>
     </div>
   </div>
-
-  <h3 style="margin: 2.5rem 0 1rem; font-size: 1.15rem;">Как MCP-компании зарабатывают сейчас</h3>
 
   <div class="table-wrapper">
     <table>
       <thead>
         <tr>
-          <th>Компания</th>
-          <th>MCP-модель</th>
-          <th>Монетизация</th>
-          <th>Revenue</th>
+          <th>Критерий</th>
+          <th>T-Bank ссылки</th>
+          <th>ЮKassa</th>
+          <th>Банк. счёт</th>
+          <th>Tribute</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>Stripe</strong></td>
-          <td>Бесплатный MCP</td>
-          <td>MCP = канал к основному продукту (платежи 2.9%+30&#162;)</td>
-          <td><span class="mono">$18B+</span></td>
+          <td><strong>Комиссия карты</strong></td>
+          <td><span class="mono">~2%</span></td>
+          <td><span class="mono">2.0%</span></td>
+          <td><span class="mono">0%</span></td>
+          <td><span class="mono">10%</span></td>
         </tr>
         <tr>
-          <td><strong>Dice</strong></td>
-          <td>Бесплатный MCP</td>
-          <td>MCP = дистрибуция вакансий → работодатели платят за постинг</td>
-          <td>Public</td>
+          <td><strong>Комиссия SBP</strong></td>
+          <td><span class="mono">--</span></td>
+          <td><span class="mono">0.4%</span></td>
+          <td><span class="mono">0%</span></td>
+          <td><span class="mono">10%</span></td>
         </tr>
         <tr>
-          <td><strong>Indeed</strong></td>
-          <td>Официальный MCP</td>
-          <td>MCP = воронка → sponsored jobs ($5-25/клик)</td>
-          <td><span class="mono">$4B+</span></td>
+          <td><strong>Python SDK</strong></td>
+          <td>Нет</td>
+          <td><span class="tag green">Есть</span></td>
+          <td>Не нужен</td>
+          <td>Нет</td>
         </tr>
         <tr>
-          <td><strong>Apify</strong></td>
-          <td>MCP-маркетплейс</td>
-          <td>Разработчики публикуют MCP, платформа берёт 20%</td>
-          <td>130K+ users/мес</td>
+          <td><strong>Рекурренты</strong></td>
+          <td>Нет</td>
+          <td><span class="tag green">Есть</span></td>
+          <td>Нет</td>
+          <td><span class="tag green">Есть</span></td>
         </tr>
         <tr>
-          <td><strong>Himalayas</strong></td>
-          <td>Бесплатный MCP</td>
-          <td>MCP = трафик → premium job posts</td>
-          <td>Стартап</td>
+          <td><strong>54-ФЗ (чеки)</strong></td>
+          <td>Нет</td>
+          <td><span class="tag green">Есть</span></td>
+          <td>Через бухгалтерию</td>
+          <td><span class="tag green">Есть</span></td>
         </tr>
         <tr>
-          <td><strong>Mercor</strong></td>
-          <td>Нет MCP</td>
-          <td>AI-matching экспертов + cost-plus fee</td>
-          <td><span class="mono">$450M ARR</span></td>
+          <td><strong>Время запуска</strong></td>
+          <td><span class="tag green">1 час</span></td>
+          <td><span class="tag amber">3-7 дней</span></td>
+          <td><span class="tag green">Есть ИП/ООО</span></td>
+          <td><span class="tag green">1 час</span></td>
+        </tr>
+        <tr>
+          <td><strong>Потеря при MRR $3K</strong></td>
+          <td><span class="mono">~$60</span></td>
+          <td><span class="mono">~$60</span></td>
+          <td><span class="mono">$0</span></td>
+          <td><span class="mono" style="color: var(--rose-600);">$300</span></td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div class="insight">
-    <h3>Паттерн рынка</h3>
-    <p><strong>Ни одна успешная компания не берёт деньги за MCP напрямую</strong>. Все используют MCP как бесплатный канал привлечения к платному core-продукту. Единственное исключение — маркетплейсы (Apify), которые берут комиссию 15-20%. Для СБОРКИ модель очевидна: <strong>бесплатный MCP → платные работодатели + карьерный клуб соискателей</strong>.</p>
+    <h3>Стратегия платежей</h3>
+    <p><strong>Phase 1 (day 1):</strong> T-Bank платёжные ссылки -- создаёте в мобильном приложении за минуту, отправляете клиенту в Telegram. Zero code, zero setup. <strong>Phase 2 (week 2-3):</strong> ЮKassa -- Python SDK, автоматические чеки, рекурренты для подписок. SBP 0.4% -- в 25 раз дешевле Tribute. <strong>B2B:</strong> банковские счета через ИП -- 0% комиссии для юрлиц.</p>
   </div>
 </section>
 
-<!-- SECTION 4: GEO/LLM STRATEGY -->
+<!-- SECTION 5: FREE TO PAID TRANSITION -->
 <section>
-  <span class="section-label blue">04 / GEO &amp; LLM-трафик</span>
-  <h2>Как попасть в ответы ChatGPT</h2>
-  <p>AI-реферальный трафик растёт на 123% год к году. ChatGPT генерирует 78% всего AI-трафика. Это новый канал, где СБОРКА может конкурировать с HH.ru — потому что HH.ru не оптимизирован под LLM.</p>
+  <span class="section-label amber">05 / Free-to-Paid переход</span>
+  <h2>Когда включать монетизацию</h2>
+  <p>Платные фичи вводятся <strong>не по календарю, а по триггерам</strong>. Преждевременная монетизация убивает маркетплейс. Слишком поздняя -- сжигает ресурсы. Три числовых порога для перехода.</p>
+
+  <div class="trigger-list">
+    <div class="trigger-item">
+      <div class="trigger-icon emerald">50+</div>
+      <div>
+        <h4>Вакансий в базе</h4>
+        <p>Минимальная ликвидность: у соискателя есть из чего выбирать</p>
+      </div>
+    </div>
+    <div class="trigger-item">
+      <div class="trigger-icon amber">200+</div>
+      <div>
+        <h4>Резюме в базе</h4>
+        <p>Ценность для работодателя: есть кого искать, matching работает</p>
+      </div>
+    </div>
+    <div class="trigger-item">
+      <div class="trigger-icon violet">5+</div>
+      <div>
+        <h4>Активных работодателей</h4>
+        <p>Повторные визиты: работодатели возвращаются, значит продукт работает</p>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin: 2rem 0 1rem; font-size: 1.15rem;">Градиент монетизации</h3>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Этап</th>
+          <th>Триггер</th>
+          <th>Что включается</th>
+          <th>Цена</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag green">Pre-revenue</span></td>
+          <td>0-50 вакансий</td>
+          <td>Всё бесплатно. Фокус на наполнении контентом и MCP adoption</td>
+          <td><span class="mono">0 &#8381;</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag amber">Early revenue</span></td>
+          <td>50+ вакансий, 5+ работодателей</td>
+          <td>Promoted вакансии (топ выдачи). Карьерный клуб открыт</td>
+          <td><span class="mono">2 900 &#8381;/шт</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag violet">Growth</span></td>
+          <td>200+ резюме, 10+ работодателей</td>
+          <td>Бизнес-подписка. Лимит free вакансий снижен до 1/мес</td>
+          <td><span class="mono">9 900 &#8381;/мес</span></td>
+        </tr>
+        <tr>
+          <td><span class="tag red">Scale</span></td>
+          <td>500+ резюме, 30+ работодателей</td>
+          <td>Premium AI (resume deep analysis). ATS-интеграции. Enterprise tier</td>
+          <td><span class="mono">29 900 &#8381;/мес</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="correction">
+    <h3>&#9888; Критичное правило</h3>
+    <p>Бесплатный tier для работодателей <strong>никогда не исчезает полностью</strong>. Даже на этапе Scale: 1 вакансия/мес бесплатно. Это обеспечивает постоянный приток новых работодателей. Paywall только на volume и premium-фичи.</p>
+  </div>
+</section>
+
+<!-- SECTION 6: GEO & LLM -->
+<section>
+  <span class="section-label blue">06 / GEO &amp; LLM-трафик</span>
+  <h2>MCP + GEO = два AI-канала</h2>
+  <p>MCP -- прямой канал (AI-агент вызывает API). GEO -- непрямой канал (LLM цитирует контент в ответе). Вместе они формируют <strong>AI-native воронку</strong>, которой нет у HH.ru.</p>
 
   <div class="grid-4" style="margin-bottom: 2rem;">
     <div class="card">
       <div class="stat emerald">+123%</div>
       <h4>Рост AI-трафика</h4>
-      <p>За 6 месяцев (сент 2024 — фев 2025)</p>
+      <p>За 6 месяцев (сент 2024 -- фев 2025)</p>
     </div>
     <div class="card">
       <div class="stat amber">78%</div>
@@ -980,9 +1205,9 @@ footer {
       <p>Доля в AI-реферальном трафике</p>
     </div>
     <div class="card">
-      <div class="stat rose">16→54%</div>
+      <div class="stat rose">16&#8594;54%</div>
       <h4>Structured data</h4>
-      <p>Рост точности GPT-4 при наличии Schema.org</p>
+      <p>Рост точности GPT-4 при Schema.org</p>
     </div>
     <div class="card">
       <div class="stat emerald">5x</div>
@@ -991,119 +1216,114 @@ footer {
     </div>
   </div>
 
-  <h3 style="margin-bottom: 1.5rem; font-size: 1.15rem;">Пошаговая GEO-стратегия для СБОРКИ</h3>
+  <h3 style="margin-bottom: 1.5rem; font-size: 1.15rem;">Как MCP и GEO работают вместе</h3>
 
   <div class="geo-step">
     <div class="geo-num">1</div>
     <div>
-      <h4>Schema.org JobPosting на каждую вакансию</h4>
-      <p>Структурированные данные — главный фактор для LLM. JSON-LD разметка: title, salary, skills, company, location. Google и AI-поисковики парсят это первым.</p>
+      <h4>MCP: прямой канал в AI-агенты</h4>
+      <p>Когда пользователь спрашивает Claude "найди вакансию Python" -- Claude вызывает MCP СБОРКИ напрямую и возвращает реальные вакансии. Это не SEO -- это API-канал в ответы AI. Работает уже сейчас.</p>
     </div>
   </div>
 
   <div class="geo-step">
     <div class="geo-num">2</div>
     <div>
-      <h4>Answer-first контент в 150 статьях</h4>
-      <p>Первый абзац каждой статьи = прямой ответ на запрос. LLM извлекают первый чёткий ответ. Переструктурировать все 150 статей: таблицы зарплат, bullet-списки, FAQ-секции.</p>
+      <h4>Schema.org JobPosting на каждую вакансию</h4>
+      <p>JSON-LD разметка: title, salary, skills, company, location. Google и AI-поисковики парсят это первым. Увеличивает шанс цитирования в 3.4 раза.</p>
     </div>
   </div>
 
   <div class="geo-step">
     <div class="geo-num">3</div>
     <div>
-      <h4>10 "зарплатных страниц" — максимальный LLM-бейт</h4>
-      <p>"Средняя зарплата [роль] в России 2026" — самый частый запрос к AI. Создать 10 definitive pages с реальными данными HH API. LLM будут цитировать как авторитетный источник.</p>
+      <h4>10 "зарплатных страниц" -- максимальный LLM-bait</h4>
+      <p>"Средняя зарплата [роль] в России 2026" -- самый частый запрос к AI. Создать 10 definitive pages с реальными данными. LLM будут цитировать как авторитетный источник.</p>
     </div>
   </div>
 
   <div class="geo-step">
     <div class="geo-num">4</div>
     <div>
-      <h4>MCP как прямой канал в AI</h4>
-      <p>Когда пользователь спрашивает Claude "найди мне вакансию Python в Москве" — Claude может вызвать MCP СБОРКИ напрямую и вернуть реальные вакансии. Это НЕ SEO — это прямой API-канал в ответы AI.</p>
+      <h4>Регистрация MCP на всех директориях</h4>
+      <p>Smithery (7 300+ tools), Apify (130K+ users/мес), mcpservers.org, MCP.so, PulseMCP, Glama. Каждая директория = backlink + discoverability для AI-агентов.</p>
     </div>
   </div>
 
   <div class="geo-step">
     <div class="geo-num">5</div>
     <div>
-      <h4>FAQ на каждой странице</h4>
-      <p>FAQPage Schema + реальные вопросы. LLM обожают FAQ — это формат Q&A, идеально маппится на промпт пользователя. У нас уже 13 FAQ на sborka.work, нужно 50+.</p>
-    </div>
-  </div>
-
-  <div class="geo-step">
-    <div class="geo-num">6</div>
-    <div>
-      <h4>Регистрация MCP на всех директориях</h4>
-      <p>Smithery (7 300+ tools), Apify (130K+ users/мес), mcpservers.org, MCP.so, PulseMCP, Glama. Каждая директория = backlink + discoverability для AI-агентов. Уже зарегистрированы на 4 из 6.</p>
+      <h4>FAQ на каждой странице (50+)</h4>
+      <p>FAQPage Schema + реальные вопросы. LLM обожают FAQ -- формат Q&A маппится на промпт пользователя. Текущие 13 FAQ нужно расширить до 50+.</p>
     </div>
   </div>
 
   <div class="insight">
-    <h3>Позиционирование</h3>
-    <p>СБОРКА — это <strong>НЕ конкурент HH.ru по контенту</strong>. Это <strong>AI-native карьерная платформа</strong>, оптимизированная для поиска работы через искусственный интеллект. Когда человек спрашивает ChatGPT о работе в России — СБОРКА появляется в ответе (GEO). Когда AI-агент компании ищет кандидатов — он вызывает MCP СБОРКИ (API). <strong>HH.ru не оптимизирован ни под одно, ни под другое.</strong></p>
+    <h3>Синергия MCP + GEO</h3>
+    <p>MCP приводит <strong>AI-агентов</strong> (разработчики, HR с Claude Code). GEO приводит <strong>обычных пользователей</strong> через цитирование в ChatGPT. Вместе они создают петлю: больше данных в MCP &#8594; лучше ответы LLM &#8594; больше цитирований &#8594; больше пользователей &#8594; больше данных. <strong>HH.ru не оптимизирован ни под MCP, ни под GEO.</strong></p>
   </div>
 </section>
 
-<!-- SECTION 5: CPO RECOMMENDATIONS -->
+<!-- SECTION 7: CPO RECOMMENDATIONS -->
 <section>
-  <span class="section-label violet">05 / Рекомендации CPO</span>
+  <span class="section-label violet">07 / Рекомендации CPO</span>
   <h2>Что строить и в каком порядке</h2>
-  <p>Рекомендации как от CPO продукта-маркетплейса (Uber/Airbnb-опыт). Фокус: минимум инвестиций, максимум learning на реальных данных.</p>
+  <p>MCP -- Phase 1, не Phase 2. Сначала продукт для AI-агентов, потом контент, потом маркетплейс, потом масштаб. Минимум инвестиций, максимум learning на реальных данных.</p>
 
   <div class="grid-2">
     <div class="phase-card p1">
-      <div class="phase-num">Фаза 1 — Неделя 1-2 | $0</div>
-      <h4>Контент-машина для AI</h4>
+      <div class="phase-num">Фаза 1 -- Неделя 1-2 | $0 | MCP as Product</div>
+      <h4>MCP как продукт</h4>
       <ul>
-        <li>Schema.org JobPosting на все страницы sborka.work</li>
-        <li>Переструктурировать 150 статей под answer-first</li>
-        <li>10 зарплатных лендингов (данные из HH API)</li>
-        <li>FAQPage Schema — минимум 50 FAQ</li>
-        <li>Отслеживать AI-реферальный трафик в Umami</li>
+        <li>search_jobs, submit_resume, get_career_advice в MCP</li>
+        <li>Регистрация на Smithery, Apify, MCP.so, PulseMCP, Glama</li>
+        <li>Агрегация вакансий с HH API для наполнения</li>
+        <li>Аналитика MCP-запросов: кто, что, сколько</li>
+        <li>T-Bank платёжные ссылки (ready to charge day 1)</li>
+        <li>Метрика: 100+ MCP-запросов/неделю</li>
       </ul>
     </div>
 
     <div class="phase-card p2">
-      <div class="phase-num">Фаза 2 — Неделя 2-4 | $0</div>
-      <h4>MCP как продукт</h4>
+      <div class="phase-num">Фаза 2 -- Неделя 2-4 | $0 | Контент + SEO</div>
+      <h4>Контент-машина для AI</h4>
       <ul>
-        <li>Добавить search_jobs и submit_resume в MCP</li>
-        <li>Агрегировать вакансии с HH/SuperJob (API) для контента</li>
-        <li>Регистрация MCP на Apify и оставшихся директориях</li>
-        <li>Rate limiting: free tier vs paid tier</li>
-        <li>Аналитика MCP-запросов: кто, что, сколько</li>
+        <li>Schema.org JobPosting на все страницы sborka.work</li>
+        <li>10 зарплатных лендингов (данные из HH API)</li>
+        <li>Answer-first структура: 150 статей переформатировать</li>
+        <li>FAQPage Schema -- минимум 50 FAQ</li>
+        <li>ЮKassa интеграция (Python SDK, рекурренты)</li>
+        <li>Метрика: AI-реферальный трафик в Umami > 50/неделю</li>
       </ul>
     </div>
 
     <div class="phase-card p3">
-      <div class="phase-num">Фаза 3 — Месяц 2-3 | Первые продажи</div>
+      <div class="phase-num">Фаза 3 -- Месяц 2-3 | Первые продажи | Marketplace</div>
       <h4>Открытие маркетплейса</h4>
       <ul>
-        <li>Приём вакансий: web-форма + MCP submit_job</li>
-        <li>Приём резюме: web-форма + MCP submit_resume</li>
-        <li>AI-matching (PostgreSQL FTS → pgvector)</li>
-        <li>Cold outreach к 50 HR: "Первая AI-native биржа"</li>
-        <li>Бесплатно для первых 20 компаний</li>
+        <li>Web-кабинет работодателя + MCP submit_job</li>
+        <li>Web-кабинет соискателя + MCP submit_resume</li>
+        <li>AI-matching (PostgreSQL FTS &#8594; pgvector)</li>
+        <li>Cold outreach к 50 HR: "Первая MCP-first биржа"</li>
+        <li>Первые 20 компаний -- бесплатно</li>
+        <li>Метрика: 5+ активных работодателей</li>
       </ul>
     </div>
 
     <div class="phase-card p4">
-      <div class="phase-num">Фаза 4 — Месяц 3-6 | Масштабирование</div>
-      <h4>Монетизация</h4>
+      <div class="phase-num">Фаза 4 -- Месяц 3-6 | Масштабирование | Scale</div>
+      <h4>Монетизация и рост</h4>
       <ul>
-        <li>Платный tier работодателя: 9 900 &#8381;/мес</li>
-        <li>Карьерный клуб интеграция: AI-ревью → воронка</li>
-        <li>Apify marketplace: пассивный доход от MCP</li>
+        <li>Promoted вакансии (2 900 &#8381;/шт) при 50+ jobs</li>
+        <li>Бизнес-подписка (9 900 &#8381;/мес) при 10+ работодателей</li>
+        <li>Карьерный клуб: AI-ревью &#8594; воронка &#8594; подписка</li>
         <li>ATS-интеграции (Huntflow, Potok)</li>
         <li>Цель: 30 платных компаний = ~$3 000 MRR</li>
       </ul>
     </div>
   </div>
 
-  <h3 style="margin: 2.5rem 0 1.5rem; font-size: 1.15rem;">Прогноз revenue</h3>
+  <h3 style="margin: 2.5rem 0 1.5rem; font-size: 1.15rem;">Прогноз revenue (Вариант A)</h3>
 
   <div class="card" style="padding: 2rem;">
     <div class="revenue-bar">
@@ -1118,27 +1338,27 @@ footer {
         <div class="bar-label">Мес 2</div>
       </div>
       <div class="bar-item">
-        <div class="bar-value">$300</div>
-        <div class="bar-fill amber" style="height: 15%;"></div>
+        <div class="bar-value">$200</div>
+        <div class="bar-fill amber" style="height: 10%;"></div>
         <div class="bar-label">Мес 3</div>
       </div>
       <div class="bar-item">
-        <div class="bar-value">$600</div>
-        <div class="bar-fill amber" style="height: 25%;"></div>
+        <div class="bar-value">$500</div>
+        <div class="bar-fill amber" style="height: 20%;"></div>
         <div class="bar-label">Мес 4</div>
       </div>
       <div class="bar-item">
-        <div class="bar-value">$900</div>
-        <div class="bar-fill amber" style="height: 35%;"></div>
+        <div class="bar-value">$800</div>
+        <div class="bar-fill amber" style="height: 30%;"></div>
         <div class="bar-label">Мес 5</div>
       </div>
       <div class="bar-item">
         <div class="bar-value">$1.2K</div>
-        <div class="bar-fill amber" style="height: 45%;"></div>
+        <div class="bar-fill amber" style="height: 42%;"></div>
         <div class="bar-label">Мес 6</div>
       </div>
       <div class="bar-item">
-        <div class="bar-value">$1.5K</div>
+        <div class="bar-value">$1.6K</div>
         <div class="bar-fill amber" style="height: 55%;"></div>
         <div class="bar-label">Мес 7</div>
       </div>
@@ -1153,7 +1373,7 @@ footer {
         <div class="bar-label">Мес 9</div>
       </div>
       <div class="bar-item">
-        <div class="bar-value">$2.9K</div>
+        <div class="bar-value">$3K</div>
         <div class="bar-fill rose" style="height: 85%;"></div>
         <div class="bar-label">Мес 10</div>
       </div>
@@ -1169,52 +1389,52 @@ footer {
       </div>
     </div>
     <div style="display: flex; gap: 1.5rem; justify-content: center; font-size: 0.8rem; color: var(--stone-500);">
-      <span><span style="display: inline-block; width: 10px; height: 10px; background: var(--emerald-500); border-radius: 3px; margin-right: 4px;"></span> Инвестиция</span>
-      <span><span style="display: inline-block; width: 10px; height: 10px; background: var(--amber-500); border-radius: 3px; margin-right: 4px;"></span> Рост (10-30 клиентов)</span>
-      <span><span style="display: inline-block; width: 10px; height: 10px; background: var(--rose-500); border-radius: 3px; margin-right: 4px;"></span> Масштаб (30-80 клиентов)</span>
+      <span><span style="display: inline-block; width: 10px; height: 10px; background: var(--emerald-500); border-radius: 3px; margin-right: 4px;"></span> MCP + контент (0 revenue)</span>
+      <span><span style="display: inline-block; width: 10px; height: 10px; background: var(--amber-500); border-radius: 3px; margin-right: 4px;"></span> Рост (5-30 работодателей)</span>
+      <span><span style="display: inline-block; width: 10px; height: 10px; background: var(--rose-500); border-radius: 3px; margin-right: 4px;"></span> Масштаб (30-80 работодателей)</span>
     </div>
   </div>
 </section>
 
-<!-- SECTION 6: WHAT NOT TO DO -->
+<!-- SECTION 8: ANTI-PATTERNS -->
 <section>
-  <span class="section-label">06 / Антипаттерны</span>
+  <span class="section-label">08 / Антипаттерны</span>
   <h2>Что НЕ делать</h2>
-  <p>Самые частые ошибки при построении job-маркетплейса. Каждый пункт — реальный кейс провала.</p>
+  <p>Самые частые ошибки при построении MCP-first маркетплейса. Каждый пункт -- реальный кейс провала или подтверждённый рыночный паттерн.</p>
 
   <div class="grid-3">
     <div class="card" style="border-left: 4px solid var(--rose-500);">
-      <h4>&#10005; Не брать деньги за MCP</h4>
-      <p>Рынок ожидает бесплатный MCP. Stripe, Dice, Indeed — все бесплатны. Платный MCP убьёт adoption на старте.</p>
+      <h4>&#10005; НЕ брать деньги за MCP</h4>
+      <p>Рынок ожидает бесплатный MCP. Stripe, Dice, Indeed, Himalayas -- все бесплатны. Платный MCP убьёт adoption мгновенно. MCP = канал, не продукт.</p>
     </div>
     <div class="card" style="border-left: 4px solid var(--rose-500);">
-      <h4>&#10005; Не конкурировать по объёму</h4>
-      <p>HH.ru = 70% рынка, 2.8M вакансий. Невозможно догнать. Конкурировать по качеству matching и AI-доступности.</p>
+      <h4>&#10005; НЕ конкурировать по объёму</h4>
+      <p>HH.ru = 70% рынка, 2.8M вакансий. Догнать невозможно. Конкурировать по AI-доступности: MCP + GEO + качество matching.</p>
     </div>
     <div class="card" style="border-left: 4px solid var(--rose-500);">
-      <h4>&#10005; Не строить свой TTS/ML</h4>
-      <p>Mercor при $450M ARR использует внешние LLM. Не инвестировать в ML-инфраструктуру — использовать API (OpenAI, Groq, DeepSeek).</p>
+      <h4>&#10005; НЕ использовать Tribute</h4>
+      <p>10% комиссия -- в 5x дороже ЮKassa (2%) и в 25x дороже SBP (0.4%). При MRR $3K теряете $300/мес vs $60. Экономически бессмысленно.</p>
     </div>
     <div class="card" style="border-left: 4px solid var(--rose-500);">
-      <h4>&#10005; Не ждать юзеров для GEO</h4>
-      <p>AI-трафик приходит от LLM, а не от юзеров. Оптимизируйте контент сейчас — AI-цитирование растёт независимо от вашей базы.</p>
+      <h4>&#10005; НЕ монетизировать рано</h4>
+      <p>Paywall до 50 вакансий и 200 резюме -- смерть маркетплейса. Сначала ликвидность (контент), потом монетизация. Dice был бесплатным 2 года.</p>
     </div>
     <div class="card" style="border-left: 4px solid var(--rose-500);">
-      <h4>&#10005; Не делать "ещё одну джоб-борду"</h4>
-      <p>Moonhub ($3.8M ARR) не выжил как standalone — продан Salesforce. Позиционирование: AI-native, не "ещё одна борда".</p>
+      <h4>&#10005; НЕ делать "ещё одну джоб-борду"</h4>
+      <p>Moonhub ($3.8M ARR) не выжил как standalone -- продан Salesforce. Позиционирование: MCP-first career platform, не "ещё одна борда".</p>
     </div>
     <div class="card" style="border-left: 4px solid var(--rose-500);">
-      <h4>&#10005; Не запускать без контента</h4>
-      <p>Пустой маркетплейс = chicken-and-egg. Сначала агрегировать вакансии с HH/SuperJob, потом привлекать прямых работодателей.</p>
+      <h4>&#10005; НЕ откладывать MCP на Phase 2</h4>
+      <p>MCP -- Phase 1, не Phase 2. Контент без MCP = ещё один блог. MCP без контента = пустой API. Но MCP строится за дни, контент -- за недели. Приоритет: MCP.</p>
     </div>
   </div>
 </section>
 
-<!-- SECTION 7: POSITIONING -->
+<!-- SECTION 9: POSITIONING -->
 <section>
-  <span class="section-label emerald">07 / Позиционирование</span>
-  <h2>СБОРКА ≠ HH.ru</h2>
-  <p>Ключевое отличие: СБОРКА — это карьерная платформа, оптимизированная под поиск с AI. Не "лучший HH", а новая категория.</p>
+  <span class="section-label emerald">09 / Позиционирование</span>
+  <h2>СБОРКА = MCP-first career platform</h2>
+  <p>Не "HH.ru для AI-поколения". Не "ещё одна джоб-борда". СБОРКА -- первая в России карьерная платформа, построенная вокруг MCP как основного канала дистрибуции.</p>
 
   <div class="grid-2" style="margin-bottom: 2rem;">
     <div class="card" style="border-top: 4px solid var(--stone-400);">
@@ -1226,7 +1446,7 @@ footer {
         <li style="padding: 0.4rem 0;">&#8226; Нет верификации навыков</li>
         <li style="padding: 0.4rem 0;">&#8226; MCP только community (обёртки API)</li>
         <li style="padding: 0.4rem 0;">&#8226; Не оптимизирован под GEO/LLM</li>
-        <li style="padding: 0.4rem 0;">&#8226; Модель: pay-per-post + resume DB access</li>
+        <li style="padding: 0.4rem 0;">&#8226; Платежи: только юрлица, сложный onboarding</li>
       </ul>
     </div>
     <div class="card" style="border-top: 4px solid var(--emerald-600);">
@@ -1235,22 +1455,22 @@ footer {
         <li style="padding: 0.4rem 0;">&#8226; AI semantic matching (pgvector + LLM)</li>
         <li style="padding: 0.4rem 0;">&#8226; Гарантия ответа 72 часа</li>
         <li style="padding: 0.4rem 0;">&#8226; AI-фильтрация: только релевантные кандидаты</li>
-        <li style="padding: 0.4rem 0;">&#8226; AI mock-интервью = верификация</li>
-        <li style="padding: 0.4rem 0;">&#8226; Официальный 1st-party MCP</li>
+        <li style="padding: 0.4rem 0;">&#8226; 1st-party MCP (Phase 1 продукт)</li>
         <li style="padding: 0.4rem 0;">&#8226; GEO-оптимизация: контент для AI-ответов</li>
-        <li style="padding: 0.4rem 0;">&#8226; Модель: freemium + карьерный клуб upsell</li>
+        <li style="padding: 0.4rem 0;">&#8226; ЮKassa + SBP: 0.4-2% vs 10% Tribute</li>
+        <li style="padding: 0.4rem 0;">&#8226; Dice-модель: free MCP, employer revenue</li>
       </ul>
     </div>
   </div>
 
   <div class="insight">
     <h3>Одна фраза</h3>
-    <p style="font-size: 1.3rem; font-weight: 700; line-height: 1.4;">СБОРКА — это <strong>HH.ru для AI-поколения</strong>. Когда ты ищешь работу через ChatGPT или Claude, а не через поисковую строку — ты находишь СБОРКУ.</p>
+    <p style="font-size: 1.3rem; font-weight: 700; line-height: 1.4;">СБОРКА -- <strong>MCP-first карьерная платформа для России</strong>. Бесплатный MCP для AI-агентов. Работодатели платят за вакансии. Соискатели растут в карьерном клубе. Первая. Единственная. Нативная для AI.</p>
   </div>
 </section>
 
 <footer>
-  <span>СБОРКА Matching Engine — Ревью и бизнес-модель — Feb 2026</span>
+  <span>СБОРКА Matching Engine -- MCP-first модель -- Feb 2026</span>
   <span class="mono" style="font-size: 0.75rem;">sborka.work</span>
 </footer>
 

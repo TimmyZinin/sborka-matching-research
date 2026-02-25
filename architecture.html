@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>СБОРКА Matching Engine — Архитектура</title>
+<title>СБОРКА Matching Engine — Архитектура (MCP-first)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -104,7 +104,15 @@ td:first-child { font-weight: 600; color: var(--stone-900); }
 .arch-box.core { border-color: #818cf8; background: rgba(129,140,248,0.1); }
 .arch-box.data { border-color: #f472b6; background: rgba(244,114,182,0.1); }
 .arch-box.ext { border-color: var(--stone-400); background: rgba(168,162,158,0.1); }
+.arch-box.primary {
+  border-color: var(--amber-400);
+  background: rgba(251,191,36,0.15);
+  border-width: 3px;
+  padding: 1.25rem 2rem;
+  min-width: 260px;
+}
 .arch-box .label { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.25rem; }
+.arch-box.primary .label { font-size: 1.1rem; color: var(--amber-400); }
 .arch-box .sub { font-size: 0.7rem; opacity: 0.7; }
 .arch-arrow {
   display: flex;
@@ -165,6 +173,77 @@ td:first-child { font-weight: 600; color: var(--stone-900); }
 .flow-step.active { border-color: var(--emerald-500); background: var(--emerald-100); color: var(--emerald-700); }
 .flow-arrow { color: var(--stone-400); font-size: 1.2rem; }
 
+/* DUAL INTERFACE VISUAL */
+.dual-iface {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0;
+  margin: 2rem 0;
+  align-items: stretch;
+}
+.dual-iface .side {
+  background: white;
+  border: 2px solid var(--stone-200);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+}
+.dual-iface .side h4 { margin-bottom: 0.75rem; font-size: 1.1rem; }
+.dual-iface .side .emoji { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; }
+.dual-iface .center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: var(--stone-500);
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-width: 80px;
+}
+.dual-iface .center .db-icon {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--amber-500);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin: 0.5rem 0;
+  background: var(--amber-100);
+}
+@media (max-width: 768px) {
+  .dual-iface { grid-template-columns: 1fr; gap: 1rem; }
+  .dual-iface .center { flex-direction: row; gap: 0.5rem; }
+}
+
+/* DISCOVERY CHECKLIST */
+.checklist { list-style: none; padding: 0; margin: 1rem 0; }
+.checklist li {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--stone-200);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.checklist li:last-child { border-bottom: none; }
+.check-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.check-icon.done { background: var(--emerald-100); color: var(--emerald-700); }
+.check-icon.planned { background: var(--amber-100); color: var(--amber-700); }
+.check-icon.future { background: var(--stone-200); color: var(--stone-500); }
+
 footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px solid var(--stone-200); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--stone-500); }
 
 @media (max-width: 768px) {
@@ -191,55 +270,133 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
 </nav>
 
 <div class="hero">
-  <div class="badge">Architecture / February 2026</div>
-  <h1>Order Book:<br><em>Архитектура решения</em></h1>
-  <p class="subtitle">Двусторонняя платформа с dual-interface (Web + MCP), semantic matching engine, и стоимостью инфраструктуры $5-7/мес.</p>
+  <div class="badge">MCP-first Architecture / February 2026</div>
+  <h1>Dual Interface:<br><em>MCP + Web, один продукт</em></h1>
+  <p class="subtitle">Один продукт &mdash; два лица. Люди приходят на sborka.work, AI-агенты вызывают mcp.sborka.work. Единый PostgreSQL, единый service layer, два транспорта. MCP &mdash; бесплатно (Dice model). Деньги &mdash; от работодателей.</p>
 </div>
 
-<!-- ARCHITECTURE DIAGRAM -->
+<!-- 01. DUAL INTERFACE -->
 <section>
-  <span class="section-label">01 / Архитектура</span>
-  <h2>Системная архитектура</h2>
-  <p>Два входа &mdash; для людей (Web) и машин (MCP). Единый API-слой. Matching engine в центре. PostgreSQL + pgvector обрабатывают всё на одном VPS.</p>
+  <span class="section-label">01 / Dual Interface</span>
+  <h2>Один продукт &mdash; два лица</h2>
+  <p>Ключевая идея: человек и машина получают одни и те же данные через разные протоколы. Сервисный слой не дублируется &mdash; MCP tool и REST endpoint вызывают одну и ту же бизнес-логику.</p>
+
+  <div class="dual-iface">
+    <div class="side" style="border-color: var(--emerald-500);">
+      <span class="emoji" role="img" aria-label="person">&#x1F9D1;&#x200D;&#x1F4BB;</span>
+      <h4 style="color: var(--emerald-700);">Human Interface</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--stone-600); margin-bottom: 0.5rem;">sborka.work/jobs</p>
+      <p style="font-size: 0.85rem; color: var(--stone-600);">React + Vite &rarr; HTML<br>Schema.org JobPosting<br>SSR для SEO<br>Формы для работодателей</p>
+    </div>
+    <div class="center">
+      <span>&larr;</span>
+      <div class="db-icon">PG</div>
+      <span>&rarr;</span>
+      <span style="font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;">shared<br>service<br>layer</span>
+    </div>
+    <div class="side" style="border-color: var(--amber-500);">
+      <span class="emoji" role="img" aria-label="robot">&#x1F916;</span>
+      <h4 style="color: var(--amber-700);">Machine Interface</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--stone-600); margin-bottom: 0.5rem;">mcp.sborka.work</p>
+      <p style="font-size: 0.85rem; color: var(--stone-600);">FastMCP 3.0 &rarr; JSON-RPC<br>SSE transport<br>6 tools для агентов<br>Branding CTAs в ответах</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-left: 4px solid var(--emerald-500);">
+      <h4>Human Request</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.8;">
+        GET sborka.work/jobs?q=python<br>
+        <span style="color: var(--emerald-600);">&rarr; HTML page with cards</span><br>
+        <span style="color: var(--emerald-600);">&rarr; Schema.org microdata</span><br>
+        <span style="color: var(--emerald-600);">&rarr; source: "web"</span>
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--amber-500);">
+      <h4>Machine Request</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.8;">
+        tools/call: search_jobs<br>
+        {query: "python", city: "remote"}<br>
+        <span style="color: var(--amber-600);">&rarr; JSON-RPC response</span><br>
+        <span style="color: var(--amber-600);">&rarr; source: "mcp"</span>
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid #818cf8;">
+      <h4>Telegram Request</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; line-height: 1.8;">
+        /search python remote<br>
+        @Sborka_work_bot<br>
+        <span style="color: #818cf8;">&rarr; Formatted message</span><br>
+        <span style="color: #818cf8;">&rarr; source: "telegram"</span>
+      </p>
+    </div>
+  </div>
+
+  <div class="insight">
+    <h3>Dice Model &mdash; MCP бесплатно</h3>
+    <p>MCP &mdash; это <strong>канал дистрибуции</strong>, а не продукт. Как Dice.com: соискатели и AI-агенты ищут бесплатно. Деньги приходят от <strong>работодателей</strong>, которые платят за доступ к верифицированным кандидатам и promoted listings. Чем больше агентов подключено &mdash; тем ценнее платформа для работодателей.</p>
+  </div>
+</section>
+
+<!-- 02. SYSTEM ARCHITECTURE -->
+<section>
+  <span class="section-label">02 / Системная архитектура</span>
+  <h2>MCP Server &mdash; primary entry point</h2>
+  <p>MCP Server в центре. Web и Telegram &mdash; вторичные интерфейсы. Все три входа идут через единый Service Layer к общему PostgreSQL.</p>
 
   <div class="arch-diagram">
-    <div class="arch-layer-label">Entry Points</div>
+    <div class="arch-layer-label">AI Agents &amp; Clients</div>
     <div class="arch-row">
-      <div class="arch-box entry">
-        <div class="label">sborka.work</div>
-        <div class="sub">React + Vite</div>
+      <div class="arch-box entry" style="min-width: 120px;">
+        <div class="label">Claude</div>
+        <div class="sub">Anthropic MCP</div>
       </div>
-      <div class="arch-box entry">
-        <div class="label">MCP Server</div>
-        <div class="sub">mcp.sborka.work/sse</div>
+      <div class="arch-box entry" style="min-width: 120px;">
+        <div class="label">Cursor</div>
+        <div class="sub">IDE agent</div>
       </div>
-      <div class="arch-box entry">
-        <div class="label">@Sborka_work_bot</div>
-        <div class="sub">Telegram</div>
+      <div class="arch-box entry" style="min-width: 120px;">
+        <div class="label">ChatGPT</div>
+        <div class="sub">WebMCP (future)</div>
       </div>
-      <div class="arch-box entry">
-        <div class="label">Aggregator</div>
-        <div class="sub">hh.ru API + TG channels</div>
+      <div class="arch-box entry" style="min-width: 120px;">
+        <div class="label">Custom Agents</div>
+        <div class="sub">HR bots, integrations</div>
       </div>
     </div>
 
     <div class="arch-arrow">&darr; &darr; &darr; &darr;</div>
 
-    <div class="arch-layer-label">API Layer</div>
+    <div class="arch-layer-label" style="color: var(--amber-400); font-size: 0.75rem;">&#x2605; Primary Entry Point</div>
     <div class="arch-row">
-      <div class="arch-box api">
-        <div class="label">FastAPI REST</div>
-        <div class="sub">/api/v1/jobs, /resumes, /matches</div>
-      </div>
-      <div class="arch-box api">
-        <div class="label">Auth</div>
-        <div class="sub">JWT + API Keys</div>
+      <div class="arch-box primary">
+        <div class="label">MCP Server</div>
+        <div class="sub" style="font-size: 0.8rem; opacity: 1;">mcp.sborka.work/sse &bull; FastMCP 3.0 &bull; JSON-RPC &bull; SSE transport</div>
+        <div class="sub" style="margin-top: 0.5rem;">search_jobs &bull; get_job &bull; apply &bull; salary_data &bull; market_trends &bull; resume_review</div>
       </div>
     </div>
 
-    <div class="arch-arrow">&darr; &darr;</div>
+    <div class="arch-arrow">&darr;</div>
 
-    <div class="arch-layer-label">Core Services</div>
+    <div class="arch-layer-label">Secondary Interfaces</div>
+    <div class="arch-row">
+      <div class="arch-box entry">
+        <div class="label">sborka.work</div>
+        <div class="sub">React + Vite &rarr; HTML</div>
+      </div>
+      <div class="arch-box entry">
+        <div class="label">@Sborka_work_bot</div>
+        <div class="sub">Telegram Bot</div>
+      </div>
+      <div class="arch-box entry">
+        <div class="label">REST API</div>
+        <div class="sub">/api/v1/* (internal)</div>
+      </div>
+    </div>
+
+    <div class="arch-arrow">&darr; &darr; &darr;</div>
+
+    <div class="arch-layer-label">Shared Service Layer</div>
     <div class="arch-row">
       <div class="arch-box core">
         <div class="label">Matching Engine</div>
@@ -253,15 +410,19 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
         <div class="label">Notifications</div>
         <div class="sub">TG + Email</div>
       </div>
+      <div class="arch-box core">
+        <div class="label">Payments</div>
+        <div class="sub">ЮKassa + invoices</div>
+      </div>
     </div>
 
-    <div class="arch-arrow">&darr; &darr;</div>
+    <div class="arch-arrow">&darr;</div>
 
     <div class="arch-layer-label">Data Layer</div>
     <div class="arch-row">
-      <div class="arch-box data">
+      <div class="arch-box data" style="min-width: 280px;">
         <div class="label">PostgreSQL + pgvector</div>
-        <div class="sub">jobs, resumes, matches, skills</div>
+        <div class="sub">jobs, resumes, matches, applications, leads &bull; source tracking (web/mcp/telegram)</div>
       </div>
     </div>
 
@@ -281,40 +442,47 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
         <div class="label">DeepSeek V3</div>
         <div class="sub">$0.14/1M tokens</div>
       </div>
+      <div class="arch-box ext">
+        <div class="label">ЮKassa</div>
+        <div class="sub">2% cards, 0.4% SBP</div>
+      </div>
     </div>
   </div>
 
   <div class="insight">
-    <h3>Принципы архитектуры</h3>
-    <p><strong>Единый PostgreSQL</strong> &mdash; relational data + vector search через pgvector. Не нужен Elasticsearch. <strong>FastAPI обслуживает и REST, и MCP</strong> &mdash; каждый MCP tool вызывает тот же endpoint. <strong>LLM только для re-ranking</strong> (Phase 3), не для основного matching. Всё на одном VPS за <strong>$5/мес</strong>.</p>
+    <h3>Принципы MCP-first архитектуры</h3>
+    <p><strong>MCP &mdash; primary interface.</strong> Web и Telegram &mdash; адаптеры поверх того же service layer. <strong>Единый PostgreSQL</strong> хранит всё: relational data + vectors (pgvector). <strong>source field</strong> в каждой таблице отслеживает, откуда пришёл запрос: web, mcp или telegram. <strong>Всё на одном VPS за $5/мес</strong> (RUVDS).</p>
   </div>
 </section>
 
-<!-- DATABASE SCHEMA -->
+<!-- 03. DATABASE -->
 <section>
-  <span class="section-label">02 / База данных</span>
-  <h2>Database Schema</h2>
-  <p>6 основных таблиц + junction tables для skills. tsvector для full-text search, VECTOR(384) для semantic search (Phase 2).</p>
+  <span class="section-label">03 / База данных</span>
+  <h2>Shared Database Schema</h2>
+  <p>7 основных таблиц + junction tables. Каждая таблица с мутациями содержит <span class="mono" style="color: var(--amber-600);">source ENUM('web','mcp','telegram','aggregator')</span> для трекинга источника. tsvector для FTS, VECTOR(384) для semantic search.</p>
 
   <div class="grid-3">
     <div class="card" style="border-left: 4px solid var(--emerald-500);">
       <h4>jobs</h4>
       <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
-        id, source, company_id<br>
-        title, description<br>
+        id SERIAL PRIMARY KEY<br>
+        <span style="color: var(--amber-600);">source ENUM (web/mcp/tg/agg)</span><br>
+        company_id FK, title, description<br>
         salary_from/to, currency<br>
         experience_level<br>
         employment_type, work_format<br>
         city, is_active<br>
         <span style="color: var(--emerald-600);">tsv TSVECTOR (generated)</span><br>
         <span style="color: var(--amber-600);">embedding VECTOR(384)</span><br>
-        raw_data JSONB
+        raw_data JSONB, created_at
       </p>
     </div>
     <div class="card" style="border-left: 4px solid var(--amber-500);">
       <h4>resumes</h4>
       <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
-        id, user_id, source<br>
+        id SERIAL PRIMARY KEY<br>
+        user_id FK<br>
+        <span style="color: var(--amber-600);">source ENUM (web/mcp/tg)</span><br>
         full_name, title, summary<br>
         experience_years/level<br>
         desired_salary_from/to<br>
@@ -322,356 +490,447 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
         telegram, email<br>
         <span style="color: var(--emerald-600);">tsv TSVECTOR (generated)</span><br>
         <span style="color: var(--amber-600);">embedding VECTOR(384)</span><br>
-        resume_file_url
+        resume_file_url, created_at
       </p>
     </div>
     <div class="card" style="border-left: 4px solid #818cf8;">
       <h4>matches</h4>
       <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
-        id, job_id, resume_id<br>
+        id SERIAL PRIMARY KEY<br>
+        job_id FK, resume_id FK<br>
         <span style="color: var(--emerald-600);">score FLOAT (0.0-1.0)</span><br>
         score_breakdown JSONB<br>
         algorithm_version<br>
         status: new, viewed,<br>
         interested, rejected, hired<br>
+        <span style="color: var(--amber-600);">source ENUM (web/mcp/tg)</span><br>
         UNIQUE(job_id, resume_id)
       </p>
     </div>
-    <div class="card" style="border-left: 4px solid var(--stone-400);">
-      <h4>companies</h4>
+    <div class="card" style="border-left: 4px solid var(--amber-400);">
+      <h4>applications</h4>
       <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id SERIAL PRIMARY KEY<br>
+        job_id FK, resume_id FK<br>
+        cover_letter TEXT<br>
+        <span style="color: var(--amber-600);">source ENUM (web/mcp/tg)</span><br>
+        status: pending, reviewed,<br>
+        interview, offer, rejected<br>
+        employer_notes TEXT<br>
+        created_at, updated_at
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--emerald-400);">
+      <h4>leads</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        id SERIAL PRIMARY KEY<br>
+        <span style="color: var(--amber-600);">source ENUM (web/mcp/tg)</span><br>
+        type: employer/candidate<br>
+        company_name, contact_name<br>
+        email, telegram, phone<br>
+        utm_source, utm_medium<br>
+        utm_campaign<br>
+        mcp_client_id (agent name)<br>
+        status: new, contacted, converted<br>
+        created_at
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--stone-400);">
+      <h4>companies + skills</h4>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        <strong>companies:</strong><br>
         id, name, hh_id<br>
         website, size_range<br>
-        industry, verified
-      </p>
-    </div>
-    <div class="card" style="border-left: 4px solid var(--stone-400);">
-      <h4>skills</h4>
-      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
+        industry, verified, plan<br><br>
+        <strong>skills:</strong><br>
         id, name, name_en<br>
-        category: language,<br>
-        framework, tool, soft, domain<br>
-        aliases JSONB
-      </p>
-    </div>
-    <div class="card" style="border-left: 4px solid var(--stone-400);">
-      <h4>interactions</h4>
-      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; line-height: 2; color: var(--stone-600);">
-        id, match_id<br>
-        actor_type: employer/candidate<br>
-        action: view, save,<br>
-        contact, reject, hire<br>
-        metadata JSONB
+        category, aliases JSONB
       </p>
     </div>
   </div>
 
-  <p style="font-size: 0.85rem; color: var(--stone-500);">+ junction tables: <span class="mono">job_skills</span> (job_id, skill_id, is_required) и <span class="mono">resume_skills</span> (resume_id, skill_id, proficiency, years)</p>
-</section>
+  <p style="font-size: 0.85rem; color: var(--stone-500);">+ junction tables: <span class="mono">job_skills</span> (job_id, skill_id, is_required) и <span class="mono">resume_skills</span> (resume_id, skill_id, proficiency, years). Все FK с ON DELETE CASCADE.</p>
 
-<!-- MATCHING ALGORITHM -->
-<section>
-  <span class="section-label">03 / Matching Engine</span>
-  <h2>Алгоритм матчинга</h2>
-
-  <h3>Фазированная эволюция</h3>
-  <div class="flow">
-    <div class="flow-step active">Phase 1<br><span style="font-size: 0.7rem; font-weight: 400;">PostgreSQL FTS</span></div>
-    <span class="flow-arrow">&rarr;</span>
-    <div class="flow-step">Phase 2<br><span style="font-size: 0.7rem; font-weight: 400;">+ pgvector hybrid</span></div>
-    <span class="flow-arrow">&rarr;</span>
-    <div class="flow-step">Phase 3<br><span style="font-size: 0.7rem; font-weight: 400;">+ LLM re-ranking</span></div>
-  </div>
-
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>Критерий</th>
-          <th>Phase 1: FTS (BM25)</th>
-          <th>Phase 2: Hybrid</th>
-          <th>Phase 3: LLM Semantic</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Подход</td>
-          <td>ts_rank + skill overlap</td>
-          <td>BM25 (15%) + vector cosine (85%)</td>
-          <td>DeepSeek V3 re-ranks top-N</td>
-        </tr>
-        <tr>
-          <td>Точность</td>
-          <td>Хорошо для exact keywords</td>
-          <td>Ловит семантику. "Backend" = "серверная"</td>
-          <td>Лучшая. Понимает контекст, карьерную траекторию</td>
-        </tr>
-        <tr>
-          <td>Стоимость</td>
-          <td><span class="tag green">$0/мес</span></td>
-          <td><span class="tag green">~$2/мес</span></td>
-          <td><span class="tag amber">~$5/мес</span></td>
-        </tr>
-        <tr>
-          <td>Латентность</td>
-          <td>&lt;50ms</td>
-          <td>&lt;100ms</td>
-          <td>+200-500ms</td>
-        </tr>
-        <tr>
-          <td>Инфраструктура</td>
-          <td>PostgreSQL (есть)</td>
-          <td>+ pgvector + embedding model</td>
-          <td>+ DeepSeek/Qwen API</td>
-        </tr>
-        <tr>
-          <td>Реализация</td>
-          <td>1-2 дня</td>
-          <td>3-5 дней</td>
-          <td>1-2 дня поверх Phase 2</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Phase 1: Формула скоринга</h3>
   <div class="code-block">
-<span class="keyword">def</span> <span class="field">compute_match_score</span>(job, resume) -> <span class="type">float</span>:
-    <span class="comment"># Composite score from 0.0 to 1.0</span>
+<span class="comment">-- Source tracking: каждый запрос помечается источником</span>
+<span class="keyword">CREATE TYPE</span> <span class="type">source_type</span> <span class="keyword">AS ENUM</span> (<span class="string">'web'</span>, <span class="string">'mcp'</span>, <span class="string">'telegram'</span>, <span class="string">'aggregator'</span>);
 
-    <span class="comment"># Skill overlap (40% weight)</span>
-    job_skills = <span class="type">set</span>(job.skill_ids)
-    resume_skills = <span class="type">set</span>(resume.skill_ids)
-    skill_score = <span class="type">len</span>(job_skills & resume_skills) / <span class="type">max</span>(<span class="type">len</span>(job_skills), <span class="string">1</span>)
-
-    <span class="comment"># Salary alignment (25% weight)</span>
-    salary_score = _salary_overlap(job, resume)
-
-    <span class="comment"># Experience level match (20% weight)</span>
-    level_score = <span class="string">1.0</span> <span class="keyword">if</span> job.level == resume.level <span class="keyword">else</span> <span class="string">0.5</span>
-
-    <span class="comment"># Location match (15% weight)</span>
-    location_score = _location_match(job, resume)
-
-    <span class="keyword">return</span> (<span class="string">0.40</span> * skill_score +
-            <span class="string">0.25</span> * salary_score +
-            <span class="string">0.20</span> * level_score +
-            <span class="string">0.15</span> * location_score)
+<span class="comment">-- Leads table: трекинг конверсий по каналам</span>
+<span class="keyword">CREATE TABLE</span> <span class="type">leads</span> (
+    id <span class="type">SERIAL</span> <span class="keyword">PRIMARY KEY</span>,
+    source <span class="type">source_type</span> <span class="keyword">NOT NULL</span>,
+    type <span class="type">VARCHAR(20)</span> <span class="keyword">NOT NULL</span>, <span class="comment">-- 'employer' | 'candidate'</span>
+    company_name <span class="type">TEXT</span>,
+    contact_name <span class="type">TEXT</span>,
+    email <span class="type">TEXT</span>,
+    telegram <span class="type">TEXT</span>,
+    mcp_client_id <span class="type">TEXT</span>, <span class="comment">-- which AI agent brought this lead</span>
+    utm_source <span class="type">TEXT</span>,
+    utm_medium <span class="type">TEXT</span>,
+    status <span class="type">VARCHAR(20)</span> <span class="keyword">DEFAULT</span> <span class="string">'new'</span>,
+    created_at <span class="type">TIMESTAMPTZ</span> <span class="keyword">DEFAULT NOW</span>()
+);
   </div>
 </section>
 
-<!-- DUAL INTERFACE -->
+<!-- 04. MCP SERVER -->
 <section>
-  <span class="section-label">04 / API Design</span>
-  <h2>REST + MCP Dual Interface</h2>
-  <p>Каждый MCP tool &mdash; тонкая обёртка над REST endpoint. Единый source of truth для бизнес-логики. MCP добавляет branding CTAs к ответам.</p>
+  <span class="section-label">04 / MCP Server</span>
+  <h2>MCP Tools &mdash; Primary API</h2>
+  <p>6 tools, FastMCP 3.0, SSE transport. Каждый tool &mdash; тонкая обёртка над service layer. Ответы включают branding CTAs ("Подробнее на sborka.work"). MCP &mdash; бесплатно для всех.</p>
+
+  <div class="grid-2">
+    <div class="card" style="border-left: 4px solid var(--amber-500);">
+      <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">search_jobs()</h4>
+      <p style="margin-bottom: 0.75rem;">Поиск вакансий по query, skills, city, salary, work_format. Возвращает top-N с match score.</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--stone-500); line-height: 1.8;">
+        <span style="color: var(--amber-600);">query:</span> str, <span style="color: var(--amber-600);">skills:</span> list[str],<br>
+        <span style="color: var(--amber-600);">city:</span> str, <span style="color: var(--amber-600);">salary_min:</span> int,<br>
+        <span style="color: var(--amber-600);">work_format:</span> remote|office|hybrid,<br>
+        <span style="color: var(--amber-600);">limit:</span> int = 10
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--amber-500);">
+      <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">get_job()</h4>
+      <p style="margin-bottom: 0.75rem;">Полная информация о вакансии: описание, навыки, зарплата, компания, как откликнуться.</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--stone-500); line-height: 1.8;">
+        <span style="color: var(--amber-600);">job_id:</span> int<br>
+        <span style="color: var(--emerald-600);">&rarr; full vacancy details + apply link</span>
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--emerald-500);">
+      <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">apply()</h4>
+      <p style="margin-bottom: 0.75rem;">Отклик на вакансию от имени кандидата. Создаёт application + lead запись.</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--stone-500); line-height: 1.8;">
+        <span style="color: var(--amber-600);">job_id:</span> int, <span style="color: var(--amber-600);">name:</span> str,<br>
+        <span style="color: var(--amber-600);">email:</span> str, <span style="color: var(--amber-600);">telegram:</span> str,<br>
+        <span style="color: var(--amber-600);">cover_letter:</span> str (optional)
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid #818cf8;">
+      <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">salary_data()</h4>
+      <p style="margin-bottom: 0.75rem;">Аналитика зарплат по роли, городу, уровню. Агрегация из всей базы вакансий.</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--stone-500); line-height: 1.8;">
+        <span style="color: var(--amber-600);">role:</span> str, <span style="color: var(--amber-600);">city:</span> str,<br>
+        <span style="color: var(--amber-600);">level:</span> junior|middle|senior<br>
+        <span style="color: var(--emerald-600);">&rarr; {p25, median, p75, count}</span>
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid #818cf8;">
+      <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">market_trends()</h4>
+      <p style="margin-bottom: 0.75rem;">Тренды рынка: топ навыков, растущие роли, спрос по городам. Данные за 30/90 дней.</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--stone-500); line-height: 1.8;">
+        <span style="color: var(--amber-600);">period:</span> 30d|90d,<br>
+        <span style="color: var(--amber-600);">category:</span> skills|roles|cities<br>
+        <span style="color: var(--emerald-600);">&rarr; ranked list with deltas</span>
+      </p>
+    </div>
+    <div class="card" style="border-left: 4px solid var(--emerald-400);">
+      <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;">resume_review()</h4>
+      <p style="margin-bottom: 0.75rem;">AI-ревью резюме: скоринг, рекомендации, matching с релевантными вакансиями.</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--stone-500); line-height: 1.8;">
+        <span style="color: var(--amber-600);">resume_text:</span> str,<br>
+        <span style="color: var(--amber-600);">target_role:</span> str (optional)<br>
+        <span style="color: var(--emerald-600);">&rarr; score, tips, matched jobs</span>
+      </p>
+    </div>
+  </div>
+
+  <h3>FastMCP 3.0 Server</h3>
+  <div class="code-block">
+<span class="keyword">from</span> fastmcp <span class="keyword">import</span> FastMCP
+
+mcp = FastMCP(
+    <span class="string">"СБОРКА Career Intelligence"</span>,
+    description=<span class="string">"IT job market data for Russian market. "</span>
+                <span class="string">"Search jobs, salary analytics, market trends."</span>,
+)
+
+<span class="keyword">@mcp.tool</span>()
+<span class="keyword">async def</span> <span class="field">search_jobs</span>(
+    query: <span class="type">str</span>,
+    skills: <span class="type">list</span>[<span class="type">str</span>] = [],
+    city: <span class="type">str</span> | <span class="type">None</span> = <span class="type">None</span>,
+    salary_min: <span class="type">int</span> | <span class="type">None</span> = <span class="type">None</span>,
+    work_format: <span class="type">str</span> | <span class="type">None</span> = <span class="type">None</span>,
+    limit: <span class="type">int</span> = <span class="string">10</span>,
+) -> <span class="type">dict</span>:
+    <span class="string">"""Search IT jobs on the Russian market. Returns matched vacancies
+    with salary, skills, company info. Data from hh.ru + Telegram channels."""</span>
+    results = <span class="keyword">await</span> job_service.search(
+        query=query, skills=skills, city=city,
+        salary_min=salary_min, work_format=work_format,
+        limit=limit, <span class="field">source</span>=<span class="string">"mcp"</span>,  <span class="comment"># &lt;-- source tracking</span>
+    )
+    <span class="keyword">return</span> {
+        <span class="string">"jobs"</span>: results,
+        <span class="string">"total"</span>: <span class="type">len</span>(results),
+        <span class="string">"cta"</span>: <span class="string">"More at sborka.work/jobs"</span>,
+    }
+
+<span class="keyword">@mcp.tool</span>()
+<span class="keyword">async def</span> <span class="field">salary_data</span>(
+    role: <span class="type">str</span>,
+    city: <span class="type">str</span> | <span class="type">None</span> = <span class="type">None</span>,
+    level: <span class="type">str</span> | <span class="type">None</span> = <span class="type">None</span>,
+) -> <span class="type">dict</span>:
+    <span class="string">"""Get salary statistics for a role in Russia.
+    Returns percentiles (p25, median, p75) and sample size."""</span>
+    <span class="keyword">return await</span> analytics_service.salary_stats(role, city, level)
+
+<span class="comment"># SSE transport &mdash; universal, works with any MCP client</span>
+mcp.run(transport=<span class="string">"sse"</span>, host=<span class="string">"0.0.0.0"</span>, port=<span class="string">8001</span>)
+  </div>
+</section>
+
+<!-- 05. WEB INTERFACE -->
+<section>
+  <span class="section-label">05 / Web Interface</span>
+  <h2>sborka.work &mdash; Human Interface</h2>
+  <p>Тот же сервисный слой, но с HTML-рендерингом. Schema.org для Google for Jobs. SSR для SEO. Формы для работодателей.</p>
 
   <div class="grid-2">
     <div>
-      <h3>REST API Endpoints</h3>
+      <h3>Страницы</h3>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr><th>URL</th><th>Назначение</th><th>SEO</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>/jobs</td><td>Поиск вакансий с фильтрами</td><td>JobPosting schema</td></tr>
+            <tr><td>/jobs/{slug}</td><td>Карточка вакансии</td><td>Rich snippet</td></tr>
+            <tr><td>/jobs/post</td><td>Форма размещения вакансии</td><td>&mdash;</td></tr>
+            <tr><td>/salary</td><td>Калькулятор зарплат</td><td>FAQ schema</td></tr>
+            <tr><td>/trends</td><td>Тренды рынка (публичные)</td><td>Article schema</td></tr>
+            <tr><td>/profile</td><td>Личный кабинет кандидата</td><td>&mdash;</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3>REST API (internal)</h3>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr><th>Method</th><th>Endpoint</th><th>Auth</th></tr>
           </thead>
           <tbody>
-            <tr><td><span class="tag green">POST</span></td><td>/api/v1/jobs</td><td>API Key / JWT</td></tr>
             <tr><td><span class="tag amber">GET</span></td><td>/api/v1/jobs</td><td>Public</td></tr>
             <tr><td><span class="tag amber">GET</span></td><td>/api/v1/jobs/{id}</td><td>Public</td></tr>
-            <tr><td><span class="tag green">POST</span></td><td>/api/v1/resumes</td><td>JWT</td></tr>
-            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/resumes</td><td>Employer+paid</td></tr>
-            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/matches/for-job/{id}</td><td>Owner</td></tr>
-            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/matches/for-resume/{id}</td><td>Owner</td></tr>
-            <tr><td><span class="tag green">POST</span></td><td>/api/v1/matches/{id}/interact</td><td>Auth</td></tr>
+            <tr><td><span class="tag green">POST</span></td><td>/api/v1/jobs</td><td>API Key</td></tr>
+            <tr><td><span class="tag green">POST</span></td><td>/api/v1/apply</td><td>JWT</td></tr>
+            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/salary</td><td>Public</td></tr>
+            <tr><td><span class="tag amber">GET</span></td><td>/api/v1/trends</td><td>Public</td></tr>
           </tbody>
         </table>
       </div>
+      <p style="font-size: 0.8rem; color: var(--stone-500); margin-top: 0.5rem;">REST API &mdash; внутренний, для фронтенда и Telegram бота. Внешние клиенты используют MCP.</p>
     </div>
-    <div>
-      <h3>MCP Tools (новые)</h3>
-      <div class="card" style="margin-bottom: 1rem; border-left: 4px solid var(--emerald-500);">
-        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">submit_job()</h4>
-        <p>title, description, company_name, salary, skills, city, work_format</p>
-      </div>
-      <div class="card" style="margin-bottom: 1rem; border-left: 4px solid var(--amber-500);">
-        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">submit_resume()</h4>
-        <p>full_name, title, summary, experience, skills, salary, telegram</p>
-      </div>
-      <div class="card" style="margin-bottom: 1rem; border-left: 4px solid #818cf8;">
-        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">find_matches()</h4>
-        <p>query, side ("jobs"/"candidates"), skills, salary_min, city, limit</p>
-      </div>
-      <div class="card" style="border-left: 4px solid var(--stone-400);">
-        <h4 style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">get_job_details()</h4>
-        <p>job_id &rarr; full vacancy details</p>
-      </div>
-    </div>
+  </div>
+
+  <div class="code-block">
+<span class="comment">&lt;!-- Schema.org JobPosting on every /jobs/{slug} page --&gt;</span>
+&lt;<span class="keyword">script</span> type=<span class="string">"application/ld+json"</span>&gt;
+{
+  <span class="string">"@context"</span>: <span class="string">"https://schema.org"</span>,
+  <span class="string">"@type"</span>: <span class="string">"JobPosting"</span>,
+  <span class="string">"title"</span>: <span class="string">"Senior Python Developer"</span>,
+  <span class="string">"description"</span>: <span class="string">"..."</span>,
+  <span class="string">"hiringOrganization"</span>: {
+    <span class="string">"@type"</span>: <span class="string">"Organization"</span>,
+    <span class="string">"name"</span>: <span class="string">"Example Corp"</span>
+  },
+  <span class="string">"baseSalary"</span>: {
+    <span class="string">"@type"</span>: <span class="string">"MonetaryAmount"</span>,
+    <span class="string">"currency"</span>: <span class="string">"RUB"</span>,
+    <span class="string">"value"</span>: { <span class="string">"minValue"</span>: 250000, <span class="string">"maxValue"</span>: 400000 }
+  },
+  <span class="string">"jobLocationType"</span>: <span class="string">"TELECOMMUTE"</span>
+}
+&lt;/<span class="keyword">script</span>&gt;
   </div>
 </section>
 
-<!-- DATA SOURCES -->
+<!-- 06. DISCOVERY -->
 <section>
-  <span class="section-label">05 / Данные</span>
-  <h2>Источники данных</h2>
+  <span class="section-label">06 / Discovery</span>
+  <h2>Как AI-агенты нас находят</h2>
+  <p>Многоуровневая стратегия обнаружения: от стандартных файлов до каталогов MCP-серверов. Цель &mdash; чтобы любой AI-агент мог найти и подключить СБОРКУ автоматически.</p>
 
-  <div class="grid-3">
-    <div class="card" style="border-top: 3px solid var(--emerald-500);">
-      <h4>hh.ru API <span class="tag green">Legal</span></h4>
-      <p style="margin-bottom: 0.5rem;">Уже используется. Free tier позволяет:</p>
-      <ul style="font-size: 0.8rem; color: var(--stone-600); padding-left: 1rem; line-height: 1.8;">
-        <li>Search: до 2000 вакансий/запрос</li>
-        <li>Детали вакансии + навыки</li>
-        <li>Справочники городов и профессий</li>
-        <li>Информация о работодателях</li>
-      </ul>
-      <p style="margin-top: 0.5rem; font-size: 0.8rem;"><strong>Стратегия:</strong> nightly cron &rarr; 5,000-15,000 IT вакансий</p>
-    </div>
-    <div class="card" style="border-top: 3px solid var(--amber-500);">
-      <h4>Telegram каналы <span class="tag green">Legal</span></h4>
-      <p style="margin-bottom: 0.5rem;">220+ каналов с IT-вакансиями:</p>
-      <ul style="font-size: 0.8rem; color: var(--stone-600); padding-left: 1rem; line-height: 1.8;">
-        <li>@devjobs, @frontendjob</li>
-        <li>@pythonjobs, @golang_jobs</li>
-        <li>@remote_it, @jobsITru</li>
-      </ul>
-      <p style="margin-top: 0.5rem; font-size: 0.8rem;"><strong>Стратегия:</strong> Telethon парсит + DeepSeek ($0.01/день) структурирует</p>
-    </div>
-    <div class="card" style="border-top: 3px solid #818cf8;">
-      <h4>Crowdsourcing <span class="tag amber">Goal</span></h4>
-      <p style="margin-bottom: 0.5rem;">Долгосрочная цель &mdash; прямые загрузки:</p>
-      <ul style="font-size: 0.8rem; color: var(--stone-600); padding-left: 1rem; line-height: 1.8;">
-        <li>Web-форма на sborka.work</li>
-        <li>MCP tool submit_job()</li>
-        <li>Telegram /postjob команда</li>
-        <li>Наивысшее качество данных</li>
-      </ul>
-      <p style="margin-top: 0.5rem; font-size: 0.8rem;"><strong>Это</strong> = основной scaling-механизм</p>
-    </div>
+  <div class="card" style="margin: 1.5rem 0;">
+    <ul class="checklist">
+      <li>
+        <span class="check-icon done">&#10003;</span>
+        <div>
+          <strong>llms.txt</strong>
+          <span style="font-size: 0.8rem; color: var(--stone-500); display: block;">sborka.work/llms.txt &mdash; текстовое описание сервиса для LLM. Формат llms-txt.com. Содержит описание, capabilities, MCP endpoint.</span>
+        </div>
+      </li>
+      <li>
+        <span class="check-icon done">&#10003;</span>
+        <div>
+          <strong>robots.txt</strong>
+          <span style="font-size: 0.8rem; color: var(--stone-500); display: block;">sborka.work/robots.txt &mdash; разрешает GPTBot, ClaudeBot, PerplexityBot, CCBot. Указывает Sitemap и llms.txt.</span>
+        </div>
+      </li>
+      <li>
+        <span class="check-icon done">&#10003;</span>
+        <div>
+          <strong>MCP Directories</strong>
+          <span style="font-size: 0.8rem; color: var(--stone-500); display: block;">Регистрация в mcp.run, glama.ai/mcp, mcpservers.org, smithery.ai. Категория: "Career / Jobs / Russian market".</span>
+        </div>
+      </li>
+      <li>
+        <span class="check-icon planned">&#8226;</span>
+        <div>
+          <strong>.well-known/mcp/server.json</strong>
+          <span style="font-size: 0.8rem; color: var(--stone-500); display: block;">sborka.work/.well-known/mcp/server.json &mdash; стандартное место для MCP server discovery. Содержит endpoint URL, список tools, transport type.</span>
+        </div>
+      </li>
+      <li>
+        <span class="check-icon future">&#x25CB;</span>
+        <div>
+          <strong>WebMCP (future)</strong>
+          <span style="font-size: 0.8rem; color: var(--stone-500); display: block;">Когда ChatGPT и другие платформы начнут поддерживать WebMCP &mdash; автоматическая интеграция через .well-known файл.</span>
+        </div>
+      </li>
+    </ul>
   </div>
 
-  <p style="font-size: 0.85rem;"><strong>LinkedIn:</strong> <span class="tag red">Не рекомендуется</span> &mdash; заблокирован в РФ (2016), скрапинг нарушает ToS. hh.ru + TG каналы покрывают 90%+ российского IT-рынка.</p>
-</section>
+  <div class="grid-2">
+    <div class="code-block" style="margin: 0;">
+<span class="comment"># sborka.work/llms.txt</span>
 
-<!-- MONETIZATION -->
-<section>
-  <span class="section-label">06 / Монетизация</span>
-  <h2>Модели монетизации</h2>
-  <p>Marketplace в Phase 1 не нуждается в собственной монетизации. Его главная ценность &mdash; конверсия бесплатных соискателей в платных участников СБОРКИ.</p>
+<span class="field"># СБОРКА Career Intelligence</span>
+<span class="string">> IT job market data for Russia</span>
 
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr><th>Продукт</th><th>Для кого</th><th>Цена</th><th>Фаза</th><th>Аналог</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Бесплатный поиск вакансий</td><td>Соискатели</td><td>Free</td><td>1</td><td>hh.ru free</td></tr>
-        <tr><td>Бесплатное размещение (3 вакансии)</td><td>Работодатели SMB</td><td>Free</td><td>1</td><td>Wellfound free</td></tr>
-        <tr><td>Resume Boost</td><td>Соискатели</td><td>990 RUB/мес</td><td>2</td><td>hh.ru visibility</td></tr>
-        <tr><td>Priority Matching</td><td>Соискатели</td><td>В тарифах СБОРКИ</td><td>1</td><td>Hired premium</td></tr>
-        <tr><td>База резюме</td><td>Работодатели</td><td>4,900 RUB/мес (10 контактов)</td><td>2</td><td>hh.ru от 20,000</td></tr>
-        <tr><td>Promoted Listings</td><td>Работодатели</td><td>1,500 RUB/вакансия</td><td>2</td><td>hh.ru от 3,500</td></tr>
-        <tr><td>Hiring Analytics</td><td>Работодатели</td><td>9,500 RUB/мес</td><td>3</td><td>LinkedIn Recruiter Lite</td></tr>
-        <tr><td>MCP API (коммерческий)</td><td>AI-платформы, HR</td><td>2,900 RUB/мес</td><td>2</td><td>Уникальный</td></tr>
-      </tbody>
-    </table>
-  </div>
+<span class="type">## What we offer</span>
+- Search 15,000+ IT vacancies
+- Salary analytics by role/city
+- Market trends (skills, demand)
+- Resume review and matching
+- Apply to jobs programmatically
 
-  <h3>Интеграция с тарифами СБОРКИ</h3>
-  <div class="grid-3">
-    <div class="card" style="border-top: 3px solid var(--emerald-500);">
-      <h4>СТАРТ &mdash; 4,900 RUB</h4>
-      <p>Priority Matching + 1 resume review + 2 interview preps через matching engine</p>
+<span class="type">## MCP Server</span>
+Endpoint: mcp.sborka.work/sse
+Transport: SSE
+Tools: search_jobs, get_job, apply,
+       salary_data, market_trends,
+       resume_review
     </div>
-    <div class="card" style="border-top: 3px solid var(--amber-500);">
-      <h4>ПРОРЫВ &mdash; 9,500 RUB</h4>
-      <p>Всё из СТАРТ + Resume Boost + прямые интродакшны из match pool</p>
-    </div>
-    <div class="card" style="border-top: 3px solid #818cf8;">
-      <h4>VIP &mdash; 15,900 RUB</h4>
-      <p>Всё из ПРОРЫВ + dedicated matching manager + аналитика просмотров профиля</p>
+    <div class="code-block" style="margin: 0;">
+<span class="comment"># .well-known/mcp/server.json</span>
+
+{
+  <span class="string">"schema_version"</span>: <span class="string">"1.0"</span>,
+  <span class="string">"server"</span>: {
+    <span class="string">"name"</span>: <span class="string">"СБОРКА Career Intelligence"</span>,
+    <span class="string">"url"</span>: <span class="string">"https://mcp.sborka.work/sse"</span>,
+    <span class="string">"transport"</span>: <span class="string">"sse"</span>,
+    <span class="string">"description"</span>: <span class="string">"IT job search and
+      salary data for Russian market"</span>,
+    <span class="string">"tools"</span>: [
+      <span class="string">"search_jobs"</span>, <span class="string">"get_job"</span>,
+      <span class="string">"apply"</span>, <span class="string">"salary_data"</span>,
+      <span class="string">"market_trends"</span>, <span class="string">"resume_review"</span>
+    ]
+  }
+}
     </div>
   </div>
 
   <div class="insight">
-    <h3>Ключевой инсайт</h3>
-    <p>Marketplace &mdash; это <strong>top of funnel</strong> для существующих тарифов. Каждый результат matching включает СБОРКА CTAs. Бесплатные соискатели конвертируются в платных участников карьерного клуба. <strong>Revenue projection:</strong> Phase 2 (5 работодателей x 4,900) = 44,900 RUB/мес incremental.</p>
+    <h3>Network Effect</h3>
+    <p>Каждый AI-агент, подключивший СБОРКУ &mdash; это <strong>бесплатный канал дистрибуции</strong>. Агент рекомендует наши вакансии своим пользователям. Пользователь откликается &rarr; lead. Работодатель платит за доступ к этим лидам. Чем больше агентов &mdash; тем больше лидов &mdash; тем ценнее платформа. <strong>Конкурентов в российском рынке &mdash; ноль.</strong></p>
   </div>
 </section>
 
-<!-- COMPETITIVE ADVANTAGES -->
+<!-- 07. PAYMENTS -->
 <section>
-  <span class="section-label">07 / Конкурентные преимущества</span>
-  <h2>5 рвов СБОРКИ</h2>
+  <span class="section-label">07 / Payments</span>
+  <h2>Платёжная интеграция</h2>
+  <p>ЮKassa (Яндекс) &mdash; основной процессинг. Банковские счета &mdash; для B2B. Tribute отвергнут (10% комиссия слишком высока для этого продукта).</p>
 
+  <div class="grid-2">
+    <div class="card" style="border-top: 3px solid var(--amber-500);">
+      <h4>ЮKassa (основной)</h4>
+      <p style="margin-bottom: 0.75rem;">Яндекс.Касса. Python SDK <span class="mono" style="font-size: 0.8rem;">yookassa</span>. Поддерживает карты, SBP, ЮMoney, Apple Pay.</p>
+      <div class="table-wrapper" style="margin: 0.5rem 0;">
+        <table>
+          <thead><tr><th>Метод</th><th>Комиссия</th></tr></thead>
+          <tbody>
+            <tr><td>Банковские карты</td><td><span class="tag green">2.0%</span></td></tr>
+            <tr><td>СБП (SBP)</td><td><span class="tag green">0.4%</span></td></tr>
+            <tr><td>ЮMoney</td><td><span class="tag amber">3.0%</span></td></tr>
+            <tr><td>Apple/Google Pay</td><td><span class="tag amber">2.0%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--stone-500);">Подключение: ИП/ООО, модерация 1-3 дня.</p>
+    </div>
+    <div class="card" style="border-top: 3px solid var(--emerald-500);">
+      <h4>Банковские счета (B2B)</h4>
+      <p style="margin-bottom: 0.75rem;">Для крупных работодателей с юрлицом. Счёт + акт. Оплата по безналу.</p>
+      <div class="table-wrapper" style="margin: 0.5rem 0;">
+        <table>
+          <thead><tr><th>Параметр</th><th>Значение</th></tr></thead>
+          <tbody>
+            <tr><td>Комиссия</td><td><span class="tag green">0%</span></td></tr>
+            <tr><td>Документы</td><td>Счёт + акт</td></tr>
+            <tr><td>Срок оплаты</td><td>5-14 дней</td></tr>
+            <tr><td>Автоматизация</td><td>PDF генерация</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--stone-500);">Приоритет для работодателей от 3+ вакансий/мес.</p>
+    </div>
+  </div>
+
+  <h3>Что платят работодатели</h3>
   <div class="table-wrapper">
     <table>
       <thead>
-        <tr><th>Ров</th><th>hh.ru</th><th>LinkedIn</th><th>TG каналы</th><th style="background: var(--emerald-700);">СБОРКА</th></tr>
+        <tr><th>Продукт</th><th>Цена</th><th>Что входит</th><th>Фаза</th></tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Верификация кандидатов</td>
-          <td>Self-reported</td>
-          <td>Self-reported</td>
-          <td>Нет</td>
-          <td><strong style="color: var(--emerald-600);">Живые встречи + mock-интервью</strong></td>
-        </tr>
-        <tr>
-          <td>AI/MCP вход</td>
-          <td><span class="tag red">Нет</span></td>
-          <td><span class="tag red">Нет</span></td>
-          <td><span class="tag red">Нет</span></td>
-          <td><span class="tag green">Первый в России</span></td>
-        </tr>
-        <tr>
-          <td>Качество matching</td>
-          <td>Keyword</td>
-          <td>Moderate</td>
-          <td>Manual browse</td>
-          <td><strong style="color: var(--emerald-600);">Skill-based + semantic + salary</strong></td>
-        </tr>
-        <tr>
-          <td>SEO UGC</td>
-          <td>Employer-generated</td>
-          <td>Profiles</td>
-          <td>Нет SEO</td>
-          <td><strong style="color: var(--emerald-600);">Jobs + resumes = infinite pages</strong></td>
-        </tr>
-        <tr>
-          <td>Стоимость инфры</td>
-          <td>Enterprise</td>
-          <td>Microsoft</td>
-          <td>$0</td>
-          <td><strong style="color: var(--emerald-600);">$5-7/мес VPS</strong></td>
-        </tr>
+        <tr><td>Free tier</td><td><span class="tag green">0 RUB</span></td><td>3 вакансии, базовый matching, видимость для AI-агентов</td><td>1</td></tr>
+        <tr><td>Стандарт</td><td>4,900 RUB/мес</td><td>Безлимит вакансий, доступ к резюме (10 контактов), аналитика</td><td>2</td></tr>
+        <tr><td>Promoted Listings</td><td>1,500 RUB/вакансия</td><td>Приоритет в поиске + в MCP-ответах + на sborka.work</td><td>2</td></tr>
+        <tr><td>Hiring Analytics</td><td>9,500 RUB/мес</td><td>Конверсии, воронка, сравнение с рынком, source breakdown</td><td>3</td></tr>
       </tbody>
     </table>
   </div>
+  <p style="font-size: 0.85rem; color: var(--stone-500);">Соискатели и AI-агенты используют платформу бесплатно. Revenue = работодатели.</p>
 
-  <div class="grid-2">
-    <div class="card">
-      <h4>Verification Moat</h4>
-      <p>"Этот кандидат прошёл 3 mock-интервью и получил peer-feedback." Никакая другая платформа не может это сказать. Живые встречи СБОРКИ создают trust layer, который нельзя воспроизвести онлайн.</p>
-    </div>
-    <div class="card">
-      <h4>MCP Protocol Moat</h4>
-      <p>AI-агенты программно ищут вакансии и кандидатов. С ростом MCP adoption (Claude, Cursor, ChatGPT) СБОРКА становится default источником данных о русском рынке. Конкурентов &mdash; ноль.</p>
-    </div>
-    <div class="card">
-      <h4>Community Pipeline Moat</h4>
-      <p>Участники карьерного клуба &mdash; это и supply (верифицированные кандидаты), и demand (рефералы от работающих). Switching costs, которые HH не может повторить.</p>
-    </div>
-    <div class="card">
-      <h4>Cost Structure Moat</h4>
-      <p>PostgreSQL на $5/мес VPS. Нет Elasticsearch, нет дорогой инфраструктуры. Можно undercut HH на 5-10x по ценам для работодателей, оставаясь прибыльным.</p>
-    </div>
+  <div class="code-block">
+<span class="keyword">from</span> yookassa <span class="keyword">import</span> Configuration, Payment
+
+Configuration.account_id = <span class="field">YOOKASSA_SHOP_ID</span>
+Configuration.secret_key = <span class="field">YOOKASSA_SECRET</span>
+
+<span class="keyword">async def</span> <span class="field">create_employer_payment</span>(
+    amount: <span class="type">int</span>,
+    description: <span class="type">str</span>,
+    company_id: <span class="type">int</span>,
+    return_url: <span class="type">str</span>,
+) -> <span class="type">str</span>:
+    <span class="string">"""Create payment for employer plan. Returns redirect URL."""</span>
+    payment = Payment.create({
+        <span class="string">"amount"</span>: {<span class="string">"value"</span>: <span class="type">str</span>(amount), <span class="string">"currency"</span>: <span class="string">"RUB"</span>},
+        <span class="string">"confirmation"</span>: {<span class="string">"type"</span>: <span class="string">"redirect"</span>, <span class="string">"return_url"</span>: return_url},
+        <span class="string">"description"</span>: description,
+        <span class="string">"metadata"</span>: {<span class="string">"company_id"</span>: company_id},
+        <span class="string">"capture"</span>: <span class="type">True</span>,
+    })
+    <span class="keyword">return</span> payment.confirmation.confirmation_url
   </div>
 </section>
 
-<!-- TECH STACK -->
+<!-- 08. TECH STACK -->
 <section>
   <span class="section-label">08 / Tech Stack</span>
-  <h2>Рекомендуемый стек</h2>
+  <h2>Стек технологий</h2>
 
   <div class="table-wrapper">
     <table>
@@ -679,27 +938,62 @@ footer { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; border-top: 1px 
         <tr><th>Компонент</th><th>Технология</th><th>Обоснование</th></tr>
       </thead>
       <tbody>
-        <tr><td>Backend</td><td>FastAPI (existing)</td><td>Уже задеплоен, async, быстрый</td></tr>
-        <tr><td>Database</td><td>PostgreSQL 15+ pgvector</td><td>Уже работает. pgvector +20MB RAM</td></tr>
-        <tr><td>Full-text search</td><td>PostgreSQL tsvector + ts_rank</td><td>Не нужен отдельный search engine</td></tr>
-        <tr><td>Vector search</td><td>pgvector + MiniLM-L6-v2 (384d)</td><td>Самая маленькая хорошая модель, CPU OK</td></tr>
-        <tr><td>Embeddings</td><td>sentence-transformers (local) или DeepSeek</td><td>Local: ~2 сек/doc. API: $0.001/1000</td></tr>
-        <tr><td>MCP Server</td><td>sborka-career-mcp + 4 new tools</td><td>PyPI, SSE transport</td></tr>
-        <tr><td>Frontend</td><td>sborka.work (React+Vite)</td><td>Добавить /jobs и /profile pages</td></tr>
-        <tr><td>Telegram Bot</td><td>@Sborka_work_bot</td><td>Добавить /postjob, /mymatches</td></tr>
-        <tr><td>Aggregation</td><td>AsyncIO + APScheduler</td><td>Nightly hh.ru sync, hourly TG parse</td></tr>
-        <tr><td>LLM</td><td>DeepSeek V3 / GLM-4.7-Flash</td><td>$0.14/1M или бесплатно</td></tr>
-        <tr><td>Deploy</td><td>Docker Compose on RUVDS</td><td>$0 доп. затрат</td></tr>
+        <tr><td>MCP Server</td><td>FastMCP 3.0 + SSE</td><td>Primary interface. PyPI package, production-ready</td></tr>
+        <tr><td>Backend</td><td>FastAPI</td><td>Shared service layer для MCP + REST + TG</td></tr>
+        <tr><td>Database</td><td>PostgreSQL 15 + pgvector</td><td>Relational + vector search. Один движок для всего</td></tr>
+        <tr><td>Full-text</td><td>PostgreSQL tsvector + ts_rank</td><td>BM25 без внешних зависимостей</td></tr>
+        <tr><td>Embeddings</td><td>sentence-transformers (MiniLM-L6-v2)</td><td>384d vectors, CPU OK, ~2 сек/doc</td></tr>
+        <tr><td>Frontend</td><td>React + Vite (sborka.work)</td><td>/jobs, /salary, /trends pages</td></tr>
+        <tr><td>Telegram Bot</td><td>@Sborka_work_bot (aiogram)</td><td>/search, /apply, /salary commands</td></tr>
+        <tr><td>Payments</td><td>ЮKassa Python SDK</td><td>2% cards, 0.4% SBP, auto-capture</td></tr>
+        <tr><td>LLM (re-rank)</td><td>DeepSeek V3 / GLM-4.7-Flash</td><td>$0.14/1M tokens или бесплатно</td></tr>
+        <tr><td>Aggregation</td><td>AsyncIO + APScheduler</td><td>hh.ru nightly, TG channels hourly</td></tr>
+        <tr><td>Deploy</td><td>Docker Compose on RUVDS</td><td><strong>$5/мес</strong> за весь стек</td></tr>
       </tbody>
     </table>
   </div>
 
-  <p style="font-size: 0.85rem; color: var(--stone-500);">Дополнительные ресурсы: ~300MB RAM (pgvector + MiniLM model). Масштабирование до 50,000 листингов на одном VPS.</p>
+  <h3>Docker Compose</h3>
+  <div class="code-block">
+<span class="comment"># docker-compose.yml</span>
+<span class="field">services</span>:
+  <span class="field">mcp-server</span>:           <span class="comment"># PRIMARY entry point</span>
+    build: ./mcp-server
+    ports: [<span class="string">"8001:8001"</span>]
+    depends_on: [postgres]
+    environment:
+      - DATABASE_URL=<span class="string">$DATABASE_URL</span>  <span class="comment"># from .env file</span>
+
+  <span class="field">api</span>:                    <span class="comment"># FastAPI backend</span>
+    build: ./api
+    ports: [<span class="string">"8000:8000"</span>]
+    depends_on: [postgres]
+
+  <span class="field">web</span>:                    <span class="comment"># React frontend</span>
+    build: ./web
+    ports: [<span class="string">"3000:3000"</span>]
+
+  <span class="field">postgres</span>:               <span class="comment"># Shared database</span>
+    image: <span class="string">pgvector/pgvector:pg15</span>
+    volumes: [<span class="string">"pgdata:/var/lib/postgresql/data"</span>]
+    environment:
+      POSTGRES_DB: <span class="string">sborka</span>
+      POSTGRES_USER: <span class="string">sborka</span>
+
+  <span class="field">aggregator</span>:             <span class="comment"># hh.ru + TG parser</span>
+    build: ./aggregator
+    depends_on: [postgres]
+
+<span class="field">volumes</span>:
+  pgdata:
+  </div>
+
+  <p style="font-size: 0.85rem; color: var(--stone-500);">RAM estimate: ~500MB total (PostgreSQL 200MB + pgvector 50MB + MiniLM model 90MB + FastAPI 50MB + MCP server 50MB + aggregator 60MB). Укладывается в 1GB RUVDS VPS.</p>
 </section>
 
 <footer>
-  <span>СБОРКА Matching Engine Research &mdash; Feb 2026</span>
-  <span class="mono" style="font-size: 0.75rem;">sborka.work</span>
+  <span>СБОРКА Matching Engine &mdash; MCP-first Architecture &mdash; Feb 2026</span>
+  <span class="mono" style="font-size: 0.75rem;">sborka.work &bull; mcp.sborka.work</span>
 </footer>
 
 </body>
